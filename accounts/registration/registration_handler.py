@@ -17,8 +17,8 @@ class RegistrationHandler :
         
         user = FormSecurityHandler.validate_registration_form(r_form)
         self.verify_user_existence(user)
-        self.create_new_user(user)
-        self.send_validation_mail(user)
+        registration_id = self.create_new_user(user)
+        self.send_validation_mail(user, registration_id)
     
     @classmethod
     def verify_user_existence(self, user:User) -> None:
@@ -32,10 +32,15 @@ class RegistrationHandler :
                 raise e
             
     @classmethod
-    def create_new_user(self, user: User) -> None:
+    def create_new_user(self, user: User) -> int:
         # Stores the user temporarily inside the database
-        DBDriver.create_user(user)
+        registration_id = DBDriver.registration(user)
+        return registration_id
                 
     @classmethod
-    def send_validation_mail(self, user: User) -> None:
-        AccountActivationHandler.send_activation_mail(user)
+    def send_validation_mail(self, user: User, registration_id : int) -> None:
+        AccountActivationHandler.send_activation_mail(user,registration_id)
+        
+    @classmethod
+    def activate_account(self, registration_code : int) -> None:
+        DBDriver.activate_user(registration_code)
