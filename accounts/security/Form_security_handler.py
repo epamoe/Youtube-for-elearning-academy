@@ -1,10 +1,11 @@
-from cmath import log
+# from cmath import log
 from accounts.api_classes.login_form import LoginForm
 from fastapi import HTTPException, status
 from passlib.context import CryptContext
 
 from accounts.api_classes.registration_form import RegistrationForm
 from accounts.data_classes.user import User
+from email_validator import validate_email, EmailNotValidError
 
 class FormSecurityHandler:
     
@@ -43,9 +44,12 @@ class FormSecurityHandler:
     
     @classmethod
     def is_email(self, string : str) -> bool:
-        # Uses REGEX to define if it is an email
-        ...
-        return True
+        try:
+            valid = validate_email(string)
+            string = valid.email
+            return True
+        except EmailNotValidError as e:
+            return False
         
     @classmethod
     def verify_password(self, password:str, password2:str) -> str:
