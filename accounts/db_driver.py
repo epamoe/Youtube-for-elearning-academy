@@ -1,5 +1,6 @@
 
 from fastapi import HTTPException, status
+# from fastapi import HTTPException
 from neo4j import GraphDatabase
 from accounts.api_classes.login_form import LoginForm
 from accounts.api_classes.registration_form import RegistrationForm
@@ -13,12 +14,73 @@ class DBDriver:
     
     @classmethod
     def create_user(self, user: User) -> None:
-        # Stores the user temporarily inside the database
-        ...
+        # Stores the user permanently inside the database
+        query = """
+        CREATE (a: User{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
+        """
+        datas = {
+            "mail": user.mail,
+            "login": user.login,
+            "password" : user.password,
+            "profile_img" : user.profile_img
+        }
+        self.session.run(query,datas)
+        # response = self.session.run(query,datas)
+        # users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],profile_img=record[0]["profile_img"]) for record in response]
+    
+    @classmethod
+    def registration(self, user: User) -> int:
+        registration_id = self.create_temp_user(user)
+        return registration_id
         
     @classmethod
-    def activate_user(self, user: User) -> None:
+    def create_temp_user(self, user: User) -> int:
+        # Create a temporar user in the database
+        regist_id = 12345678
+        query = """
+        CREATE (r: RegistrationAttempt{regist_id:$regist_id})-[:FOR_USER]->(a: TempUser{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
+        """
+        datas = {
+            "regist_id": regist_id,
+            "mail": user.mail,
+            "login": user.login,
+            "password" : user.password,
+            "profile_img" : user.profile_img
+        }
+        self.session.run(query,datas)
+        return regist_id
+        # response = self.session.run(query,datas)
+        # users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],profile_img=record[0]["profile_img"]) for record in response]
+ 
+        
+    @classmethod
+    def activate_user(self, registration_code: int) -> None:
         # Activate the temporar account of a user who attempted the registration
+        if(self.is_valid_registration_code(registration_code)):
+            query = """
+            MATCH (r:RegistrationAttempt)-[f:FOR_USER]->(t:TempUser) WHERE r.regist_id=$registration_code
+            SET t:User
+            """
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, 
+                detail= "Not corresponding registration code"
+                )    
+        
+    @classmethod
+    def is_valid_registration_code(self, code: int) -> int:
+        query = """
+        MATCH (r:RegistrationAttempt) WHERE r.regist_id=$registration_code return count(r)
+        """
+        datas = {
+            "registration_code": code
+        }
+        response = self.session.run(query,datas)
+        result = [record[0]["regist_id"] for record in response][0]
+        if(result == 0):
+            return False
+        else : 
+            return True
         ...
     
     @classmethod
