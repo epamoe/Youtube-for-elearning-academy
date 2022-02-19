@@ -56,11 +56,15 @@ class DBDriver:
     @classmethod
     def activate_user(self, registration_code: int) -> None:
         # Activate the temporar account of a user who attempted the registration
-        if(self.is_valid_registration_code(registration_code)):
+        if self.is_valid_registration_code(registration_code) :
             query = """
-            MATCH (r:RegistrationAttempt)-[f:FOR_USER]->(t:TempUser) WHERE r.regist_id=$registration_code
+            MATCH (r:RegistrationAttempt)-[f:FOR_USER]->(t:TempUser) WHERE r.regist_id=toInteger($registration_code)
             SET t:User
             """
+            datas = {
+                "registration_code": registration_code
+            }
+            self.session.run(query,datas)
         else:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, 
@@ -68,20 +72,22 @@ class DBDriver:
                 )    
         
     @classmethod
-    def is_valid_registration_code(self, code: int) -> int:
+    def is_valid_registration_code(self, code: int) -> bool:
+        
         query = """
-        MATCH (r:RegistrationAttempt) WHERE r.regist_id=$registration_code return count(r)
+        MATCH (r:RegistrationAttempt) WHERE r.regist_id=toInteger($registration_code) RETURN COUNT(r) AS number
         """
+        # print(str(code))
         datas = {
             "registration_code": code
         }
         response = self.session.run(query,datas)
-        result = [record[0]["regist_id"] for record in response][0]
-        if(result == 0):
+        result = response.single()["number"]
+        # print(result)
+        if result == 0:
             return False
         else : 
             return True
-        ...
     
     @classmethod
     def match_user(self, user: LoginForm) -> User:
@@ -92,13 +98,33 @@ class DBDriver:
         
     @classmethod    
     def is_temp_user(self, identifier:str) -> bool :
-        # Verify if the account is created but not activated (the user is in the temps table)
-        ...
+        query = """
+        MATCH (u:TempUser) WHERE u.mail = $identifier OR u.login = $identifier return count(u) as number
+        """
+        datas = {
+            "identifier": identifier
+        }
+        response = self.session.run(query,datas)
+        result = response.single()["number"]
+        if(result == 0):
+            return False
+        else : 
+            return True
 
     @classmethod    
     def is_permanent_user(self, identifier:str) -> bool :
-        # Verify if the account is created but not activated (the user is in the temps table)
-        ...   
+        query = """
+        MATCH (u:User) WHERE u.mail = $identifier OR u.login = $identifier return count(u) as number
+        """
+        datas = {
+            "identifier": identifier
+        }
+        response = self.session.run(query,datas)
+        result = response.single()["number"]
+        if(result == 0):
+            return False
+        else : 
+            return True
         
     @classmethod
     def update_user(self, user: User) -> User:

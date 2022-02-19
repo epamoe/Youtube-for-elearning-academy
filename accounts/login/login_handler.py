@@ -27,7 +27,7 @@ class LoginHandler :
     @classmethod    
     def is_temp_user(self, identifier:str) -> None:
         # Verify if the account is created but not activated (the user is in the temps table)
-        if(DBDriver.is_temp_user(identifier)):
+        if DBDriver.is_temp_user(identifier):
             raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED, 
                     detail="The user's account isn't activated"

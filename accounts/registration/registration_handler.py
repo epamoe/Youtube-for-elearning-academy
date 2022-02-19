@@ -1,4 +1,4 @@
-from http.client import HTTPException
+from fastapi import HTTPException,status
 from accounts.activation.account_activation_handler import AccountActivationHandler
 from accounts.api_classes.registration_form import RegistrationForm
 from accounts.communication.mail_communicator import MailCommunicator
@@ -16,9 +16,16 @@ class RegistrationHandler :
         r_form = regist_form
         
         user = FormSecurityHandler.validate_registration_form(r_form)
-        self.verify_user_existence(user)
-        registration_id = self.create_new_user(user)
-        self.send_validation_mail(user, registration_id)
+        try:
+            self.verify_user_existence(user)
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, 
+                detail="The user already exists"
+            )
+        except HTTPException:
+            registration_id = self.create_new_user(user)
+            self.send_validation_mail(user, registration_id)
+            ...
     
     @classmethod
     def verify_user_existence(self, user:User) -> None:
