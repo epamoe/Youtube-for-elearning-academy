@@ -23,9 +23,8 @@ class RegistrationHandler :
                 detail="The user already exists"
             )
         except HTTPException:
-            registration_id = self.create_new_user(user)
-            self.send_validation_mail(user, registration_id)
-            ...
+            activation_code = self.create_new_user(user)
+            self.send_validation_mail(user, activation_code)
     
     @classmethod
     def verify_user_existence(self, user:User) -> None:
@@ -41,12 +40,12 @@ class RegistrationHandler :
     @classmethod
     def create_new_user(self, user: User) -> int:
         # Stores the user temporarily inside the database
-        registration_id = DBDriver.registration(user)
-        return registration_id
+        activation_code = DBDriver.registration(user)
+        return activation_code
                 
     @classmethod
-    def send_validation_mail(self, user: User, registration_id : int) -> None:
-        AccountActivationHandler.send_activation_mail(user,registration_id)
+    def send_validation_mail(self, user: User, activation_code : int) -> None:
+        AccountActivationHandler.send_activation_mail(user,activation_code)
         
     @classmethod
     def activate_account(self, registration_code : int) -> None:
