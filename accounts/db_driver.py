@@ -1,10 +1,9 @@
 
 from fastapi import HTTPException, status
-# from fastapi import HTTPException
 from neo4j import GraphDatabase
 from accounts.api_classes.login_form import LoginForm
-from accounts.api_classes.registration_form import RegistrationForm
 from accounts.data_classes.user import User
+from accounts.security.Form_security_handler import FormSecurityHandler
 
 
 class DBDriver:
@@ -30,8 +29,8 @@ class DBDriver:
     
     @classmethod
     def registration(self, user: User) -> int:
-        registration_id = self.create_temp_user(user)
-        return registration_id
+        activation_code = self.create_temp_user(user)
+        return activation_code
         
     @classmethod
     def create_temp_user(self, user: User) -> int:
@@ -60,6 +59,8 @@ class DBDriver:
             query = """
             MATCH (r:RegistrationAttempt)-[f:FOR_USER]->(t:TempUser) WHERE r.regist_id=toInteger($registration_code)
             SET t:User
+            REMOVE t:TempUser
+            DELETE r,f
             """
             datas = {
                 "registration_code": registration_code
@@ -77,13 +78,11 @@ class DBDriver:
         query = """
         MATCH (r:RegistrationAttempt) WHERE r.regist_id=toInteger($registration_code) RETURN COUNT(r) AS number
         """
-        # print(str(code))
         datas = {
             "registration_code": code
         }
         response = self.session.run(query,datas)
         result = response.single()["number"]
-        # print(result)
         if result == 0:
             return False
         else : 
@@ -94,7 +93,17 @@ class DBDriver:
         # Search for a given user in the database
         # Used for the login function
         # return the user found in the database
-        ...    
+        query = """
+        MATCH (u:User) WHERE (u.mail = $identifier OR u.login = $identifier) RETURN u
+        """
+        datas = {
+            "identifier": user.identifier
+        }
+        response = self.session.run(query,datas)
+        users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],profile_img=record[0]["profile_img"]) for record in response]
+        if FormSecurityHandler.pswd_hash_compare(users_result[0].password, user.password):
+            return users_result[0]  
+        return None
         
     @classmethod    
     def is_temp_user(self, identifier:str) -> bool :
@@ -108,7 +117,7 @@ class DBDriver:
         result = response.single()["number"]
         if(result == 0):
             return False
-        else : 
+        else: 
             return True
 
     @classmethod    
