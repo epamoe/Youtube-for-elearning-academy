@@ -14,7 +14,7 @@ class FormSecurityHandler:
     @classmethod
     def securise_login_form(self, login_form: LoginForm):
         login_form.identifier = self.securise_identifier(login_form.identifier)
-        login_form.password = self.hash_password(login_form.password)
+        # login_form.password = self.hash_password(login_form.password)
         
     @classmethod
     def validate_registration_form(self, regist_form: RegistrationForm) -> User:
@@ -68,3 +68,7 @@ class FormSecurityHandler:
     def cleanup(self, string:str) -> str:
         # Remove all tags and other to avoid code injection
         return string
+
+    @classmethod
+    def pswd_hash_compare(self, hashed_password:str, plain_password:str) -> bool:
+        return self.pwd_context.verify(plain_password,hashed_password)
