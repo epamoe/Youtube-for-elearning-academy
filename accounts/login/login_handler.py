@@ -34,14 +34,13 @@ class LoginHandler :
                 )
 
     @classmethod    
-    def is_permanent_user(self, identifier:str) -> bool :
+    def is_permanent_user(self, identifier:str) -> None :
         # Verify if the account is created and activated 
         if not DBDriver.is_permanent_user(identifier):
             raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND, 
                     detail="The user's account doesn't exists"
                 )
-        return True
         
     @classmethod
     def find_user(self, login_form: LoginForm) -> User:
@@ -51,3 +50,4 @@ class LoginHandler :
                 status_code=status.HTTP_404_NOT_FOUND, 
                 detail="The password doesn't correspond the user"
             )
+        return user
