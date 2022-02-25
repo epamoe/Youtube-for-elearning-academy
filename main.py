@@ -7,9 +7,13 @@ from accounts.data_classes.user import User
 from accounts.login.login_handler import LoginHandler
 from accounts.oauth2 import get_current_user
 import accounts.router as accounts_router
+# from .accounts import router
+import test_module.router as test_router
+
 
 app = FastAPI() 
 app.include_router(accounts_router.router)
+app.include_router(test_router.router)
 
 
 @app.get("/test")
