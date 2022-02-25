@@ -1,3 +1,5 @@
+import profile
+from fastapi import FastAPI
 from accounts.communication.mail_communicator import MailCommunicator
 from accounts.data_classes.user import User
 from fastapi import FastAPI
@@ -8,37 +10,36 @@ from pydantic import EmailStr, BaseModel
 from typing import List
 
 
+    
 class AccountActivationHandler:
     
     @classmethod
-    def send_activation_mail(self, user: User, activation_code : int) -> bool:
-        mail_content = self.generate_activation_mail(user, activation_code)
-        message = MessageSchema(
-            subject="[Youtube Dev] Your activation code",
-            recipients=[user.mail], # List of recipients, as many as you can pass
-            body=mail_content,
-            subtype="html"
-        )
-        MailCommunicator.send_activation_mail(message)
+    def send_activation_mail(self, user: User, activation_code : str) -> bool:
+        templates = self.generate_activation_mail(user, activation_code)
+        subject="[Youtube Dev] Your activation code"
+        recipient=user.mail
+
+        MailCommunicator.send_activation_mail(recipient, subject, templates)
 
     @classmethod
-    def generate_activation_mail(self, user:User, activation_code : str) :
+    def generate_activation_mail(self, user:User, activation_code : str) -> dict:
         # return the mail created
         
-        template = f"""
-            <html>
-            <body>
-            
-
+        html_template = f"""
             <p>Hello {user.login}
             <br>This is your youtube dev account activation code</p>
             
             <h1>{activation_code}</h1>
-
-
-            </body>
-            </html>
 		"""
-        return template
+        text_template = f"""
+            Hello {user.login}
+            This is your Youtube dev account activation code
+            
+            {activation_code}
+		"""
+        return {
+            "html_template" : html_template,
+            "text_template" : text_template
+        }
     
     

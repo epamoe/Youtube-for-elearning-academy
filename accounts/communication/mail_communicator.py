@@ -1,27 +1,36 @@
-from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
-from pydantic import EmailStr, BaseModel
-from typing import List
 
-
-
-# class EmailSchema(BaseModel):
-#    email: List[EmailStr]
-   
-
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
    
 class MailCommunicator: 
-    conf = ConnectionConfig(
-        MAIL_USERNAME="ytbdev10@gmail.com",
-        MAIL_PASSWORD="Ycono10@2222",
-        MAIL_PORT=587,
-        MAIL_SERVER="smtp.gmail.com",
-        MAIL_TLS=True,
-        MAIL_SSL=False
-        )
+    
+        
+    port = 465
+    smtp_server_domain_name = "smtp.gmail.com"
+    sender_mail = "ytbdev10@gmail.com"
+    password = "Ycono19@2222"
+    
     
     @classmethod
-    async def send_activation_mail(self, message: MessageSchema) -> None:
-        # create the activation link and send it to user's mail address
-        fm = FastMail(self.conf)
-        await fm.send_message(message)
+    def send_activation_mail(self, recipient: str, subject: str, templates: dict) -> None:
+        ssl_context = ssl.create_default_context()
+        service = smtplib.SMTP_SSL(self.smtp_server_domain_name, self.port, context=ssl_context)
+        service.login(self.sender_mail, self.password)
         
+        mail = MIMEMultipart('alternative')
+        mail['Subject'] = subject
+        mail['From'] = self.sender_mail
+        mail['To'] = recipient
+        
+        html_content = MIMEText(templates["html_template"], 'html')
+        text_content = MIMEText(templates["text_template"], 'plain')
+        
+        mail.attach(text_content)
+        mail.attach(html_content)
+        
+        service.sendmail(self.sender_mail, recipient, mail.as_string())
+        print(mail.as_string())
+
+        service.quit()
+
