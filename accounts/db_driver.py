@@ -24,9 +24,6 @@ class DBDriver:
             "profile_img" : user.profile_img
         }
         self.session.run(query,datas)
-        # response = self.session.run(query,datas)
-        # users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],profile_img=record[0]["profile_img"]) for record in response]
-    
     @classmethod
     def registration(self, user: User) -> int:
         activation_code = self.create_temp_user(user)
@@ -35,7 +32,7 @@ class DBDriver:
     @classmethod
     def create_temp_user(self, user: User) -> int:
         # Create a temporar user in the database
-        regist_id = 12345678
+        regist_id = self.get_next_activation_code()
         query = """
         CREATE (r: RegistrationAttempt{regist_id:$regist_id})-[:FOR_USER]->(a: TempUser{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
         """
@@ -48,9 +45,28 @@ class DBDriver:
         }
         self.session.run(query,datas)
         return regist_id
-        # response = self.session.run(query,datas)
-        # users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],profile_img=record[0]["profile_img"]) for record in response]
- 
+    
+    @classmethod    
+    def delete_temp_user(self, user: User) -> None:
+        # Delete a temporar user and his registration attempt node, to cancel his registration
+        query = """
+        MATCH (r:RegistrationAttempt)-[f:FOR_USER]->(t:TempUser) WHERE t.mail=$mail
+        DELETE r,f,t
+        """
+        datas = {
+            "mail": user.mail
+        }
+        self.session.run(query,datas)
+    
+    @classmethod
+    def get_next_activation_code(self):
+        query = """
+        MATCH (r:RegistrationAttempt),(u:User) return COUNT(r) + COUNT(u) AS number
+        """
+        response = self.session.run(query)
+        result = response.single()["number"] # The total number of users in the site, registered or not
+        
+        return result + 1
         
     @classmethod
     def activate_user(self, registration_code: int) -> None:
@@ -100,6 +116,7 @@ class DBDriver:
             "identifier": user.identifier
         }
         response = self.session.run(query,datas)
+        # This is the Users objects list
         users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],profile_img=record[0]["profile_img"]) for record in response]
         if FormSecurityHandler.pswd_hash_compare(users_result[0].password, user.password):
             return users_result[0]  

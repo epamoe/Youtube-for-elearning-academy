@@ -1,12 +1,7 @@
-import profile
-from fastapi import FastAPI
+from fastapi import HTTPException, status
 from accounts.communication.mail_communicator import MailCommunicator
 from accounts.data_classes.user import User
 from fastapi import FastAPI
-from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
-from starlette.requests import Request
-from starlette.responses import JSONResponse
-from pydantic import EmailStr, BaseModel
 from typing import List
 
 
@@ -18,8 +13,13 @@ class AccountActivationHandler:
         templates = self.generate_activation_mail(user, activation_code)
         subject="[Youtube Dev] Your activation code"
         recipient=user.mail
-
-        MailCommunicator.send_activation_mail(recipient, subject, templates)
+        try:
+            MailCommunicator.send_activation_mail(recipient, subject, templates)
+        except:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Something went wrong when sending the mail"
+            )
 
     @classmethod
     def generate_activation_mail(self, user:User, activation_code : str) -> dict:
