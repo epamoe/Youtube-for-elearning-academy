@@ -1,10 +1,10 @@
-from fastapi import APIRouter, status, Depends, Response, HTTPException
+from fastapi import APIRouter, status, Depends, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette.responses import RedirectResponse
 from accounts.api_classes.login_form import LoginForm
 from accounts.api_classes.registration_form import RegistrationForm
-from accounts.login.login_handler import LoginHandler
-from accounts.login.registration_handler import RegistrationHandler
+from accounts.registration_module.login_handler import LoginHandler
+from accounts.registration_module.registration_handler import RegistrationHandler
 from accounts import token
 
 router = APIRouter(
@@ -28,16 +28,15 @@ def login(login_form: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/register",status_code=status.HTTP_201_CREATED)
-def register(registration_form: RegistrationForm):
+def register(registration_form: RegistrationForm, request: Request):
     
-    RegistrationHandler.user_registration(registration_form)
+    RegistrationHandler.user_registration(registration_form, request)
     response = RedirectResponse(url='http://localhost:8000/account/activate')
     return response
 
-@router.post("/activate/{regist_code}",status_code=status.HTTP_202_ACCEPTED)
-def activate(regist_code):
+@router.get("/activate/{regist_code}",status_code=status.HTTP_202_ACCEPTED)
+def activate(regist_code:str):
     
     RegistrationHandler.activate_account(regist_code)
-    return {
-        "message" : "Activation successful"
-    }
+    response = RedirectResponse(url='http://localhost:8000/account/login')
+    return response

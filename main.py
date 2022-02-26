@@ -1,10 +1,10 @@
 from accounts import token
-from fastapi import FastAPI, Depends, status
+from fastapi import FastAPI, Depends, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette.responses import  RedirectResponse
 from accounts.api_classes.login_form import LoginForm
 from accounts.data_classes.user import User
-from accounts.login.login_handler import LoginHandler
+from accounts.registration_module.login_handler import LoginHandler
 from accounts.oauth2 import get_current_user
 import accounts.router as accounts_router
 # from .accounts import router
@@ -20,6 +20,13 @@ app.include_router(test_router.router)
 def index(current_user: User = Depends(get_current_user)):
     return {
         "data" : "Hello World"
+    }
+    
+@app.get("/test2")
+def index(request: Request):
+    client_host = request.url.netloc
+    return {
+        "client_host" : client_host
     }
     
 @app.get("/redirect")
