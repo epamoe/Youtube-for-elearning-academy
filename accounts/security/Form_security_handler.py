@@ -46,7 +46,7 @@ class FormSecurityHandler:
     def is_email(self, string : str) -> bool:
         try:
             valid = validate_email(string)
-            string = valid.email
+            # string = valid.email
             return True
         except EmailNotValidError as e:
             return False

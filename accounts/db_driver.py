@@ -4,6 +4,7 @@ from neo4j import GraphDatabase
 from accounts.api_classes.login_form import LoginForm
 from accounts.data_classes.user import User
 from accounts.security.Form_security_handler import FormSecurityHandler
+from accounts.security.hashing import Hasher
 
 
 class DBDriver:
@@ -24,28 +25,37 @@ class DBDriver:
             "profile_img" : user.profile_img
         }
         self.session.run(query,datas)
+        
     @classmethod
-    def registration(self, user: User) -> int:
+    def registration(self, user: User) -> str:
         activation_code = self.create_temp_user(user)
         return activation_code
         
     @classmethod
     def create_temp_user(self, user: User) -> int:
         # Create a temporar user in the database
+        # try:
         regist_id = self.get_next_activation_code()
+        regist_code = Hasher.hash(regist_id)
+        print(regist_code)
+    
         query = """
-        CREATE (r: RegistrationAttempt{regist_id:$regist_id})-[:FOR_USER]->(a: TempUser{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
+        CREATE (r: RegistrationAttempt{regist_code:$regist_code})-[:FOR_USER]->(a: TempUser{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
         """
         datas = {
-            "regist_id": regist_id,
+            "regist_code": regist_code,
             "mail": user.mail,
             "login": user.login,
             "password" : user.password,
             "profile_img" : user.profile_img
         }
         self.session.run(query,datas)
-        return regist_id
-    
+        return regist_code
+        # except Exception:
+        #     raise HTTPException(
+        #         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        #         detail="Hash error"
+        #     )
     @classmethod    
     def delete_temp_user(self, user: User) -> None:
         # Delete a temporar user and his registration attempt node, to cancel his registration
@@ -59,21 +69,23 @@ class DBDriver:
         self.session.run(query,datas)
     
     @classmethod
-    def get_next_activation_code(self):
+    def get_next_activation_code(self) -> int:
         query = """
-        MATCH (r:RegistrationAttempt),(u:User) return COUNT(r) + COUNT(u) AS number
+            MATCH (r:RegistrationAttempt) RETURN ID(r) AS number ORDER BY ID(r) DESC LIMIT 1 
         """
         response = self.session.run(query)
-        result = response.single()["number"] # The total number of users in the site, registered or not
+        if not response.single():
+            return 0
         
+        result = response.single()["number"] # The total number of users in the site, registered or not
         return result + 1
         
     @classmethod
-    def activate_user(self, registration_code: int) -> None:
+    def activate_user(self, registration_code: str) -> bool:
         # Activate the temporar account of a user who attempted the registration
         if self.is_valid_registration_code(registration_code) :
             query = """
-            MATCH (r:RegistrationAttempt)-[f:FOR_USER]->(t:TempUser) WHERE r.regist_id=toInteger($registration_code)
+            MATCH (r:RegistrationAttempt)-[f:FOR_USER]->(t:TempUser) WHERE r.regist_code=$registration_code
             SET t:User
             REMOVE t:TempUser
             DELETE r,f
@@ -82,17 +94,15 @@ class DBDriver:
                 "registration_code": registration_code
             }
             self.session.run(query,datas)
+            return True
         else:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, 
-                detail= "Not corresponding registration code"
-                )    
+            return False  
         
     @classmethod
-    def is_valid_registration_code(self, code: int) -> bool:
+    def is_valid_registration_code(self, code: str) -> bool:
         
         query = """
-        MATCH (r:RegistrationAttempt) WHERE r.regist_id=toInteger($registration_code) RETURN COUNT(r) AS number
+        MATCH (r:RegistrationAttempt) WHERE r.regist_code=$registration_code RETURN COUNT(r) AS number
         """
         datas = {
             "registration_code": code
