@@ -1,3 +1,4 @@
+from typing import Any
 from pydantic import BaseModel
 
 
@@ -6,3 +7,6 @@ class LoginForm(BaseModel):
     # This data is stored inside the identifier attribute
     identifier : str 
     password : str
+
+    def __init__(__pydantic_self__, **data: Any) -> None:
+        super().__init__(**data)

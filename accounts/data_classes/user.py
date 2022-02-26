@@ -1,14 +1,15 @@
 from pydantic import BaseModel
-from typing import Any
+from typing import Any, Optional
 
 class User(BaseModel) :
     # This class contains the informations of an user
-    # It is a data class, not a functionnal one
     
     mail: str
     login: str
     password: str
-    profile_img: str
+    profile_img: Optional[str]
     
     def __init__(__pydantic_self__, **data: Any) -> None:
         super().__init__(**data)
+        
+    
