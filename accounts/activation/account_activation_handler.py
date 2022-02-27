@@ -1,7 +1,6 @@
 from fastapi import HTTPException, status, Request
 from accounts.communication.mail_communicator import MailCommunicator
 from accounts.data_classes.user import User
-from fastapi import FastAPI
 from typing import List
 
 
