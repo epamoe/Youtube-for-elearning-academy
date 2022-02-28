@@ -3,4 +3,5 @@ uvicorn
 neo4j
 email-validator
 passlib
-jose
+python-jose
+bcrypt
