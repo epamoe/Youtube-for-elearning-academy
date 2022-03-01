@@ -19,7 +19,7 @@ class AccountActivationHandler:
         except:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Something went wrong when sending the mail"
+                detail="Something went wrong while sending the mail"
             )
 
     @classmethod

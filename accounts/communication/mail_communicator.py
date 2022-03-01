@@ -7,7 +7,7 @@ from dotenv import load_dotenv
    
 class MailCommunicator: 
     
-        
+    load_dotenv()
     port = 465
     smtp_server_domain_name = "smtp.gmail.com"
     sender_mail = os.getenv("MAIL_SENDER_ADDRESS")
