@@ -1,15 +1,23 @@
 
-from fastapi import HTTPException, status
 from neo4j import GraphDatabase
 from accounts.api_classes.login_form import LoginForm
 from accounts.data_classes.user import User
 from accounts.security.Form_security_handler import FormSecurityHandler
 from accounts.security.hashing import Hasher
 
+import os
+from dotenv import load_dotenv
+
+
 
 class DBDriver:
     # Handle the effective connection with the database, and the CRUD on it
-    driver = GraphDatabase.driver(uri="bolt://localhost:7687",auth=("neo4j","Renouveau"))
+    load_dotenv()
+    uri = os.getenv("GDB_URI")
+    user = os.getenv("GDB_USERNAME")
+    password = os.getenv("GDB_PASSWORD")
+    driver = GraphDatabase.driver(uri=uri,auth=(user,password))
+    # driver = GraphDatabase.driver(uri="bolt://localhost:7687",auth=("neo4j","Renouveau"))
     session = driver.session()
     
     @classmethod
