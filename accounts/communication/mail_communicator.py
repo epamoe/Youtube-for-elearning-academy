@@ -2,14 +2,16 @@
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
+from dotenv import load_dotenv
    
 class MailCommunicator: 
     
         
     port = 465
     smtp_server_domain_name = "smtp.gmail.com"
-    sender_mail = "ytbdev10@gmail.com"
-    password = "Ycono19@2222"
+    sender_mail = os.getenv("MAIL_SENDER_ADDRESS")
+    password = os.getenv("MAIL_SENDER_PASSWORD")
     
     
     @classmethod
