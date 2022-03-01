@@ -45,7 +45,7 @@ class DBDriver:
         # try:
         regist_id = self.get_next_activation_code()
         regist_code = Hasher.hash(regist_id)
-        print(regist_code)
+        # print(regist_code)
     
         query = """
         CREATE (r: RegistrationAttempt{regist_code:$regist_code})-[:FOR_USER]->(a: TempUser{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
