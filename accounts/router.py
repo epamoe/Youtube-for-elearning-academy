@@ -8,13 +8,13 @@ from accounts.registration_module.login_handler import LoginHandler
 from accounts.registration_module.registration_handler import RegistrationHandler
 from accounts import token
 import os
+from accounts.security.Form_security_handler import FormSecurityHandler
 from dotenv import load_dotenv
 load_dotenv()
 
 app_domain = os.getenv("APP_DOMAIN")
 
 router = APIRouter(
-    prefix="/account",
     tags= ["Authentication"]
 )
 
@@ -36,8 +36,6 @@ def login(login_form: OAuth2PasswordRequestForm = Depends()):
 def register(registration_form: RegistrationForm, request: Request):
     
     RegistrationHandler.user_registration(registration_form, request)
-    # response = RedirectResponse(url='http://localhost:8000/account/activate')
-    # return response
     return {
         "message" : "Registration successful"
     }
@@ -46,7 +44,7 @@ def register(registration_form: RegistrationForm, request: Request):
 def activate(regist_code:str):
     
     RegistrationHandler.activate_account(regist_code)
-    response = RedirectResponse(url='http://' + app_domain + '/account/login')
+    response = RedirectResponse(url='http://' + app_domain + '/login')
     return response
 
 @router.get("/verify/login/{login}",status_code=status.HTTP_200_OK)
@@ -54,13 +52,19 @@ def activate(login:str):
     if DBDriver.login_already_taken(login):
         raise HTTPException(
             status_code=status.HTTP_226_IM_USED,
-            detail="This login is no more available"
+            detail="login already used"
         )
+    return {
+        "message" : "login available"
+    }
 
 @router.get("/verify/email/{email}",status_code=status.HTTP_200_OK)
 def activate(email:str):
-    if DBDriver.email_already_taken(email):
+    if DBDriver.email_already_taken(email) or not FormSecurityHandler.is_email(email):
         raise HTTPException(
             status_code=status.HTTP_226_IM_USED,
-            detail="This email is no more available"
+            detail="email invalid or already used"
         )
+    return {
+        "message" : "email available"
+    }
