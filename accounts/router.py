@@ -49,7 +49,7 @@ def activate(regist_code:str):
     response = RedirectResponse(url='http://' + app_domain + '/account/login')
     return response
 
-@router.get("/verify/login/{login}",status_code=status.HTTP_100_CONTINUE)
+@router.get("/verify/login/{login}",status_code=status.HTTP_200_OK)
 def activate(login:str):
     if DBDriver.login_already_taken(login):
         raise HTTPException(
@@ -57,7 +57,7 @@ def activate(login:str):
             detail="This login is no more available"
         )
 
-@router.get("/verify/email/{email}",status_code=status.HTTP_100_CONTINUE)
+@router.get("/verify/email/{email}",status_code=status.HTTP_200_OK)
 def activate(email:str):
     if DBDriver.email_already_taken(email):
         raise HTTPException(
