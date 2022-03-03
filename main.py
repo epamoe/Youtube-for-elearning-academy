@@ -28,6 +28,21 @@ def index(request: Request):
     return {
         "client_host" : client_host
     }
+
+import os
+from dotenv import load_dotenv
+from neo4j import GraphDatabase
+load_dotenv()
+uri = os.getenv("GDB_URI")
+user = os.getenv("GDB_USERNAME")
+password = os.getenv("GDB_PASSWORD")
+driver = GraphDatabase.driver(uri=uri,auth=(user,password))
+session = driver.session()
+
+@app.get("/test3")
+def index():
+    return session.run("CREATE (n:Person{name:'uriel'}) return n").single()
+    ...
     
 @app.get("/redirect")
 async def redirect():

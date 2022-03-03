@@ -13,16 +13,16 @@ class LoginHandler :
         l_form = login_form
         
         FormSecurityHandler.securise_login_form(l_form)
-        self.verify_user_existence(l_form.identifier)
+        user = None
         
-
-        if self.is_permanent_user(l_form.identifier):
-            user = self.find_user(l_form)
-        elif self.is_temp_user(l_form.identifier):
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, 
-                detail="The user's account isn't activated"
-            )
+        if self.verify_user_existence(l_form.identifier):
+            if DBDriver.is_permanent_user(l_form.identifier):
+                user = self.find_user(l_form)
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED, 
+                    detail="The user's account isn't activated"
+                )
         else: 
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, 
@@ -33,17 +33,7 @@ class LoginHandler :
     
     @classmethod
     def verify_user_existence(self, identifier: str) -> bool:
-        return self.is_temp_user(identifier) or self.is_permanent_user(identifier)
-         
-    @classmethod    
-    def is_temp_user(self, identifier:str) -> bool:
-        # Verify if the account is created but not activated (the user is in the temps table)
-        return DBDriver.is_temp_user(identifier)
-
-    @classmethod    
-    def is_permanent_user(self, identifier:str) -> bool:
-        # Verify if the account is created and activated 
-        return DBDriver.is_permanent_user(identifier)
+        return DBDriver.is_temp_user(identifier) or DBDriver.is_permanent_user(identifier)
         
     @classmethod
     def find_user(self, login_form: LoginForm) -> User:

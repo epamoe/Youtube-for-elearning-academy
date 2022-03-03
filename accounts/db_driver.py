@@ -139,6 +139,36 @@ class DBDriver:
         if FormSecurityHandler.pswd_hash_compare(users_result[0].password, user.password):
             return users_result[0]  
         return None
+    
+    @classmethod    
+    def login_already_taken(self, login:str) -> bool :
+        query = """
+        MATCH (t:TempUser),(u:User) WHERE u.login = $identifier OR t.login = $identifier RETURN COUNT(u) + COUNT(t) AS number
+        """
+        datas = {
+            "identifier": login
+        }
+        response = self.session.run(query,datas)
+        result = response.single()["number"]
+        if(result == 0):
+            return False
+        else: 
+            return True
+        
+    @classmethod    
+    def email_already_taken(self, email:str) -> bool :
+        query = """
+        MATCH (t:TempUser),(u:User) WHERE u.mail = $identifier OR t.mail = $identifier RETURN COUNT(u) + COUNT(t) AS number
+        """
+        datas = {
+            "identifier": email
+        }
+        response = self.session.run(query,datas)
+        result = response.single()["number"]
+        if(result == 0):
+            return False
+        else: 
+            return True
         
     @classmethod    
     def is_temp_user(self, identifier:str) -> bool :
