@@ -143,7 +143,7 @@ class DBDriver:
     @classmethod    
     def login_already_taken(self, login:str) -> bool :
         query = """
-        MATCH (t:TempUser),(u:User) WHERE u.login = $identifier OR t.login = $identifier RETURN COUNT(u) + COUNT(t) AS number
+        MATCH (t{login:$identifier}) RETURN COUNT(t) AS number
         """
         datas = {
             "identifier": login
@@ -158,7 +158,7 @@ class DBDriver:
     @classmethod    
     def email_already_taken(self, email:str) -> bool :
         query = """
-        MATCH (t:TempUser),(u:User) WHERE u.mail = $identifier OR t.mail = $identifier RETURN COUNT(u) + COUNT(t) AS number
+        MATCH (t{mail:$identifier}) RETURN COUNT(t) AS number
         """
         datas = {
             "identifier": email
