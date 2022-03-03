@@ -48,7 +48,7 @@ def activate(regist_code:str):
     return response
 
 @router.get("/verify/login/{login}",status_code=status.HTTP_200_OK)
-def activate(login:str):
+def search_login(login:str):
     if DBDriver.login_already_taken(login):
         raise HTTPException(
             status_code=status.HTTP_226_IM_USED,
@@ -59,7 +59,7 @@ def activate(login:str):
     }
 
 @router.get("/verify/email/{email}",status_code=status.HTTP_200_OK)
-def activate(email:str):
+def search_email(email:str):
     if DBDriver.email_already_taken(email) or not FormSecurityHandler.is_email(email):
         raise HTTPException(
             status_code=status.HTTP_226_IM_USED,
