@@ -10,7 +10,7 @@ class AccountActivationHandler:
     @classmethod
     def send_activation_mail(self, user: User, activation_code : str, request : Request) -> bool:
         # request.url.hostname
-        activation_link = "http://" + request.url.netloc + "/account/activate/" + activation_code
+        activation_link = "http://" + request.url.netloc + "/activate/" + activation_code
         templates = self.generate_activation_mail(user, activation_link)
         subject="[Youtube Dev] Account activation"
         recipient=user.mail
@@ -27,7 +27,7 @@ class AccountActivationHandler:
         # return the mail created
         
         html_template = f"""
-            <p>Hello {user.login}
+            <p>Hello <b>{user.login}</b>
             <br>This is your youtube dev account activation link</p>
             
             <h3>{activation_link}</h3>
