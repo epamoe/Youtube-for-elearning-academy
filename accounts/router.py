@@ -26,7 +26,6 @@ def login(login_form: OAuth2PasswordRequestForm = Depends()):
                 password=login_form.password  
                       )
         )
-    
     access_token = token.create_access_token(
         data={"sub": user.mail}
     )
@@ -42,7 +41,6 @@ def register(registration_form: RegistrationForm, request: Request):
 
 @router.get("/activate/{regist_code}",status_code=status.HTTP_202_ACCEPTED)
 def activate(regist_code:str):
-    
     RegistrationHandler.activate_account(regist_code)
     response = RedirectResponse(url='http://' + app_domain + '/login')
     return response

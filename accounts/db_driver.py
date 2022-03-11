@@ -17,20 +17,18 @@ class DBDriver:
     user = os.getenv("GDB_USERNAME")
     password = os.getenv("GDB_PASSWORD")
     driver = GraphDatabase.driver(uri=uri,auth=(user,password))
-    # driver = GraphDatabase.driver(uri="bolt://localhost:7687",auth=("neo4j","Renouveau"))
     session = driver.session()
     
     @classmethod
     def create_user(self, user: User) -> None:
         # Stores the user permanently inside the database
         query = """
-        CREATE (a: User{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
+        CREATE (a: User{mail:$mail,login:$login,password:$password}) return a
         """
         datas = {
             "mail": user.mail,
             "login": user.login,
             "password" : user.password,
-            "profile_img" : user.profile_img
         }
         self.session.run(query,datas)
         
@@ -48,14 +46,13 @@ class DBDriver:
         # print(regist_code)
     
         query = """
-        CREATE (r: RegistrationAttempt{regist_code:$regist_code})-[:FOR_USER]->(a: TempUser{mail:$mail,login:$login,password:$password,profile_img:$profile_img}) return a
+        CREATE (r: RegistrationAttempt{regist_code:$regist_code})-[:FOR_USER]->(a: TempUser{mail:$mail,login:$login,password:$password}) return a
         """
         datas = {
             "regist_code": regist_code,
             "mail": user.mail,
             "login": user.login,
             "password" : user.password,
-            "profile_img" : user.profile_img
         }
         self.session.run(query,datas)
         return regist_code
@@ -135,7 +132,7 @@ class DBDriver:
         }
         response = self.session.run(query,datas)
         # This is the Users objects list
-        users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],profile_img=record[0]["profile_img"]) for record in response]
+        users_result = [User(mail=record[0]["mail"],login=record[0]["login"],password=record[0]["password"],) for record in response]
         if FormSecurityHandler.pswd_hash_compare(users_result[0].password, user.password):
             return users_result[0]  
         return None

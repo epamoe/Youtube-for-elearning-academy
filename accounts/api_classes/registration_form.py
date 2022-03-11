@@ -7,7 +7,7 @@ class RegistrationForm(BaseModel):
     mail : str 
     password : str
     confirm_password: str
-    profile_img : str
+    # profile_img : str
 
     def __init__(__pydantic_self__, **data: Any) -> None:
         super().__init__(**data)

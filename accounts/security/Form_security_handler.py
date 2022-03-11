@@ -21,9 +21,8 @@ class FormSecurityHandler:
         mail = self.verify_mail(regist_form.mail)
         login = self.cleanup(regist_form.login)
         password = self.verify_password(regist_form.password, regist_form.confirm_password)
-        image = regist_form.profile_img
         
-        user = User(mail=mail, login=login, password=password, profile_img=image)
+        user = User(mail=mail, login=login, password=password)
         return user 
     
     @classmethod
