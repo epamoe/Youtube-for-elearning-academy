@@ -10,23 +10,39 @@ import accounts.router as accounts_router
 # from .accounts import router
 import test_module.router as test_router
 
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI() 
+
+app = FastAPI()
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost:8080",
+    "null",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(accounts_router.router)
 app.include_router(test_router.router)
 
 
 @app.get("/test")
 def index(current_user: User = Depends(get_current_user)):
-    return {
-        "data" : "Hello World"
-    }
+    return current_user
     
 @app.get("/test2")
-def index(request: Request):
-    client_host = request.url.netloc
+def index():
+# def index(request: Request):
+    # client_host = request.url.netloc
     return {
-        "client_host" : client_host
+        "client_host" : "client_host"
     }
 
 import os
