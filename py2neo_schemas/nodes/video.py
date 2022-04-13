@@ -1,8 +1,6 @@
-from turtle import title
-from py2neo.ogm import GraphObject, Property,RelatedFrom,RelatedTo
-from py2neo_schemas.nodes.root_graph_object import RootGraphObject
+from py2neo.ogm import GraphObject, Property,RelatedFrom
 
-class Video(RootGraphObject):
+class Video(GraphObject):
 
     video_id = Property()
     title = Property()
