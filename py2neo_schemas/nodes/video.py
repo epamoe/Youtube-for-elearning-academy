@@ -8,6 +8,7 @@ class Video(RootGraphObject):
     title = Property()
     viewCount = Property()
     channel_name = Property()
+    channel_id = Property()
     published_at = Property()
     description = Property()
     subtitles = Property()
