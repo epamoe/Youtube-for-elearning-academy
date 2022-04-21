@@ -4,7 +4,6 @@ from py2neo_schemas.nodes.root_graph_object import RootGraphObject
 class Chapter(RootGraphObject):
         
     title = Property()
-    rank_nb = Property()
 
     contained_by = RelatedFrom("Training","CONTAIN")
     subdivide = RelatedTo("Lesson","SUBDIVIDE")
