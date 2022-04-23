@@ -1,1 +1,1 @@
-# FastAPILearning
+# Online course platform
