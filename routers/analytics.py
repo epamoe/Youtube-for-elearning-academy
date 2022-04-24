@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 import schemas
 router = APIRouter(
-    prefix = "/ydev/landing/analytics",
+    prefix = "/landing/analytics",
     tags = ["Analytics"]
 )
 

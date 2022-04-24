@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix = "/ydev/dashboard/admin",
+    prefix = "/dashboard/admin",
     tags = ["Admin's dashboard"]
 )
 

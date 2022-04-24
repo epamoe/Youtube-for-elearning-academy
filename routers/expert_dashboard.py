@@ -2,7 +2,7 @@ from fastapi import APIRouter
 import schemas
 
 router = APIRouter(
-    prefix = "/ydev/dashboard/expert",
+    prefix = "/dashboard/expert",
     tags = ["Expert's dashboard"]
 )
 

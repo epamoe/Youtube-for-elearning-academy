@@ -3,7 +3,7 @@ import schemas
 from typing import List
 
 router = APIRouter(
-    prefix = "/ydev",
+    # prefix = "/ydev",
     tags = ["Landing page search"]
 )
 

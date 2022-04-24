@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix = "/ydev/dashboard"
+    prefix = "/dashboard"
 )
 
 @router.get("/lesson/get/{lesson_id}")
