@@ -6,7 +6,7 @@ import token_handler
 from account_activation_handler import AccountActivationHandler
 
 from py2neo_schemas.nodes.user import User
-from py2neo import Graph
+from db_graph import graph
 
 import os
 from dotenv import load_dotenv
@@ -15,13 +15,6 @@ router = APIRouter(
     prefix = "/authentication",
     tags = ["Authentication"]
 )
-
-load_dotenv()
-GDB_URI = os.getenv("GDB_URI")
-GDB_USERNAME = os.getenv("GDB_USERNAME")
-GDB_PASSWORD = os.getenv("GDB_PASSWORD")
-graph = Graph(uri=GDB_URI,auth=(GDB_USERNAME,GDB_PASSWORD))
-
 encodeing='utf8'
 
 

@@ -1,23 +1,24 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException,status
 from oauth2 import get_current_user
 import schemas
 from py2neo_schemas.nodes.user import User
-from py2neo_schemas.nodes.application import Application
-from py2neo import Graph
+from db_graph import graph
+# from py2neo import Graph
 
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
+
+
+# load_dotenv()
+# GDB_URI = os.getenv("GDB_URI")
+# GDB_USERNAME = os.getenv("GDB_USERNAME")
+# GDB_PASSWORD = os.getenv("GDB_PASSWORD")
+# graph = Graph(uri=GDB_URI,auth=(GDB_USERNAME,GDB_PASSWORD))
+
 router = APIRouter(
     prefix = "/dashboard",
     tags = ["User's dashboard"]
 )
-
-
-load_dotenv()
-GDB_URI = os.getenv("GDB_URI")
-GDB_USERNAME = os.getenv("GDB_USERNAME")
-GDB_PASSWORD = os.getenv("GDB_PASSWORD")
-graph = Graph(uri=GDB_URI,auth=(GDB_USERNAME,GDB_PASSWORD))
 
 @router.get("/profile/get")
 def get_profile():
@@ -66,6 +67,8 @@ def follow_training():
 @router.get("/expert/apply")
 def apply(user_login = Depends(get_current_user)):
     user_node = User.match(graph, user_login).first()
+    if user_node.did_apply():
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="This user already applied to become a member")
     user_node.apply()
     graph.push(user_node)
     
