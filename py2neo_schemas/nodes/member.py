@@ -1,8 +1,8 @@
-from accounts.data_classes.user import User
-from py2neo.ogm import RelatedTo
+from py2neo.ogm import RelatedFrom, RelatedTo
+from py2neo_schemas.nodes.root_graph_object import RootGraphObject
 
-class Member(User): # Member can also be called Expert
+class Member(RootGraphObject): # Member can also be called Expert
     
-    user = RelatedTo("User", "IS_USER")
+    user = RelatedFrom("User", "IS_MEMBER")
     published_trainings = RelatedTo("Training", "PUBLISH")
 
