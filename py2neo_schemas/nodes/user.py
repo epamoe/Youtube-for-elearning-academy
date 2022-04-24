@@ -4,6 +4,8 @@ from py2neo_schemas.nodes.application import Application
 from py2neo_schemas.nodes.notification import Notification
 
 from py2neo_schemas.nodes.root_graph_object import RootGraphObject
+from db_graph import graph
+
 
 class User(RootGraphObject): # User can also be called Learner 
     __primarykey__ = 'login'
@@ -25,17 +27,21 @@ class User(RootGraphObject): # User can also be called Learner
 
     experiences = RelatedTo("Experience", "EXPERIMENT")
     notifications = RelatedTo("Notification", "NOTIFY")
-    application = RelatedTo("User", "APPLY")
+    application = RelatedTo("Application", "APPLY")
 
     def apply(self):
+        # The application node is created and linked to the user
         application = Application(status=Application.PENDING)
         self.application.add(application)
-
-
-    # def display(self):
-    #     print(self.__node__)
-
-
+        # The notification node is created and linked to the user
+        notification = Notification(content = Notification.NEW_APPLICATION_TEXT)
+        self.notifications.add(notification)
+    
+    def did_apply(self) -> bool:
+        for a in list(self.application):
+            if a.available and a.status != Application.REFUSED:
+                return True
+        return False
 
 # graph = Graph(uri="bolt://localhost:7687",auth=("neo4j","1234"))
 # test = "testos"
