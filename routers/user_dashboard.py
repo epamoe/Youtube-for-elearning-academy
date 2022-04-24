@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from oauth2 import get_current_user
 import schemas
 router = APIRouter(
     prefix = "/dashboard",
@@ -50,6 +51,7 @@ def follow_training():
     ...
     
 @router.get("/expert/apply")
-def apply():
-    return 
+def apply(token = Depends(get_current_user)):
+    
+    ...
     
