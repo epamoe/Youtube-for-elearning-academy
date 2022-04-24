@@ -65,9 +65,7 @@ class UserUpdateProfileImage(BaseModel):
     mryz: str
     image: str # """ SHOULD BE AN IMAGE OBJECT """
 
-class UserApply(BaseModel):
-    #data1: data_type
-    ...
+
 
 #--------------------------------------    EXPERT DASHBOARD   --------------------------------
 class TrainingCreate(BaseModel):

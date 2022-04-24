@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 import schemas
 router = APIRouter(
-    prefix = "/ydev/dashboard",
+    prefix = "/dashboard",
     tags = ["User's dashboard"]
 )
 
@@ -49,7 +49,7 @@ def get_trainings():
 def follow_training():
     ...
     
-@router.post("/expert/apply")
-def apply(data: schemas.UserApply):
-    return data
+@router.get("/expert/apply")
+def apply():
+    return 
     
