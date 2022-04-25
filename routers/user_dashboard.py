@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException,status
 from oauth2 import get_current_user
 import schemas
-from py2neo_schemas.nodes.user import User
+from py2neo_schemas.nodes import User
 from db_graph import graph
 
 router = APIRouter(
