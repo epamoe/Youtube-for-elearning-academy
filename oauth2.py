@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import token_handler
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="authentication/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 def get_current_user(token:str = Depends(oauth2_scheme)):
     # print(token)

@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 SECRET_KEY = "eb0e84e0b0bee2eba076d7858bc2cc012e2c341b8a3bc5144bb36b985be13206"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 300
 
 class Token(BaseModel):
     access_token: str
