@@ -5,11 +5,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 import token_handler 
 from account_activation_handler import AccountActivationHandler
 
-from py2neo_schemas.nodes.user import User
+from py2neo_schemas.nodes import User
 from db_graph import graph
-
-import os
-from dotenv import load_dotenv
 
 router = APIRouter(
     prefix = "",
