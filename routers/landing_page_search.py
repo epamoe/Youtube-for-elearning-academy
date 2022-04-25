@@ -3,7 +3,6 @@ import schemas
 from typing import List
 
 router = APIRouter(
-    # prefix = "/ydev",
     tags = ["Landing page search"]
 )
 
@@ -32,9 +31,9 @@ def training_like(id: int):
     ...
 
 @router.get("/dashboard/training/review/star/{id}")
-def training_star(id: int):
+def training_star(id: int, mark: int):
     ...
 
 @router.get("/dashboard/training/review/text/{id}")
-def training_text(id: int):
+def training_text(id: int, content: str):
     ...

@@ -12,7 +12,7 @@ import os
 from dotenv import load_dotenv
 
 router = APIRouter(
-    prefix = "/authentication",
+    prefix = "",
     tags = ["Authentication"]
 )
 encodeing='utf8'
@@ -64,12 +64,12 @@ async def login(login_form: OAuth2PasswordRequestForm = Depends()):
             detail="The user doesn't exists"
         )
 
-@router.get("/activate/{activation_code}")
-async def activate(activation_code:str):    
+@router.get("/activate/{registration_code}")
+async def activate(registration_code:str):    
     strd = None
     try:
         import base64
-        strd = activation_code.encode(encodeing)
+        strd = registration_code.encode(encodeing)
         strd = base64.b64decode(strd)
         strd = strd.decode(encodeing)
     except:

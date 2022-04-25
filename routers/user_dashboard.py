@@ -3,60 +3,45 @@ from oauth2 import get_current_user
 import schemas
 from py2neo_schemas.nodes.user import User
 from db_graph import graph
-# from py2neo import Graph
-
-# import os
-# from dotenv import load_dotenv
-
-
-# load_dotenv()
-# GDB_URI = os.getenv("GDB_URI")
-# GDB_USERNAME = os.getenv("GDB_USERNAME")
-# GDB_PASSWORD = os.getenv("GDB_PASSWORD")
-# graph = Graph(uri=GDB_URI,auth=(GDB_USERNAME,GDB_PASSWORD))
 
 router = APIRouter(
     prefix = "/dashboard",
     tags = ["User's dashboard"]
 )
 
-@router.get("/profile/get")
+@router.get("/profile")
+def get_profile():
+    ...
+
+@router.get("/profile/{login}")
 def get_profile():
     ...
     
-@router.put("/profile/update/login")
+@router.put("/profile/login")
 def update_login(user_login: schemas.UserUpdateLogin):
     return user_login
 
-@router.put("/profile/update/email")
+@router.put("/profile/email")
 def update_email(user_email: schemas.UserUpdateEmail):
     return user_email
 
-@router.put("/profile/update/password")
+@router.put("/profile/password")
 def update_password(user_password: schemas.UserUpdatePassword):
     return user_password
 
-@router.put("/profile/update/profile_image")
+@router.put("/profile/profile_image")
 def update_profile_image(user_profile_image: schemas.UserUpdateProfileImage):
     return user_profile_image
 
-@router.get("/profile/expert/get/{id}")
+@router.get("/profile/expert/{id}")
 def get_expert_profile(id):
     ...
 
-@router.get("/analytics/lesson/{id}")
-def analytic_lesson(id):
-    ...
-
-@router.get("/analytics/video/{id}")
-def analytic_video(id):
-    ...
-    
-@router.get("/notifications/get/")
+@router.get("/notifications/")
 def get_notifications():
     ...
     
-@router.get("/user/trainings/get/")
+@router.get("/profile/trainings/")
 def get_trainings():
     ...
     

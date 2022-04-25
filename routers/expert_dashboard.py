@@ -6,10 +6,6 @@ router = APIRouter(
     tags = ["Expert's dashboard"]
 )
 
-@router.get("/profile/get")
-def get_profile():
-    ...
-
 @router.get("/trainings/get/")
 def get_trainings():
     ...
@@ -26,15 +22,15 @@ def create_chapter(chapter: schemas.ChapterCreate):
 def create_lesson(lesson: schemas.LessonCreate):
     return lesson
 
-@router.put("/training/update/")
+@router.put("/training/")
 def update_trainings(training: schemas.TrainingUpdate):
     return training
 
-@router.put("/training/chapter/update/")
+@router.put("/training/chapter/")
 def update_chapter(chapter: schemas.ChapterUpdate):
     return chapter
 
-@router.put("/training/chapter/lesson/update/")
+@router.put("/training/chapter/lesson/")
 def update_lesson(lesson: schemas.LessonUpdate):
     return lesson
 

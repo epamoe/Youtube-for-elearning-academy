@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix = "/dashboard"
+    prefix = "/dashboard",
+    tags = ["Learning page"]
 )
 
 @router.get("/lesson/get/{lesson_id}")
