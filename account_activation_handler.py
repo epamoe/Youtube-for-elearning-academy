@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status, Request
 from mail_communicator import MailCommunicator
 from typing import List
-from py2neo_schemas.nodes.user import User
+from py2neo_schemas.nodes import User
 
 
     
