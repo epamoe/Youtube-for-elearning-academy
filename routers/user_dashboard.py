@@ -49,7 +49,7 @@ def get_trainings():
 def follow_training():
     ...
     
-@router.get("/expert/apply")
+@router.get("/expert/apply", status_code=status.HTTP_200_OK)
 def apply(user_login = Depends(get_current_user)):
     user_node = User.match(graph, user_login).first()
     if user_node.did_apply():
