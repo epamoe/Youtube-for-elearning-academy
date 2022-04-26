@@ -27,6 +27,9 @@ class Chapter(RootGraphObject):
     user_completed = RelatedFrom("User","COMPLETE_CHAPTER")
 
 class Domain(RootGraphObject):
+    
+    __primarykey__ = 'content'
+
     content = Property()
 
     trainings = RelatedFrom("Training", "BELONG")
