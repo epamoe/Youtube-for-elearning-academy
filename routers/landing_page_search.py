@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 import schemas
+from py2neo_schemas.nodes import Domain
 from typing import List
+from db_graph import graph
 
 router = APIRouter(
     tags = ["Landing page search"]
@@ -15,8 +17,10 @@ def filtered_search(query: str):
     return {"data": "response"}
 
 @router.get("/landing/domains/get", response_model = List[str])
-def get_domains():
-    return {"data": "response"}
+def get_domains(): 
+    domains = list(Domain.match(graph))
+    domains = [domain.content for domain in list(domains)]
+    return domains
 
 @router.get("/dashboard/search/{id}", response_model = List[schemas.SearchResponse])
 def search_on_dashboard(id: int):
