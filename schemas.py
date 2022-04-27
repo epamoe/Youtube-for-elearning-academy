@@ -128,5 +128,10 @@ class AnalyticsPresence(BaseModel):
 class AnalyticsPresenceResponse(BaseModel):
     ...
 
+class ApplicationResponse(BaseModel):
+    status: str 
+    user_login: str
 
+    class Config:
+        orm_mode = True
 
