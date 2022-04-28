@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
 from oauth2 import get_current_user
-from py2neo_schemas.nodes import Page, SearchInput, User
+from py2neo_schemas.nodes import SearchInput, User
 from db_graph import graph
-import schemas
 router = APIRouter(
     prefix = "/analytics",
     tags = ["Analytics"]
@@ -22,10 +21,11 @@ def presence(page: str, user_login = Depends(get_current_user)):
 
 
 @router.get("/lesson/{id}")
-def analytic_lesson(id):
-    ...
+def analytic_lesson(id:int ,user_login = Depends(get_current_user)):
+    graph.run("MATCH (u:User{login:'"+user_login+"'}) MERGE (u)-[c:WATCH]->(l:Lesson) WHERE ID(l) = "+str(id)+" ON CREATE SET l.nbr = 1 ON MATCH SET l.nbr = l.nbr + 1 ")
+
 
 @router.get("/video/{id}")
-def analytic_video(id):
+def analytic_video(id:int ,user_login = Depends(get_current_user)):
     ...
     
