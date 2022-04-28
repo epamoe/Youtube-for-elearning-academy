@@ -21,6 +21,7 @@ class Application(RootGraphObject):
 class Chapter(RootGraphObject):
         
     title = Property()
+    rank_nb = Property()
 
     contained_by = RelatedFrom("Training","CONTAIN")
     subdivide = RelatedTo("Lesson","SUBDIVIDE")
@@ -44,16 +45,11 @@ class Experience(RootGraphObject):
 
 class Lesson(RootGraphObject):
     title = Property()
+    rank_nb = Property()
     
     subdivided = RelatedFrom("Chapter","SUBDIVIDE")
     gather = RelatedTo("Video","GATHER")
     user_completed = RelatedFrom("User","COMPLETE_LESSON")
-
-
-# class Member(RootGraphObject): # Member can also be called Expert
-    
-#     user = RelatedFrom("User", "IS_MEMBER")
-#     published_trainings = RelatedTo("Training", "PUBLISH")
 
 
 class Notification(RootGraphObject):
