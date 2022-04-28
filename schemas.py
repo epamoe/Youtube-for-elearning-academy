@@ -31,11 +31,12 @@ class Training(BaseModel):
     author_id: int
 
 class Lesson(BaseModel):
-    id: int
+    rank_nb: int
     title: str
     
 class Chapter(BaseModel):
     title: str
+    rank_nb: int
     lessons: List[Lesson]
     
 class DashboardTraining(Training):
@@ -71,21 +72,23 @@ class UserUpdateProfileImage(BaseModel):
 class TrainingCreate(BaseModel):
     title: str 
     description: str
-    thubmnail: str
+    thumbnail: str
 
 class TrainingCreateResponse(BaseModel):
     ...
 
 class ChapterCreate(BaseModel):
-    chapter_id: int
+    training_id: int
     title: str
+    rank_nb: int
 
 class ChapterCreateResponse(BaseModel):
     ...
     
 class LessonCreate(BaseModel):
-    lesson_id: int
+    chapter_id: int
     title: str
+    rank_nb: int
 
 class LessonCreateResponse(BaseModel):
     ...
