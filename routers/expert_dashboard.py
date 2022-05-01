@@ -78,16 +78,80 @@ def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current
     ...
 
 @router.put("/training/")
-def update_trainings(training: schemas.TrainingUpdate):
-    return training
+def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_current_user)):
+    user = User.match(graph,user_login).first()
+    if not user.member:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="You need member rights to realize that operation"
+        )
+    training_node = Training.match(graph, training.uuid).first()
+    if not training_node:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail="This training doesn't exist"
+        )
+    
+    if not list(training_node.publisher)[0].login == user.login:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Only the trainings author can modify it"
+        )
+
+    training_node.title = training.title
+    training_node.description = training.description
+    training_node.thumbnail = training.thubmnail
+    graph.push(training_node)
+
 
 @router.put("/training/chapter/")
-def update_chapter(chapter: schemas.ChapterUpdate):
-    return chapter
+def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_current_user)):
+    user = User.match(graph,user_login).first()
+    if not user.member:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="You need member rights to realize that operation"
+        )
+    chapter_node = Chapter.match(graph, chapter.uuid).first()
+    if not chapter_node:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail="This chapter doesn't exist"
+        )
+    containing_training = list(chapter_node.contained_by)[0]
+    if not list(containing_training.publisher)[0].login == user.login:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Only the trainings author can modify it"
+        )
+    chapter_node.title = chapter.title
+    graph.push(chapter_node)
 
 @router.put("/training/chapter/lesson/")
-def update_lesson(lesson: schemas.LessonUpdate):
-    return lesson
+def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current_user)):
+    user = User.match(graph,user_login).first()
+    if not user.member:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="You need member rights to realize that operation"
+        )
+    lesson_node = Lesson.match(graph, lesson.uuid).first()
+    if not lesson_node:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail="This lesson doesn't exist"
+        )
+    
+    containing_chapter = list(lesson_node.subdivided)[0]
+    containing_training = list(containing_chapter.contained_by)[0]
+    if not list(containing_training.publisher)[0].login == user.login:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Only the trainings author can modify it"
+        )
+    lesson_node.title = lesson.title
+    # lesson_node.rank_nb = lesson.rank_nb
+    graph.push(lesson_node)
 
 @router.delete("/training/delete/{uuid}")
 def delete_trainings(uuid: int):
