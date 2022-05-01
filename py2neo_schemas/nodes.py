@@ -14,12 +14,15 @@ class Application(RootGraphObject):
     REFUSED = "refused"
     ACCEPTED = "accepted"
     
+    uuid = Property()
     status = Property()
 
     candidates = RelatedFrom("User","APPLY")
 
 class Chapter(RootGraphObject):
-        
+    __primarykey__ = 'uuid'
+
+    uuid = Property()
     title = Property()
     rank_nb = Property()
 
@@ -44,6 +47,9 @@ class Experience(RootGraphObject):
     user = RelatedFrom("User","EXPERIMENT")
 
 class Lesson(RootGraphObject):
+    __primarykey__ = 'uuid'
+
+    uuid = Property()
     title = Property()
     rank_nb = Property()
     
@@ -56,6 +62,7 @@ class Notification(RootGraphObject):
 
     NEW_APPLICATION_TEXT = "Congratulations ! You applied to become a member. An expert will answer to your request"
     
+    uuid = Property()
     content = Property()
     read = Property()
 
@@ -88,6 +95,9 @@ class Technology(RootGraphObject):
 
 
 class Training(RootGraphObject):
+    __primarykey__ = 'uuid'
+
+    uuid = Property()
     title = Property()
     follower_nbr = Property()
     description = Property()
@@ -155,6 +165,7 @@ class Video(GraphObject):
     published_at = Property()
     description = Property()
     subtitles = Property()
+    thumbnail = Property()
 
     gathered_by = RelatedFrom("Lesson","GATHER")
     watched_by = RelatedFrom("User","WATCH")

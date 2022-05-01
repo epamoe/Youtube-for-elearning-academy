@@ -20,12 +20,12 @@ def presence(page: str, user_login = Depends(get_current_user)):
 
 
 
-@router.get("/lesson/{id}")
-def analytic_lesson(id:int ,user_login = Depends(get_current_user)):
-    graph.run("MATCH (u:User{login:'"+user_login+"'}) MERGE (u)-[c:WATCH]->(l:Lesson) WHERE ID(l) = "+str(id)+" ON CREATE SET l.nbr = 1 ON MATCH SET l.nbr = l.nbr + 1 ")
+@router.get("/lesson/{uuid}")
+def analytic_lesson(uuid:int ,user_login = Depends(get_current_user)):
+    graph.run("MATCH (u:User{login:'"+user_login+"'}) MERGE (u)-[c:WATCH]->(l:Lesson{uuid:"+str(uuid)+"}) ON CREATE SET l.nbr = 1 ON MATCH SET l.nbr = l.nbr + 1 ")
 
 
-@router.get("/video/{id}")
-def analytic_video(id:int ,user_login = Depends(get_current_user)):
+@router.get("/video/{video_id}")
+def analytic_video(video_id:str ,user_login = Depends(get_current_user)):
     ...
     

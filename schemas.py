@@ -2,9 +2,6 @@ from pydantic import BaseModel
 from typing import List
 
 #-------------------------------------    AUTHENTICATION     -------------------------------
-# class UserLogin(BaseModel):
-#     login: str
-#     password: str
 
 class UserLoginResponse(BaseModel):
     login: str
@@ -17,18 +14,15 @@ class UserRegister(BaseModel):
     password: str
     confirm_password: str
 
-class UserRegisterResponse(BaseModel):
-    ...
-
 #-------------------------------------    LANDING PAGE SEARCH     -------------------------------
 class Training(BaseModel):
+    uuid: str
     title: str
     description: str
     students_number: int
     mark: int
     #thumbnail: image
     author_login: str
-    author_id: int
 
 class Lesson(BaseModel):
     rank_nb: int
@@ -74,64 +68,39 @@ class TrainingCreate(BaseModel):
     description: str
     thumbnail: str
 
-class TrainingCreateResponse(BaseModel):
-    ...
-
 class ChapterCreate(BaseModel):
-    training_id: int
+    training_uuid: str
     title: str
     rank_nb: int
-
-class ChapterCreateResponse(BaseModel):
-    ...
     
 class LessonCreate(BaseModel):
-    chapter_id: int
+    chapter_uuid: str
     title: str
     rank_nb: int
 
-class LessonCreateResponse(BaseModel):
-    ...
-
 class TrainingUpdate(BaseModel):
-    training_id: int
+    uuid: int
     title: str 
     description: str
     thubmnail: str
-    
-class TrainingUpdateResponse(BaseModel):
-    ...
 
 class ChapterUpdate(BaseModel):
-    chapter_id: int
+    uuid: int
     title: str
-
-class ChapterUpdateResponse(BaseModel):
-    ...
 
 class LessonUpdate(BaseModel):
-    chapter_id: int
+    uuid: int
     title: str
-
-class LessonUpdateResponse(BaseModel):
-    ...
 
 #--------------------------------------    ANALYTICS   --------------------------------
 class AnalyticsSearch(BaseModel):
-    user_id: int
     content: str
-    
-class AnalyticsSearchResponse(BaseModel):
-    ...
 
 class AnalyticsPresence(BaseModel):
-    user_id: int
     page: str
-    
-class AnalyticsPresenceResponse(BaseModel):
-    ...
 
 class ApplicationResponse(BaseModel):
+    uuid: str
     status: str 
     user_login: str
 

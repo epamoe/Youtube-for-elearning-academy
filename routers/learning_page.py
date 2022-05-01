@@ -5,6 +5,6 @@ router = APIRouter(
     tags = ["Learning page"]
 )
 
-@router.get("/lesson/get/{lesson_id}")
-def get_lesson(lesson_id: int):
+@router.get("/lesson/get/{lesson_uuid}")
+def get_lesson(lesson_uuid: int):
     ...

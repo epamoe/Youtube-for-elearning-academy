@@ -11,8 +11,8 @@ router = APIRouter(
     tags = ["Admin's dashboard"]
 )
 
-@router.get("/validate/{application_id}", status_code=status.HTTP_200_OK)
-def validate(application_id: int, user_login = Depends(get_current_user)):
+@router.get("/validate/{application_uuid}", status_code=status.HTTP_200_OK)
+def validate(application_uuid: int, user_login = Depends(get_current_user)):
     user = User.match(graph,user_login).first()
     if not user.admin:
         raise HTTPException(
@@ -20,7 +20,7 @@ def validate(application_id: int, user_login = Depends(get_current_user)):
             detail="You need admin rights to realize that operation"
         )
 
-    application = Application.match(graph, application_id).first()
+    application = Application.match(graph, application_uuid).first()
     if not application:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,

@@ -89,14 +89,14 @@ def update_chapter(chapter: schemas.ChapterUpdate):
 def update_lesson(lesson: schemas.LessonUpdate):
     return lesson
 
-@router.delete("/training/delete/{training_id}")
-def delete_trainings(training_id: int):
+@router.delete("/training/delete/{uuid}")
+def delete_trainings(uuid: int):
     ...
 
-@router.delete("/training/chapter/delete/{chapter_id}")
-def delete_chapter(chapter_id: int):
+@router.delete("/training/chapter/delete/{uuid}")
+def delete_chapter(uuid: int):
     ...
 
-@router.delete("/training/chapter/lesson/delete/{lesson_id}")
-def delete_lesson(lesson_id: int):
+@router.delete("/training/chapter/lesson/delete/{uuid}")
+def delete_lesson(uuid: int):
     ...

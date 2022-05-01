@@ -26,18 +26,18 @@ def get_domains():
 def search_on_dashboard(id: int):
     ...
 
-@router.get("/dashboard/training/get/{id}", response_model = schemas.TrainingResponse)
-def get_training(id: int):
+@router.get("/dashboard/training/get/{uuid}", response_model = schemas.TrainingResponse)
+def get_training(uuid: int):
     ...
 
-@router.get("/dashboard/training/like/{id}")
-def training_like(id: int):
+@router.get("/dashboard/training/like/{uuid}")
+def training_like(uuid: int):
     ...
 
-@router.get("/dashboard/training/review/star/{id}")
-def training_star(id: int, mark: int):
+@router.get("/dashboard/training/review/star/{uuid}")
+def training_star(uuid: int, mark: int):
     ...
 
-@router.get("/dashboard/training/review/text/{id}")
-def training_text(id: int, content: str):
+@router.get("/dashboard/training/review/text/{uuid}")
+def training_text(uuid: int, content: str):
     ...
