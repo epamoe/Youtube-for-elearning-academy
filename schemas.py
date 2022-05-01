@@ -79,17 +79,17 @@ class LessonCreate(BaseModel):
     rank_nb: int
 
 class TrainingUpdate(BaseModel):
-    uuid: int
+    uuid: str
     title: str 
     description: str
     thubmnail: str
 
 class ChapterUpdate(BaseModel):
-    uuid: int
+    uuid: str
     title: str
 
 class LessonUpdate(BaseModel):
-    uuid: int
+    uuid: str
     title: str
 
 #--------------------------------------    ANALYTICS   --------------------------------
