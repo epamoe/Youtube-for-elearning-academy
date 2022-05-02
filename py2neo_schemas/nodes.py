@@ -19,17 +19,6 @@ class Application(RootGraphObject):
 
     candidates = RelatedFrom("User","APPLY")
 
-class Chapter(RootGraphObject):
-    # __primarykey__ = 'uuid'
-
-    uuid = Property()
-    title = Property()
-    rank_nb = Property()
-
-    contained_by = RelatedFrom("Training","CONTAIN")
-    subdivide = RelatedTo("Lesson","SUBDIVIDE")
-    user_completed = RelatedFrom("User","COMPLETE_CHAPTER")
-
 class Domain(RootGraphObject):
     
     __primarykey__ = 'content'
@@ -45,17 +34,6 @@ class Experience(RootGraphObject):
     content = Property()
 
     user = RelatedFrom("User","EXPERIMENT")
-
-class Lesson(RootGraphObject):
-    # __primarykey__ = 'uuid'
-
-    uuid = Property()
-    title = Property()
-    rank_nb = Property()
-    
-    subdivided = RelatedFrom("Chapter","SUBDIVIDE")
-    gather = RelatedTo("Video","GATHER")
-    user_completed = RelatedFrom("User","COMPLETE_LESSON")
 
 
 class Notification(RootGraphObject):
@@ -113,6 +91,29 @@ class Training(RootGraphObject):
     stack = RelatedTo("Technology", "USE")
     chapters = RelatedTo("Chapter", "CONTAIN")
 
+class Chapter(RootGraphObject):
+    # __primarykey__ = 'uuid'
+
+    uuid = Property()
+    title = Property()
+    rank_nb = Property()
+
+    contained_by = RelatedFrom("Training","CONTAIN")
+    subdivide = RelatedTo("Lesson","SUBDIVIDE")
+    user_completed = RelatedFrom("User","COMPLETE_CHAPTER")
+
+class Lesson(RootGraphObject):
+    # __primarykey__ = 'uuid'
+
+    uuid = Property()
+    title = Property()
+    rank_nb = Property()
+    
+    subdivided = RelatedFrom("Chapter","SUBDIVIDE")
+    gather = RelatedTo("Video","GATHER")
+    user_completed = RelatedFrom("User","COMPLETE_LESSON")
+
+
 
 class User(RootGraphObject): # User can also be called Learner 
     __primarykey__ = 'login'
@@ -137,6 +138,7 @@ class User(RootGraphObject): # User can also be called Learner
     experiences = RelatedTo("Experience", "EXPERIMENT")
     notifications = RelatedTo("Notification", "NOTIFY")
     application = RelatedTo("Application", "APPLY")
+    email_update_attempt = RelatedTo("User", "EMAIL_UPDATE_ATT")
 
     published_trainings = RelatedTo("Training", "PUBLISH")
 
@@ -169,3 +171,10 @@ class Video(GraphObject):
 
     gathered_by = RelatedFrom("Lesson","GATHER")
     watched_by = RelatedFrom("User","WATCH")
+
+class EmailUpdateAttempt(GraphObject):
+    __primarykey__ = "email"
+    
+    email = Property()
+
+    user = RelatedFrom("User", "EMAIL_UPDATE_ATT")

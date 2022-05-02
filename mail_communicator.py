@@ -15,7 +15,7 @@ class MailCommunicator:
     
     
     @classmethod
-    def send_activation_mail(self, recipient: str, subject: str, templates: dict) -> None:
+    def send_mail(self, recipient: str, subject: str, templates: dict) -> None:
         ssl_context = ssl.create_default_context()
         service = smtplib.SMTP_SSL(self.smtp_server_domain_name, self.port, context=ssl_context)
         # print(service)
