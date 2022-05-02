@@ -15,3 +15,5 @@ except Exception:
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         detail="The connection to the database failed"
     )
+
+encodeing='utf8'

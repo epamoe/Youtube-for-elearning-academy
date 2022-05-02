@@ -1,6 +1,6 @@
 from py2neo_schemas.nodes import User
 from fastapi import HTTPException, status
-from db_graph import graph
+from globals import graph
 
 def find_member(user_login):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise

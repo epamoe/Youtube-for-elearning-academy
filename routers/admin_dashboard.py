@@ -4,7 +4,7 @@ from py2neo_schemas.nodes import User, Application
 from schemas import ApplicationResponse
 
 from oauth2 import get_current_user
-from db_graph import graph
+from globals import graph
 
 router = APIRouter(
     prefix = "/dashboard/admin",

@@ -4,7 +4,7 @@ from oauth2 import get_current_user
 import schemas
 from py2neo_schemas.nodes import Domain
 from typing import List
-from db_graph import graph
+from globals import graph
 from py2neo_schemas.nodes import Training
 
 router = APIRouter(

@@ -6,13 +6,13 @@ import token_handler
 from account_activation_handler import AccountActivationHandler
 
 from py2neo_schemas.nodes import User
-from db_graph import graph
+from globals import graph
 
+from globals import encodeing
 router = APIRouter(
     prefix = "",
     tags = ["Authentication"]
 )
-encodeing='utf8'
 
 
 
@@ -128,4 +128,14 @@ def send_activation_mail(user,request):
     str_enc = str_enc.decode(encodeing)
 
     AccountActivationHandler.send_activation_mail(user,str_enc,request)
+    
+def send_update_address_mail(user,new_address,request):
+    import base64
+
+    strc = new_address
+    str_enc = strc.encode(encodeing)
+    str_enc = base64.b64encode(str_enc)
+    str_enc = str_enc.decode(encodeing)
+
+    AccountActivationHandler.send_update_address_mail(user,str_enc,new_address,request)
     
