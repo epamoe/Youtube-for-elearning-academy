@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from functions import find_member
 from oauth2 import get_current_user
 from db_graph import graph 
 from py2neo_schemas.nodes import User, Training, Chapter, Lesson
@@ -15,30 +16,25 @@ def get_trainings():
 
 @router.post("/training/create")
 def create_trainings(training: schemas.TrainingCreate, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     new_training = Training(
         title=training.title,
         description=training.description,
         thumbnail=training.thumbnail
     )
-    user.published_trainings.add(new_training)
-    graph.push(user)
+    member.published_trainings.add(new_training)
+    graph.push(member)
 
 @router.post("/training/chapter/create/")
 def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member :
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     training = Training.match(graph).where("_.uuid='"+chapter.training_uuid+"'").first()
-    if not list(training.publisher)[0].login == user.login:
+    if not list(training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the training's author can modify it"
@@ -52,17 +48,14 @@ def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_curr
 
 @router.post("/training/chapter/lesson/create/")
 def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current_user)):
-    # Verifying user right to modify the training
-    user = User.match(graph,user_login).first()
-    if not user.member :
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     # Getting the chapter attached to the lesson and identified by chapter_id
     chapter = Chapter.match(graph).where("_.uuid = '"+lesson.chapter_uuid+"'").first()
     training = list(chapter.contained_by)[0]
-    if not list(training.publisher)[0].login == user.login:
+    if not list(training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the training's author can modify it"
@@ -79,12 +72,9 @@ def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current
 
 @router.put("/training/")
 def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     training_node = Training.match(graph).where("_.uuid = '"+training.uuid+"'").first()
     if not training_node:
         raise HTTPException(
@@ -92,7 +82,7 @@ def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_
             detail="This training doesn't exist"
         )
     
-    if not list(training_node.publisher)[0].login == user.login:
+    if not list(training_node.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the trainings author can modify it"
@@ -105,12 +95,9 @@ def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_
 
 @router.put("/training/chapter/")
 def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     chapter_node = Chapter.match(graph).where("_.uuid = '"+chapter.uuid+"'").first()
     if not chapter_node:
         raise HTTPException(
@@ -118,7 +105,7 @@ def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_curr
             detail="This chapter doesn't exist"
         )
     containing_training = list(chapter_node.contained_by)[0]
-    if not list(containing_training.publisher)[0].login == user.login:
+    if not list(containing_training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the trainings author can modify it"
@@ -128,12 +115,9 @@ def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_curr
 
 @router.put("/training/chapter/lesson/")
 def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     lesson_node = Lesson.match(graph).where("_.uuid = '"+lesson.uuid+"'").first()
     if not lesson_node:
         raise HTTPException(
@@ -143,7 +127,7 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
     
     containing_chapter = list(lesson_node.subdivided)[0]
     containing_training = list(containing_chapter.contained_by)[0]
-    if not list(containing_training.publisher)[0].login == user.login:
+    if not list(containing_training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the trainings author can modify it"
@@ -154,19 +138,16 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
 
 @router.delete("/training/{uuid}")
 def delete_trainings(uuid: str, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     training_node = Training.match(graph).where("_.uuid = '"+uuid+"'").first()
     if not training_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
             detail="This training doesn't exist"
         )    
-    if not list(training_node.publisher)[0].login == user.login:
+    if not list(training_node.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the training's author can delete it"
@@ -176,12 +157,10 @@ def delete_trainings(uuid: str, user_login = Depends(get_current_user)):
 
 @router.delete("/training/chapter/{uuid}")
 def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     chapter_node = Chapter.match(graph).where("_.uuid = '"+uuid+"'").first()
     if not chapter_node:
         raise HTTPException(
@@ -189,7 +168,7 @@ def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
             detail="This chapter doesn't exist"
         )
     containing_training = list(chapter_node.contained_by)[0]
-    if not list(containing_training.publisher)[0].login == user.login:
+    if not list(containing_training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the trainings author can modify it"
@@ -200,12 +179,9 @@ def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
 
 @router.delete("/training/chapter/lesson/{uuid}")
 def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
-    user = User.match(graph,user_login).first()
-    if not user.member:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="You need member rights to realize that operation"
-        )
+    #Search for the user in the database. Returns the user if found, raise and exception otherwise
+    member = find_member(user_login)
+
     lesson_node = Lesson.match(graph).where("_.uuid = '"+uuid+"'").first()
     if not lesson_node:
         raise HTTPException(
@@ -215,7 +191,7 @@ def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
     
     containing_chapter = list(lesson_node.subdivided)[0]
     containing_training = list(containing_chapter.contained_by)[0]
-    if not list(containing_training.publisher)[0].login == user.login:
+    if not list(containing_training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the trainings author can modify it"
