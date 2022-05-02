@@ -20,7 +20,7 @@ class Application(RootGraphObject):
     candidates = RelatedFrom("User","APPLY")
 
 class Chapter(RootGraphObject):
-    __primarykey__ = 'uuid'
+    # __primarykey__ = 'uuid'
 
     uuid = Property()
     title = Property()
@@ -47,7 +47,7 @@ class Experience(RootGraphObject):
     user = RelatedFrom("User","EXPERIMENT")
 
 class Lesson(RootGraphObject):
-    __primarykey__ = 'uuid'
+    # __primarykey__ = 'uuid'
 
     uuid = Property()
     title = Property()
@@ -95,7 +95,7 @@ class Technology(RootGraphObject):
 
 
 class Training(RootGraphObject):
-    __primarykey__ = 'uuid'
+    # __primarykey__ = 'uuid'
 
     uuid = Property()
     title = Property()
