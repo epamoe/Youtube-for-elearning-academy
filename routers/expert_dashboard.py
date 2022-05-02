@@ -153,14 +153,73 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
     # lesson_node.rank_nb = lesson.rank_nb
     graph.push(lesson_node)
 
-@router.delete("/training/delete/{uuid}")
-def delete_trainings(uuid: int):
-    ...
+@router.delete("/training/{uuid}")
+def delete_trainings(uuid: str, user_login = Depends(get_current_user)):
+    user = User.match(graph,user_login).first()
+    if not user.member:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="You need member rights to realize that operation"
+        )
+    training_node = Training.match(graph, uuid).first()
+    if not training_node:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail="This training doesn't exist"
+        )    
+    if not list(training_node.publisher)[0].login == user.login:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Only the training's author can delete it"
+        )
 
-@router.delete("/training/chapter/delete/{uuid}")
-def delete_chapter(uuid: int):
-    ...
+    graph.run("MATCH (t:Training{uuid:'"+uuid+"'})-[r1:CONTAIN]->(c:Chapter)-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available, t:Available")
 
-@router.delete("/training/chapter/lesson/delete/{uuid}")
-def delete_lesson(uuid: int):
-    ...
+@router.delete("/training/chapter/{uuid}")
+def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
+    user = User.match(graph,user_login).first()
+    if not user.member:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="You need member rights to realize that operation"
+        )
+    chapter_node = Chapter.match(graph, uuid).first()
+    if not chapter_node:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail="This chapter doesn't exist"
+        )
+    containing_training = list(chapter_node.contained_by)[0]
+    if not list(containing_training.publisher)[0].login == user.login:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Only the trainings author can modify it"
+        )
+    
+    graph.run("MATCH (c:Chapter{uuid:'"+uuid+"'})-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available")
+
+
+@router.delete("/training/chapter/lesson/{uuid}")
+def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
+    user = User.match(graph,user_login).first()
+    if not user.member:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="You need member rights to realize that operation"
+        )
+    lesson_node = Lesson.match(graph, uuid).first()
+    if not lesson_node:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND,
+            detail="This lesson doesn't exist"
+        )
+    
+    containing_chapter = list(lesson_node.subdivided)[0]
+    containing_training = list(containing_chapter.contained_by)[0]
+    if not list(containing_training.publisher)[0].login == user.login:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Only the trainings author can modify it"
+        )
+    
+    graph.run("MATCH (l:Lesson{uuid:'"+uuid+"'}) REMOVE l:Available")
