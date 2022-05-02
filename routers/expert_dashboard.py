@@ -37,7 +37,7 @@ def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_curr
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="You need member rights to realize that operation"
         )
-    training = Training.match(graph, chapter.training_id).first()
+    training = Training.match(graph).where("_.uuid='"+chapter.training_uuid+"'").first()
     if not list(training.publisher)[0].login == user.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
@@ -60,7 +60,7 @@ def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current
             detail="You need member rights to realize that operation"
         )
     # Getting the chapter attached to the lesson and identified by chapter_id
-    chapter = Chapter.match(graph, lesson.chapter_id).first()
+    chapter = Chapter.match(graph).where("_.uuid = '"+lesson.chapter_uuid+"'").first()
     training = list(chapter.contained_by)[0]
     if not list(training.publisher)[0].login == user.login:
         raise HTTPException(
@@ -85,7 +85,7 @@ def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="You need member rights to realize that operation"
         )
-    training_node = Training.match(graph, training.uuid).first()
+    training_node = Training.match(graph).where("_.uuid = '"+training.uuid+"'").first()
     if not training_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -103,7 +103,6 @@ def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_
     training_node.thumbnail = training.thubmnail
     graph.push(training_node)
 
-
 @router.put("/training/chapter/")
 def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_current_user)):
     user = User.match(graph,user_login).first()
@@ -112,7 +111,7 @@ def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_curr
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="You need member rights to realize that operation"
         )
-    chapter_node = Chapter.match(graph, chapter.uuid).first()
+    chapter_node = Chapter.match(graph).where("_.uuid = '"+chapter.uuid+"'").first()
     if not chapter_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -135,7 +134,7 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="You need member rights to realize that operation"
         )
-    lesson_node = Lesson.match(graph, lesson.uuid).first()
+    lesson_node = Lesson.match(graph).where("_.uuid = '"+lesson.uuid+"'").first()
     if not lesson_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -161,7 +160,7 @@ def delete_trainings(uuid: str, user_login = Depends(get_current_user)):
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="You need member rights to realize that operation"
         )
-    training_node = Training.match(graph, uuid).first()
+    training_node = Training.match(graph).where("_.uuid = '"+uuid+"'").first()
     if not training_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -183,7 +182,7 @@ def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="You need member rights to realize that operation"
         )
-    chapter_node = Chapter.match(graph, uuid).first()
+    chapter_node = Chapter.match(graph).where("_.uuid = '"+uuid+"'").first()
     if not chapter_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -207,7 +206,7 @@ def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="You need member rights to realize that operation"
         )
-    lesson_node = Lesson.match(graph, uuid).first()
+    lesson_node = Lesson.match(graph).where("_.uuid = '"+uuid+"'").first()
     if not lesson_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
