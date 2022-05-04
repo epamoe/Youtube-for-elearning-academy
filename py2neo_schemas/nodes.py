@@ -80,7 +80,7 @@ class Training(RootGraphObject):
 
     uuid = Property()
     title = Property()
-    follower_nbr = Property()
+    students_number = Property()
     description = Property()
     mark = Property()
     thumbnail = Property()

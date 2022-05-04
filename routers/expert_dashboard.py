@@ -11,8 +11,19 @@ router = APIRouter(
     tags = ["Expert's dashboard"]
 )
 
-@router.get("/trainings/", response_model = List[schemas.SearchResponse])
-def get_trainings():
+@router.get("/trainings/{login}", response_model = List[schemas.SearchResponse])
+def get_trainings(login:str):
+    member = find_member(login)
+    trainings = [schemas.SearchResponse(
+        uuid = t.uuid,
+        title = t.title,
+        description = t.description,
+        students_number = t.students_number,
+        mark = t.mark,
+        thumbnail = t.thumbnail,
+        author_login = list(t.publisher)[0].login
+    ) for t in list(member.published_trainings)]
+    return trainings
     ...
 
 @router.post("/training/create")
@@ -23,7 +34,9 @@ def create_trainings(training: schemas.TrainingCreate, user_login = Depends(get_
     new_training = Training(
         title=training.title,
         description=training.description,
-        thumbnail=training.thumbnail
+        thumbnail=training.thumbnail,
+        students_number = 0,
+        mark = 0
     )
     member.published_trainings.add(new_training)
     graph.push(member)
