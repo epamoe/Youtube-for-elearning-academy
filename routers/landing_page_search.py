@@ -11,7 +11,7 @@ router = APIRouter(
     tags = ["Landing page search"]
 )
 
-@router.get("/landing/search/{query}", response_model = List[schemas.SearchResponse])
+@router.get("/landing/search/{query}", response_model = List[schemas.Training])
 def search(query: str):
     return {"data": "response"}
 
@@ -25,7 +25,7 @@ def get_domains():
     domains = [domain.content for domain in list(domains)]
     return domains
 
-@router.get("/dashboard/search/{uuid}", response_model = List[schemas.SearchResponse])
+@router.get("/dashboard/search/{uuid}", response_model = List[schemas.Training])
 def search_on_dashboard(uuid: str):
     training = Training.match(graph).where("_.uuid='"+uuid+"'").first()
     domain = list(training.domain)[0]
@@ -35,7 +35,7 @@ def search_on_dashboard(uuid: str):
     for t in trainings:
         if t.uuid != uuid:
             response.append(
-                schemas.SearchResponse(
+                schemas.Training(
                     uuid = t.uuid,
                     title = t.title,
                     description = t.description,
@@ -47,7 +47,7 @@ def search_on_dashboard(uuid: str):
             )
     return response
 
-@router.get("/dashboard/training/get/{uuid}", response_model = schemas.TrainingResponse)
+@router.get("/dashboard/training/get/{uuid}", response_model = schemas.DashboardTraining)
 def get_training(uuid: str):
     ...
 

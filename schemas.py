@@ -24,6 +24,9 @@ class Training(BaseModel):
     thumbnail: str
     author_login: str
 
+    class Config:
+        orm_mode = True
+        
 class Lesson(BaseModel):
     rank_nb: int
     title: str
@@ -35,16 +38,10 @@ class Chapter(BaseModel):
     
 class DashboardTraining(Training):
     chapters: List[Chapter]
-    
-class SearchResponse(Training):
-    # training: Training
+
     class Config:
         orm_mode = True
 
-class TrainingResponse(BaseModel):
-    Training: DashboardTraining
-    class Config:
-        orm_mode = True
 #--------------------------------------    USER DASHBOARD   --------------------------------
 class Experience(BaseModel):
     key: str

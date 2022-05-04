@@ -11,10 +11,10 @@ router = APIRouter(
     tags = ["Expert's dashboard"]
 )
 
-@router.get("/trainings/{login}", response_model = List[schemas.SearchResponse])
+@router.get("/trainings/{login}", response_model = List[schemas.Training])
 def get_trainings(login:str):
     member = find_member(login)
-    trainings = [schemas.SearchResponse(
+    trainings = [schemas.Training(
         uuid = t.uuid,
         title = t.title,
         description = t.description,
