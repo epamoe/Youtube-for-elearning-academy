@@ -10,6 +10,8 @@ class RootGraphObject(GraphObject):
 
 class Application(RootGraphObject):
 
+    __primarykey__ = "uuid"
+
     PENDING = "pending"
     REFUSED = "refused"
     ACCEPTED = "accepted"
@@ -38,7 +40,8 @@ class Experience(RootGraphObject):
 
 class Notification(RootGraphObject):
 
-    NEW_APPLICATION_TEXT = "Congratulations ! You applied to become a member. An expert will answer to your request"
+    NEW_APPLICATION_TEXT = "You applied to become a member. An expert will answer to your request"
+    APPLICATION_ACCEPTED_TEXT = "Congratulations! You've been accepted as member on the platform. Don't hesitate to post new Trainings"
     
     uuid = Property()
     content = Property()

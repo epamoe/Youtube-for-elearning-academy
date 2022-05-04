@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException,status
-from py2neo_schemas.nodes import User, Application
+from py2neo_schemas.nodes import Notification, User, Application
 from schemas import ApplicationResponse
 
 from oauth2 import get_current_user
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 @router.get("/validate/{application_uuid}", status_code=status.HTTP_200_OK)
-def validate(application_uuid: int, user_login = Depends(get_current_user)):
+def validate(application_uuid: str, user_login = Depends(get_current_user)):
     user = User.match(graph,user_login).first()
     if not user.admin:
         raise HTTPException(
@@ -28,9 +28,13 @@ def validate(application_uuid: int, user_login = Depends(get_current_user)):
         )
 
     if application.status == Application.PENDING:
+        application.status = Application.ACCEPTED
         related_user = list(application.candidates)[0]
-        related_user.member = True 
+        related_user.member = True
+        notification = Notification(content = Notification.APPLICATION_ACCEPTED_TEXT, read = False)
+        related_user.notifications.add(notification)
         graph.push(related_user)
+        graph.push(application)
         
     else:
         raise HTTPException(
@@ -48,6 +52,6 @@ def get_applications(user_login = Depends(get_current_user)):
         )
 
     applications =  list(Application.match(graph).where("_.status = '" + Application.PENDING + "'"))
-    apps_users = [Application(status = app.status, user_login = list(app.candidates)[0].login) for app in applications]
+    apps_users = [ApplicationResponse(status = app.status, user_login = list(app.candidates)[0].login, uuid = app.uuid) for app in applications]
     return apps_users
     ...
