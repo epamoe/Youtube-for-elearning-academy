@@ -4,11 +4,12 @@ from schemas import UserRegister
 from fastapi.security import OAuth2PasswordRequestForm
 import token_handler 
 from account_activation_handler import AccountActivationHandler
-
 from py2neo_schemas.nodes import User
 from globals import graph
-
 from globals import encodeing
+from email_validator import validate_email, EmailNotValidError
+from passlib.context import CryptContext
+
 router = APIRouter(
     prefix = "",
     tags = ["Authentication"]
@@ -24,7 +25,6 @@ async def register(regist_form: UserRegister, request : Request):
             detail="The password and the confirmation password don't match"
         )
 
-    from email_validator import validate_email, EmailNotValidError
     try:
         validate_email(regist_form.email)
     except EmailNotValidError as e:
@@ -88,9 +88,7 @@ async def activate(registration_code:str):
 def find_user(login, password):
     user = User.match(graph).where(f"_.email = '{login}' OR _.login = '{login}'").first()
     if not user: 
-        return False
-
-    from passlib.context import CryptContext    
+        return False    
 
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     same_password = pwd_context.verify(password, user.password)

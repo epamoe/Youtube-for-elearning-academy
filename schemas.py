@@ -46,6 +46,17 @@ class TrainingResponse(BaseModel):
     class Config:
         orm_mode = True
 #--------------------------------------    USER DASHBOARD   --------------------------------
+class Experience(BaseModel):
+    key: str
+    value: str
+
+class ProfileResponse(BaseModel):
+    login: str
+    email: str
+    profile_img: str #image value
+    experiences: List[Experience]
+    class Config:
+        orm_mode = True
 class UserUpdateLogin(BaseModel):
     login: str
     
@@ -60,38 +71,60 @@ class UserUpdateProfileImage(BaseModel):
     mryz: str
     image: str # """ SHOULD BE AN IMAGE OBJECT """
 
+class Notification(BaseModel):
+    uuid: int
+    content: str
+    class Config:
+        orm_mode = True
 
-
+class UserTrainingResponse(BaseModel):
+    training: Training
+    progression: float
+    class Config:
+        orm_mode = True
 #--------------------------------------    EXPERT DASHBOARD   --------------------------------
+
 class TrainingCreate(BaseModel):
     title: str 
     description: str
     thumbnail: str
 
 class ChapterCreate(BaseModel):
-    training_uuid: str
+    training_uuid: int
     title: str
     rank_nb: int
     
 class LessonCreate(BaseModel):
-    chapter_uuid: str
+    chapter_uuid: int
     title: str
     rank_nb: int
 
 class TrainingUpdate(BaseModel):
-    uuid: str
+    training_uuid: int
     title: str 
     description: str
     thubmnail: str
 
 class ChapterUpdate(BaseModel):
-    uuid: str
+    chapter_uuid: int
     title: str
+    rank_nb: int
 
 class LessonUpdate(BaseModel):
-    uuid: str
+    lesson_uuid: int
     title: str
+    rank_nb: int
 
+#--------------------------------------    LEARNING PAGE   --------------------------------
+class Video(BaseModel):
+    video_id: int
+    title: str
+    viewCount: str
+    channel_name: str
+    channel_id: str
+    description: str
+    class Config:
+        orm_mode = True
 #--------------------------------------    ANALYTICS   --------------------------------
 class AnalyticsSearch(BaseModel):
     content: str

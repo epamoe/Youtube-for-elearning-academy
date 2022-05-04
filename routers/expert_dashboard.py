@@ -4,13 +4,14 @@ from oauth2 import get_current_user
 from globals import graph 
 from py2neo_schemas.nodes import User, Training, Chapter, Lesson
 import schemas
+from typing import List
 
 router = APIRouter(
     prefix = "/dashboard/expert",
     tags = ["Expert's dashboard"]
 )
 
-@router.get("/trainings/get/")
+@router.get("/trainings/", response_model = List[schemas.SearchResponse])
 def get_trainings():
     ...
 

@@ -5,18 +5,20 @@ import schemas
 from py2neo_schemas.nodes import EmailUpdateAttempt, User
 from globals import graph
 from globals import encodeing
+from email_validator import validate_email, EmailNotValidError
+from typing import List
 
 router = APIRouter(
     prefix = "/dashboard",
     tags = ["User's dashboard"]
 )
 
-@router.get("/profile")
+@router.get("/profile", response_model = schemas.ProfileResponse)
 def get_profile():
     ...
 
-@router.get("/profile/{login}")
-def get_profile():
+@router.get("/profile/{login}", response_model = schemas.ProfileResponse)
+def get_profile_login():
     ...
     
 @router.put("/profile/login")
@@ -36,7 +38,7 @@ def update_login(new_login: schemas.UserUpdateLogin, user_login = Depends(get_cu
 def update_email(user_email: schemas.UserUpdateEmail, request: Request, user_login = Depends(get_current_user)):
     user = User.match(graph, user_login).first()
     # Let's verify if the new email proposed is valid and existing
-    from email_validator import validate_email, EmailNotValidError
+    
     try:
         validate_email(user_email.email)
     except EmailNotValidError as e:
@@ -92,15 +94,15 @@ def update_password(user_password: schemas.UserUpdatePassword):
 def update_profile_image(user_profile_image: schemas.UserUpdateProfileImage):
     return user_profile_image
 
-@router.get("/profile/expert/{id}")
+"""@router.get("/profile/expert/{id}")
 def get_expert_profile(id):
     ...
-
-@router.get("/notifications/")
+"""
+@router.get("/notifications/", response_model = List[schemas.Notification])
 def get_notifications():
     ...
     
-@router.get("/profile/trainings/")
+@router.get("/profile/trainings/", response_model = List[schemas.UserTrainingResponse])
 def get_trainings():
     ...
     
