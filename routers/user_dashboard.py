@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException,status, Request
 from oauth2 import get_current_user
 from routers.authentication import send_update_address_mail
 import schemas
-from py2neo_schemas.nodes import EmailUpdateAttempt, User
+from py2neo_schemas.nodes import EmailUpdateAttempt, Training, User
 from globals import graph
 from globals import encodeing
 from email_validator import validate_email, EmailNotValidError
@@ -99,15 +99,20 @@ def get_expert_profile(id):
     ...
 """
 @router.get("/notifications/", response_model = List[schemas.Notification])
-def get_notifications():
-    ...
+def get_notifications(user_login = Depends(get_current_user)):
+    user = User.match(graph, user_login).first()
+    return list(user.notifications)
     
 @router.get("/profile/trainings/", response_model = List[schemas.UserTrainingResponse])
 def get_trainings():
     ...
     
-@router.get("/user/training/follow/")
-def follow_training():
+@router.get("/user/training/follow/{uuid}")
+def follow_training(uuid: str, user_login = Depends(get_current_user)):
+    user = User.match(graph, user_login).first()
+    training = Training.match(graph).where("_.uuid='"+uuid+"'").first()
+    user.follow_training.add(training)
+    graph.push(user)
     ...
     
 @router.get("/expert/apply", status_code=status.HTTP_200_OK)

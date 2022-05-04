@@ -72,7 +72,7 @@ class UserUpdateProfileImage(BaseModel):
     image: str # """ SHOULD BE AN IMAGE OBJECT """
 
 class Notification(BaseModel):
-    uuid: int
+    uuid: str
     content: str
     class Config:
         orm_mode = True
