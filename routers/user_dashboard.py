@@ -3,8 +3,8 @@ from oauth2 import get_current_user
 from routers.authentication import send_update_address_mail
 import schemas
 from py2neo_schemas.nodes import EmailUpdateAttempt, Training, User
-from globals import encode_password, graph
-from globals import encodeing
+from globals import graph, encodeing
+from functions import encode_password
 from email_validator import validate_email, EmailNotValidError
 from typing import List
 

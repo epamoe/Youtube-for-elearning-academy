@@ -5,8 +5,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 import token_handler 
 from account_activation_handler import AccountActivationHandler
 from py2neo_schemas.nodes import User
-from globals import encode_password, graph
-from globals import encodeing
+from globals import graph ,encodeing
+from functions import encode_password
 from email_validator import validate_email, EmailNotValidError
 from passlib.context import CryptContext
 

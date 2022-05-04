@@ -11,3 +11,9 @@ def find_member(user_login):
             detail="You are not a member"
         )
     return user
+
+def encode_password(password) -> str:
+    from passlib.context import CryptContext    
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    hashed_password = pwd_context.hash(password)
+    return hashed_password
