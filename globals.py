@@ -17,3 +17,10 @@ except Exception:
     )
 
 encodeing='utf8'
+
+
+def encode_password(password) -> str:
+    from passlib.context import CryptContext    
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    hashed_password = pwd_context.hash(password)
+    return hashed_password
