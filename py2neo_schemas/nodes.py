@@ -128,6 +128,7 @@ class User(RootGraphObject): # User can also be called Learner
     login = Property()
     email = Property()
     password = Property()
+    profile_img = Property()
 
     watch_video = RelatedTo("Video", "WATCH")
     search = RelatedTo("SearchInput", "SEARCH")
