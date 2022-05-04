@@ -49,6 +49,25 @@ def search_on_dashboard(uuid: str):
 
 @router.get("/dashboard/training/get/{uuid}", response_model = schemas.DashboardTraining)
 def get_training(uuid: str):
+    training_node = Training.match(graph).where("_.uuid = '"+uuid+"'").first()
+    return schemas.DashboardTraining(
+        uuid = training_node.uuid,
+        title = training_node.title,
+        description = training_node.description,
+        students_number = training_node.students_number,
+        mark = training_node.mark,
+        thumbnail = training_node.thumbnail,
+        author_login = list(training_node.publisher)[0].login,
+        chapters = [
+            schemas.Chapter(
+                title = chapter.title,
+                rank_nb = chapter.rank_nb,
+                uuid = chapter.uuid, 
+                lessons = list(chapter.subdivide)
+            ) for chapter in list(training_node.chapters)
+        ]
+    )
+
     ...
 
 @router.get("/dashboard/training/like/{uuid}")

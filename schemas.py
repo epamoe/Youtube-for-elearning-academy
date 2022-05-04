@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 #-------------------------------------    AUTHENTICATION     -------------------------------
 
@@ -28,14 +28,22 @@ class Training(BaseModel):
         orm_mode = True
         
 class Lesson(BaseModel):
+    uuid: Optional[str]
     rank_nb: int
     title: str
     
+    class Config:
+        orm_mode = True
+
 class Chapter(BaseModel):
+    uuid: Optional[str]
     title: str
     rank_nb: int
     lessons: List[Lesson]
     
+    # class Config:
+    #     orm_mode = True
+
 class DashboardTraining(Training):
     chapters: List[Chapter]
 
