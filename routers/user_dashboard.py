@@ -14,12 +14,38 @@ router = APIRouter(
 )
 
 @router.get("/profile", response_model = schemas.ProfileResponse)
-def get_profile():
-    ...
+def get_profile(user_login = Depends(get_current_user)):
+    user = User.match(graph, user_login).first()
+    if not user :
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="This user doesn't exist"
+        )
+
+    response = {
+        "login": user.login,
+        "email": user.email,
+        "profile_img" : user.profile_img,
+        "experiences" : list(user.experiences)
+    }
+    return schemas.ProfileResponse(**response)
 
 @router.get("/profile/{login}", response_model = schemas.ProfileResponse)
-def get_profile_login():
-    ...
+def get_profile_login(login: str):
+    user = User.match(graph, login).first()
+    if not user :
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="This user doesn't exist"
+        )
+        
+    response = {
+        "login": user.login,
+        "email": user.email,
+        "profile_img" : user.profile_img,
+        "experiences" : list(user.experiences)
+    }
+    return schemas.ProfileResponse(**response)
     
 @router.put("/profile/login")
 def update_login(new_login: schemas.UserUpdateLogin, user_login = Depends(get_current_user)):
@@ -94,10 +120,7 @@ def update_password(user_password: schemas.UserUpdatePassword):
 def update_profile_image(user_profile_image: schemas.UserUpdateProfileImage):
     return user_profile_image
 
-"""@router.get("/profile/expert/{id}")
-def get_expert_profile(id):
-    ...
-"""
+
 @router.get("/notifications/", response_model = List[schemas.Notification])
 def get_notifications(user_login = Depends(get_current_user)):
     user = User.match(graph, user_login).first()
