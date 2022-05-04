@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 import token_handler 
 from account_activation_handler import AccountActivationHandler
 from py2neo_schemas.nodes import User
-from globals import graph
+from globals import encode_password, graph
 from globals import encodeing
 from email_validator import validate_email, EmailNotValidError
 from passlib.context import CryptContext
@@ -108,10 +108,7 @@ def save_user(login, email, password):
                 detail="The user already exists"
         )
     else:
-        from passlib.context import CryptContext    
-        pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        hashed_password = pwd_context.hash(password)
-
+        hashed_password = encode_password(password)
         user = User(login=login, email=email, password = hashed_password, profile_img = None) 
         graph.push(user)
     return user

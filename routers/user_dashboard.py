@@ -3,7 +3,7 @@ from oauth2 import get_current_user
 from routers.authentication import send_update_address_mail
 import schemas
 from py2neo_schemas.nodes import EmailUpdateAttempt, Training, User
-from globals import graph
+from globals import encode_password, graph
 from globals import encodeing
 from email_validator import validate_email, EmailNotValidError
 from typing import List
@@ -113,8 +113,27 @@ async def confirm(confirmation_code:str):
 
 
 @router.put("/profile/password")
-def update_password(user_password: schemas.UserUpdatePassword):
-    return user_password
+def update_password(user_password: schemas.UserUpdatePassword, user_login = Depends(get_current_user)):
+    user = User.match(graph, user_login).first()
+    
+    from passlib.context import CryptContext
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    same_password = pwd_context.verify(user_password.current_password, user.password)
+    if not same_password:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Incorrect current password"
+        )
+    if user_password.password != user_password.confirm_password:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="The password and the confirmation password don't match"
+        )
+
+    hashed_password = encode_password(user_password.password)
+    user.password = hashed_password
+    graph.push(user)
+
 
 @router.put("/profile/profile_image")
 def update_profile_image(user_profile_image: schemas.UserUpdateProfileImage):

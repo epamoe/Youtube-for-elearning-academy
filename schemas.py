@@ -64,6 +64,7 @@ class UserUpdateEmail(BaseModel):
     email: str
 
 class UserUpdatePassword(BaseModel):
+    current_password: str
     password: str
     confirm_password: str
 
