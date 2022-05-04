@@ -25,9 +25,27 @@ def get_domains():
     domains = [domain.content for domain in list(domains)]
     return domains
 
-@router.get("/dashboard/search/{id}", response_model = List[schemas.SearchResponse])
-def search_on_dashboard(id: int):
-    ...
+@router.get("/dashboard/search/{uuid}", response_model = List[schemas.SearchResponse])
+def search_on_dashboard(uuid: str):
+    training = Training.match(graph).where("_.uuid='"+uuid+"'").first()
+    domain = list(training.domain)[0]
+    trainings = list(domain.trainings)
+    
+    response = [ ]
+    for t in trainings:
+        if t.uuid != uuid:
+            response.append(
+                schemas.SearchResponse(
+                    uuid = t.uuid,
+                    title = t.title,
+                    description = t.description,
+                    students_number = t.students_number,
+                    mark = t.mark,
+                    thumbnail = t.thumbnail,
+                    author_login = list(t.publisher)[0].login
+                )
+            )
+    return response
 
 @router.get("/dashboard/training/get/{uuid}", response_model = schemas.TrainingResponse)
 def get_training(uuid: str):
