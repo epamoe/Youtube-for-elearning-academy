@@ -21,7 +21,7 @@ class Training(BaseModel):
     description: str
     students_number: int
     mark: int
-    #thumbnail: image
+    thumbnail: str
     author_login: str
 
 class Lesson(BaseModel):
@@ -36,8 +36,8 @@ class Chapter(BaseModel):
 class DashboardTraining(Training):
     chapters: List[Chapter]
     
-class SearchResponse(BaseModel):
-    training: Training
+class SearchResponse(Training):
+    # training: Training
     class Config:
         orm_mode = True
 
