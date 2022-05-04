@@ -112,7 +112,7 @@ def save_user(login, email, password):
         pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         hashed_password = pwd_context.hash(password)
 
-        user = User(login=login, email=email, password = hashed_password) 
+        user = User(login=login, email=email, password = hashed_password, profile_img = "") 
         graph.push(user)
     return user
 
