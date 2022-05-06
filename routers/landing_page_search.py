@@ -13,7 +13,28 @@ router = APIRouter(
 
 @router.get("/landing/search/{query}", response_model = List[schemas.Training])
 def search(query: str):
-    return {"data": "response"}
+    request = """
+        CALL db.index.fulltext.queryNodes("training", $query) YIELD node
+        MATCH (user)-[:PUBLISH]->(node)
+        RETURN node, user.login as author_login
+    """
+    params = {
+        "query" : query
+    }
+    response = graph.run(request, params)
+    result = []
+    
+    result = [schemas.Training(
+        title = t["node"]["title"],
+        description= t["node"]["description"],
+        mark = t["node"]["mark"],
+        students_number=t["node"]["students_number"],
+        thumbnail=t["node"]["thumbnail"],
+        uuid = t["node"]["uuid"],
+        author_login=t["author_login"]
+    ) for t in response.data()]
+
+    return result
 
 @router.get("/landing/search/filter/{query}", response_model = List[str])
 def filtered_search(query: str):

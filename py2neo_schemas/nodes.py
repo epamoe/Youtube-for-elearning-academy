@@ -94,6 +94,9 @@ class Training(RootGraphObject):
     stack = RelatedTo("Technology", "USE")
     chapters = RelatedTo("Chapter", "CONTAIN")
 
+    class Config: 
+        orm_mode = True
+
 class Chapter(RootGraphObject):
     # __primarykey__ = 'uuid'
 
