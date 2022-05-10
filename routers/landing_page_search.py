@@ -22,7 +22,6 @@ def search(query: str):
         "query" : query
     }
     response = graph.run(request, params)
-    result = []
     
     result = [schemas.Training(
         title = t["node"]["title"],
@@ -38,7 +37,16 @@ def search(query: str):
 
 @router.get("/landing/search/filter/{query}", response_model = List[str])
 def filtered_search(query: str):
-    return {"data": "response"}
+    request = """
+        CALL db.index.fulltext.queryNodes("searchFilter", $query) YIELD node, score
+        RETURN node.content AS content LIMIT 7
+    """
+    params = {
+        "query" : query
+    }
+    response = graph.run(request, params)
+    result = [res["content"] for res in response.data()]
+    return result
 
 @router.get("/landing/domains/get", response_model = List[str])
 def get_domains(): 
