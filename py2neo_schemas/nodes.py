@@ -87,12 +87,20 @@ class Training(RootGraphObject):
 
     users_liking = RelatedFrom("User","LIKE")
     users_following = RelatedFrom("User","FOLLOW")
-    users_rating = RelatedFrom("User","RATE")
+    users_text_review = RelatedFrom("User","REVIEW_TEXT")
+    users_star_review = RelatedFrom("User","REVIEW_STAR")
     publisher = RelatedFrom("User","PUBLISH")
     domain = RelatedTo("Domain", "BELONG")
     tags = RelatedTo("Tag", "DESCRIBE")
     stack = RelatedTo("Technology", "USE")
     chapters = RelatedTo("Chapter", "CONTAIN")
+
+    def compute_mark(self, mark):
+        n = len(self.users_star_review) 
+        if n == 0:
+            self.mark = mark
+            return 
+        self.mark = ( self.mark + mark / n) * n / ( n + 1 )
 
     class Config: 
         orm_mode = True
@@ -137,7 +145,10 @@ class User(RootGraphObject): # User can also be called Learner
     search = RelatedTo("SearchInput", "SEARCH")
     like_training = RelatedTo("Training", "LIKE")
     follow_training = RelatedTo("Training", "FOLLOW")
-    rate_training = RelatedTo("Training", "RATE")
+
+    review_star_training = RelatedTo("Training", "REVIEW_STAR")
+    review_text_training = RelatedTo("Training", "REVIEW_TEXT")
+
     member_node = RelatedFrom("Member", "IS_MEMBER")
     completed_lessons = RelatedTo("Lesson", "COMPLETE_LESSON")
     completed_chapters = RelatedTo("Chapter", "COMPLETE_CHAPTER")
