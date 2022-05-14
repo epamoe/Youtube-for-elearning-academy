@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from functions import find_member
 from oauth2 import get_current_user
 import schemas
-from py2neo_schemas.nodes import Domain
+from py2neo_schemas.nodes import Domain, User
 from typing import List
 from globals import graph
 from py2neo_schemas.nodes import Training
@@ -22,7 +22,6 @@ def search(query: str):
         "query" : query
     }
     response = graph.run(request, params)
-    result = []
     
     result = [schemas.Training(
         title = t["node"]["title"],
@@ -38,7 +37,16 @@ def search(query: str):
 
 @router.get("/landing/search/filter/{query}", response_model = List[str])
 def filtered_search(query: str):
-    return {"data": "response"}
+    request = """
+        CALL db.index.fulltext.queryNodes("searchFilter", $query) YIELD node, score
+        RETURN node.content AS content LIMIT 7
+    """
+    params = {
+        "query" : query
+    }
+    response = graph.run(request, params)
+    result = [res["content"] for res in response.data()]
+    return result
 
 @router.get("/landing/domains/get", response_model = List[str])
 def get_domains(): 
@@ -101,17 +109,14 @@ def training_like(uuid: str, user_login = Depends(get_current_user)):
 
 @router.get("/dashboard/training/review/star/{uuid}")
 def training_star(uuid: str, mark: int, user_login = Depends(get_current_user)):
-    query = """
-        MATCH (u:User{login:$user_login}),(t:Training{uuid:$uuid}) 
-        MERGE (u)-[r:REVIEW_STAR]->(t)
-        SET r.mark = $mark
-    """
-    params = {
-        "user_login" : user_login,
-        "uuid" : uuid,
-        "mark" : mark
-    }
-    graph.run(query, params)
+    user = User.match(graph, user_login).first()
+    training = Training.match(graph).where("_.uuid='" + uuid + "'").first()
+
+    training.compute_mark(mark)
+    user.review_star_training.add(training, mark=mark)
+    graph.push(training)
+    graph.push(user)
+    
 
 @router.get("/dashboard/training/review/text/{uuid}")
 def training_text(uuid: str, content: str, user_login = Depends(get_current_user)):

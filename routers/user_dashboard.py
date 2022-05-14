@@ -1,3 +1,4 @@
+from urllib import response
 from fastapi import APIRouter, Depends, HTTPException,status, Request
 from oauth2 import get_current_user
 from routers.authentication import send_update_address_mail
@@ -135,27 +136,51 @@ def update_password(user_password: schemas.UserUpdatePassword, user_login = Depe
     graph.push(user)
 
 
+
+
 @router.put("/profile/profile_image")
 def update_profile_image(user_profile_image: schemas.UserUpdateProfileImage):
     return user_profile_image
+
+
 
 
 @router.get("/notifications/", response_model = List[schemas.Notification])
 def get_notifications(user_login = Depends(get_current_user)):
     user = User.match(graph, user_login).first()
     return list(user.notifications)
+
+
     
 @router.get("/profile/trainings/", response_model = List[schemas.UserTrainingResponse])
-def get_trainings():
-    ...
+def get_trainings(user_login = Depends(get_current_user)):
+    user = User.match(graph, user_login).first()
+    trainings = list(user.follow_training)
+    response = [{
+        "training" : schemas.Training(
+            uuid = train.uuid,
+            title = train.title,
+            description = train.description,
+            students_number = train.students_number,
+            mark = train.mark,
+            thumbnail = train.thumbnail,
+            author_login = list(train.publisher)[0].login
+        ),
+        "progression" : user.follow_training.get(train,"progression")
+    } for train in trainings]
+
+    return response
+
+
     
 @router.get("/user/training/follow/{uuid}")
 def follow_training(uuid: str, user_login = Depends(get_current_user)):
     user = User.match(graph, user_login).first()
     training = Training.match(graph).where("_.uuid='"+uuid+"'").first()
-    user.follow_training.add(training)
+    user.follow_training.add(training, properties={
+        "progression": 0
+    })
     graph.push(user)
-    ...
     
 @router.get("/expert/apply", status_code=status.HTTP_200_OK)
 def apply(user_login = Depends(get_current_user)):
