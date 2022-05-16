@@ -190,6 +190,9 @@ class Video(GraphObject):
     gathered_by = RelatedFrom("Lesson","GATHER")
     watched_by = RelatedFrom("User","WATCH")
 
+    class Config:
+        orm_mode = True
+
 class EmailUpdateAttempt(GraphObject):
     __primarykey__ = "email"
     
