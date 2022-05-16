@@ -10,7 +10,7 @@ class AccountActivationHandler:
     @classmethod
     def send_activation_mail(self, user: User, activation_code : str, request : Request) -> bool:
         
-        activation_link = "http://" + request.url.netloc + "/authentication/activate/" + activation_code
+        activation_link = "http://" + request.url.netloc + "/activate/" + activation_code
         templates = self.generate_activation_mail(user, activation_link)
         subject="[LFA] Account activation"
         recipient=user.email
