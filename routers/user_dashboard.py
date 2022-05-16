@@ -1,5 +1,8 @@
-from urllib import response
-from fastapi import APIRouter, Depends, HTTPException,status, Request
+from fastapi import APIRouter, Depends, HTTPException,status, Request, UploadFile, File, BackgroundTasks
+# from PIL import Image
+# from os import getcwd
+from functions import resize_image, PATH_FILES
+
 from oauth2 import get_current_user
 from routers.authentication import send_update_address_mail
 import schemas
@@ -136,13 +139,18 @@ def update_password(user_password: schemas.UserUpdatePassword, user_login = Depe
     graph.push(user)
 
 
-
-
 @router.put("/profile/profile_image")
-def update_profile_image(user_profile_image: schemas.UserUpdateProfileImage):
-    return user_profile_image
+async def update_profile_image(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
 
+    # SAVE FILE ORIGINAL
+    with open(PATH_FILES + file.filename, "wb") as myfile:
+        content = await file.read()
+        print(content)
+        # myfile.write(content)
+        myfile.close()
 
+    # RESIZE IMAGES
+    # background_tasks.add_task(resize_image, filename=file.filename)
 
 
 @router.get("/notifications/", response_model = List[schemas.Notification])
@@ -150,8 +158,6 @@ def get_notifications(user_login = Depends(get_current_user)):
     user = User.match(graph, user_login).first()
     return list(user.notifications)
 
-
-    
 @router.get("/profile/trainings/", response_model = List[schemas.UserTrainingResponse])
 def get_trainings(user_login = Depends(get_current_user)):
     user = User.match(graph, user_login).first()
