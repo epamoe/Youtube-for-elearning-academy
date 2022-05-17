@@ -1,0 +1,16 @@
+version: "3"
+services:
+  api:
+    build: .
+    ports: 
+      - 8000:8000
+    volumes:
+      - ./:/usr/src/app:ro
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - GDB_URI=neo4j+s://90de437f.databases.neo4j.io
+      - GDB_USERNAME=neo4j
+      - GDB_PASSWORD=UJtiMLWQXyF-7PthUPwLq4vR5Ibj80gOcmdX68jqy6c
+      - APP_DOMAIN=localhost:8000
+      - MAIL_SENDER_ADDRESS=ytbdev10@gmail.com
+      - MAIL_APP_SENDER_PASSWORD=btkhayxqfpyfnftc
