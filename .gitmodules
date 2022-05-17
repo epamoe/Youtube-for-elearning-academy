@@ -1,0 +1,6 @@
+[submodule "youtubeDevFrontend"]
+	path = youtubeDevFrontend
+	url = https://github.com/YtbDev/youtubeDevFrontend
+[submodule "youtubeDev"]
+	path = youtubeDev
+	url = https://github.com/YtbDev/youtubeDev
