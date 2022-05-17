@@ -32,8 +32,11 @@ async def register(regist_form: UserRegister, request : Request):
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail="Invalid or not existing email"
         )
+
+    login = regist_form.login.lower()
+    email = regist_form.email.lower()
         
-    user = save_user(regist_form.login, regist_form.email, regist_form.password)
+    user = save_user(login, email, regist_form.password)
     try:
         send_activation_mail(user, request)
     except Exception as e:
@@ -43,7 +46,9 @@ async def register(regist_form: UserRegister, request : Request):
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 async def login(login_form: OAuth2PasswordRequestForm = Depends()): 
-    user = find_user(login_form.username, login_form.password)
+    username = login_form.username.lower()
+    
+    user = find_user(username, login_form.password)
     if user:
         if user.activated: 
             access_token = token_handler.create_access_token(
