@@ -5,9 +5,11 @@ from fastapi import HTTPException,status
 from py2neo import Graph
 
 load_dotenv()
+APP_NAME = os.getenv("APP_NAME")
 GDB_URI = os.getenv("GDB_URI")
 GDB_USERNAME = os.getenv("GDB_USERNAME")
 GDB_PASSWORD = os.getenv("GDB_PASSWORD")
+
 try:
     graph = Graph(uri=GDB_URI,auth=(GDB_USERNAME,GDB_PASSWORD))
 except Exception:
