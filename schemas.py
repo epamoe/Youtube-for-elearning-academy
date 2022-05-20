@@ -123,11 +123,11 @@ class LessonUpdate(BaseModel):
 
 #--------------------------------------    LEARNING PAGE   --------------------------------
 class Video(BaseModel):
-    video_id: int
+    video_id: str
     title: str
     viewCount: str
     channel_name: str
-    channel_id: str
+    # channel_id: str
     description: str
     class Config:
         orm_mode = True
