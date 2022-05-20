@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 import token_handler 
 from account_activation_handler import AccountActivationHandler
 from py2neo_schemas.nodes import User
-from globals import graph ,encodeing
+from globals import main_graph ,encodeing
 from functions import encode_password
 from email_validator import validate_email, EmailNotValidError
 from passlib.context import CryptContext
@@ -40,7 +40,7 @@ async def register(regist_form: UserRegister, request : Request):
     try:
         send_activation_mail(user, request)
     except Exception as e:
-        graph.delete(user)
+        main_graph.delete(user)
         raise e
     
 
@@ -79,10 +79,10 @@ async def activate(registration_code:str):
                     status_code=status.HTTP_401_UNAUTHORIZED, 
                     detail="Invalid activation link"
             )
-    user = User.match(graph,strd).first()
+    user = User.match(main_graph,strd).first()
     if user :
         user.activated = True
-        graph.push(user)
+        main_graph.push(user)
     else: 
         raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED, 
@@ -91,7 +91,7 @@ async def activate(registration_code:str):
 
 
 def find_user(login, password):
-    user = User.match(graph).where(f"_.email = '{login}' OR _.login = '{login}'").first()
+    user = User.match(main_graph).where(f"_.email = '{login}' OR _.login = '{login}'").first()
     if not user: 
         return False    
 
@@ -105,7 +105,7 @@ def find_user(login, password):
 
 def save_user(login, email, password):
 
-    user = User.match(graph).where(f"_.login = '{login}' OR _.email = '{email}'").first()
+    user = User.match(main_graph).where(f"_.login = '{login}' OR _.email = '{email}'").first()
 
     if user :
         raise HTTPException(
@@ -115,7 +115,7 @@ def save_user(login, email, password):
     else:
         hashed_password = encode_password(password)
         user = User(login=login, email=email, password = hashed_password, profile_img = None) 
-        graph.push(user)
+        main_graph.push(user)
     return user
 
 

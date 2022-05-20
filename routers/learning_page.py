@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from oauth2 import get_current_user
 from py2neo_schemas.nodes import Lesson, Video
-from globals import graph
+from globals import main_graph, video_graph
 import schemas
 from typing import List
 router = APIRouter(
@@ -12,7 +12,7 @@ router = APIRouter(
 @router.get("/lesson/get/{lesson_uuid}", response_model = List[schemas.Video])
 def get_lesson(lesson_uuid: str, user_login = Depends(get_current_user)):
 
-    lesson = Lesson.match(graph).where("_.uuid='"+lesson_uuid+"'").first()
+    lesson = Lesson.match(main_graph).where("_.uuid='"+lesson_uuid+"'").first()
     query = """
         MATCH (l:Lesson)
         CALL db.index.fulltext.queryNodes("video_matching", $title) YIELD node 
@@ -22,7 +22,7 @@ def get_lesson(lesson_uuid: str, user_login = Depends(get_current_user)):
     params = {
         "title": lesson.title
     }
-    response = graph.run(query,params)
+    response = video_graph.run(query,params)
     videos = [
         Video(
             video_id = res["video_id"],

@@ -6,16 +6,29 @@ from py2neo import Graph
 
 load_dotenv()
 APP_NAME = os.getenv("APP_NAME")
-GDB_URI = os.getenv("GDB_URI")
-GDB_USERNAME = os.getenv("GDB_USERNAME")
-GDB_PASSWORD = os.getenv("GDB_PASSWORD")
+
+MAIN_GDB_URI = os.getenv("MAIN_GDB_URI")
+MAIN_GDB_USERNAME = os.getenv("MAIN_GDB_USERNAME")
+MAIN_GDB_PASSWORD = os.getenv("MAIN_GDB_PASSWORD")
+
+VIDEO_GDB_URI = os.getenv("VIDEO_GDB_URI")
+VIDEO_GDB_USERNAME = os.getenv("VIDEO_GDB_USERNAME")
+VIDEO_GDB_PASSWORD = os.getenv("VIDEO_GDB_PASSWORD")
 
 try:
-    graph = Graph(uri=GDB_URI,auth=(GDB_USERNAME,GDB_PASSWORD))
+    main_graph = Graph(uri=MAIN_GDB_URI,auth=(MAIN_GDB_USERNAME,MAIN_GDB_PASSWORD))
 except Exception:
     raise HTTPException(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        detail="The connection to the database failed"
+        detail="The connection to the main database failed"
+    )
+
+try:
+    video_graph = Graph(uri=VIDEO_GDB_URI,auth=(VIDEO_GDB_USERNAME,VIDEO_GDB_PASSWORD))
+except Exception:
+    raise HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail="The connection to the videos database failed"
     )
 
 encodeing='utf8'

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from functions import find_member
 from oauth2 import get_current_user
-from globals import graph 
+from globals import main_graph 
 from py2neo_schemas.nodes import User, Training, Chapter, Lesson
 import schemas
 from typing import List
@@ -39,7 +39,7 @@ def create_trainings(training: schemas.TrainingCreate, user_login = Depends(get_
         mark = 0
     )
     member.published_trainings.add(new_training)
-    graph.push(member)
+    main_graph.push(member)
 
 @router.post("/training/chapter/create/")
 def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_current_user)):
@@ -47,7 +47,7 @@ def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_curr
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    training = Training.match(graph).where("_.uuid='"+chapter.training_uuid+"'").first()
+    training = Training.match(main_graph).where("_.uuid='"+chapter.training_uuid+"'").first()
     if not list(training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
@@ -58,7 +58,7 @@ def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_curr
         rank_nb=chapter.rank_nb
     )
     training.chapters.add(new_chapter)
-    graph.push(training)
+    main_graph.push(training)
 
 @router.post("/training/chapter/lesson/create/")
 def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current_user)):
@@ -67,7 +67,7 @@ def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current
     member = find_member(user_login)
 
     # Getting the chapter attached to the lesson and identified by chapter_id
-    chapter = Chapter.match(graph).where("_.uuid = '"+lesson.chapter_uuid+"'").first()
+    chapter = Chapter.match(main_graph).where("_.uuid = '"+lesson.chapter_uuid+"'").first()
     training = list(chapter.contained_by)[0]
     if not list(training.publisher)[0].login == member.login:
         raise HTTPException(
@@ -81,7 +81,7 @@ def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current
         rank_nb=lesson.rank_nb
     )
     chapter.subdivide.add(new_lesson)
-    graph.push(chapter)
+    main_graph.push(chapter)
     ...
 
 @router.put("/training/")
@@ -89,7 +89,7 @@ def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    training_node = Training.match(graph).where("_.uuid = '"+training.uuid+"'").first()
+    training_node = Training.match(main_graph).where("_.uuid = '"+training.uuid+"'").first()
     if not training_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -105,14 +105,14 @@ def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_
     training_node.title = training.title
     training_node.description = training.description
     training_node.thumbnail = training.thubmnail
-    graph.push(training_node)
+    main_graph.push(training_node)
 
 @router.put("/training/chapter/")
 def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    chapter_node = Chapter.match(graph).where("_.uuid = '"+chapter.uuid+"'").first()
+    chapter_node = Chapter.match(main_graph).where("_.uuid = '"+chapter.uuid+"'").first()
     if not chapter_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -125,14 +125,14 @@ def update_chapter(chapter: schemas.ChapterUpdate, user_login = Depends(get_curr
             detail="Only the trainings author can modify it"
         )
     chapter_node.title = chapter.title
-    graph.push(chapter_node)
+    main_graph.push(chapter_node)
 
 @router.put("/training/chapter/lesson/")
 def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    lesson_node = Lesson.match(graph).where("_.uuid = '"+lesson.uuid+"'").first()
+    lesson_node = Lesson.match(main_graph).where("_.uuid = '"+lesson.uuid+"'").first()
     if not lesson_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -148,14 +148,14 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
         )
     lesson_node.title = lesson.title
     # lesson_node.rank_nb = lesson.rank_nb
-    graph.push(lesson_node)
+    main_graph.push(lesson_node)
 
 @router.delete("/training/{uuid}")
 def delete_trainings(uuid: str, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    training_node = Training.match(graph).where("_.uuid = '"+uuid+"'").first()
+    training_node = Training.match(main_graph).where("_.uuid = '"+uuid+"'").first()
     if not training_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -167,7 +167,7 @@ def delete_trainings(uuid: str, user_login = Depends(get_current_user)):
             detail="Only the training's author can delete it"
         )
 
-    graph.run("MATCH (t:Training{uuid:'"+uuid+"'})-[r1:CONTAIN]->(c:Chapter)-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available, t:Available")
+    main_graph.run("MATCH (t:Training{uuid:'"+uuid+"'})-[r1:CONTAIN]->(c:Chapter)-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available, t:Available")
 
 @router.delete("/training/chapter/{uuid}")
 def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
@@ -175,7 +175,7 @@ def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    chapter_node = Chapter.match(graph).where("_.uuid = '"+uuid+"'").first()
+    chapter_node = Chapter.match(main_graph).where("_.uuid = '"+uuid+"'").first()
     if not chapter_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -188,7 +188,7 @@ def delete_chapter(uuid: str, user_login = Depends(get_current_user)):
             detail="Only the trainings author can modify it"
         )
     
-    graph.run("MATCH (c:Chapter{uuid:'"+uuid+"'})-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available")
+    main_graph.run("MATCH (c:Chapter{uuid:'"+uuid+"'})-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available")
 
 
 @router.delete("/training/chapter/lesson/{uuid}")
@@ -196,7 +196,7 @@ def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    lesson_node = Lesson.match(graph).where("_.uuid = '"+uuid+"'").first()
+    lesson_node = Lesson.match(main_graph).where("_.uuid = '"+uuid+"'").first()
     if not lesson_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -211,4 +211,4 @@ def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
             detail="Only the trainings author can modify it"
         )
     
-    graph.run("MATCH (l:Lesson{uuid:'"+uuid+"'}) REMOVE l:Available")
+    main_graph.run("MATCH (l:Lesson{uuid:'"+uuid+"'}) REMOVE l:Available")
