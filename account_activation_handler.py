@@ -10,7 +10,7 @@ class AccountActivationHandler:
     @classmethod
     def send_activation_mail(self, user: User, activation_code : str, request : Request) -> bool:
         
-        activation_link = "http://" + request.url.netloc + "/activate/" + activation_code
+        activation_link = request.url.scheme + "://" + request.url.netloc + "/activate/" + activation_code
         templates = self.generate_activation_mail(user, activation_link)
         subject="[LFA] Account activation"
         recipient=user.email
@@ -25,7 +25,7 @@ class AccountActivationHandler:
     @classmethod
     def send_update_address_mail(self, user: User, activation_code : str, recipient_address: str, request : Request) -> bool:
         
-        activation_link = "http://" + request.url.netloc + "/dashboard/profile/email/confirm/" + activation_code
+        activation_link = request.url.scheme + "://" + request.url.netloc + "/dashboard/profile/email/confirm/" + activation_code
         templates = self.generate_update_address_mail(user, activation_link)
         subject="[LFA] Account email address update"
         recipient=recipient_address
@@ -42,14 +42,17 @@ class AccountActivationHandler:
         # return the mail created
         
         html_template = f"""
-            <p>Hello <b>{user.login}</b>
-            <br>This is your LFA account activation link</p>
-            
-            <h3>{activation_link}</h3>
+        <div class="container" style="text-align: center;">
+            <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; font-size: 1.5rem;">Hello <span style="font-weight: bold; text-transform: capitalize;">{user.login}</span></p>
+            <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; font-size: 1.5rem;">There is one last step to get your account on our platform. Just click on this activation button</p>
+
+            <a href="{activation_link}"><button style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 1.5rem; background-color: rgb(0, 195, 255); padding: 0.7rem 1rem; color: white; border: 0; border-radius: 4px; box-shadow: 0 0 4px #ccc;">Activate account</button></a>
+        </div>
 		"""
         text_template = f"""
             Hello {user.login}
-            This is your LFA account activation link
+            There is one last step to get your account on our platform. Just click on this activation link
+            You can also copy it and paste it in your navigator's address bar
             
             {activation_link}
 		"""
@@ -62,10 +65,12 @@ class AccountActivationHandler:
     def generate_update_address_mail(self, user:User, update_address_link : str) -> dict:
         
         html_template = f"""
-            <p>Hello <b>{user.login}</b>
-            <br>You've attempted to replace your LFA account email address by this one. Click on the link bellow to validate it, of just ignore it if you are not {user.login}</p>
-            
-            <h3>{update_address_link}</h3>
+            <div class="container" style="text-align: center;">
+                <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; font-size: 1.5rem;">Hello <span style="font-weight: bold; text-transform: capitalize;">{user.login}</span></p>
+                <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; font-size: 1.5rem;">You've attempted to replace your LFA account email address by this one. Click on the link bellow to validate it, of just ignore it if you are not {user.login}</p>
+
+                <a href="{update_address_link}"><button style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 1.5rem; background-color: rgb(0, 195, 255); padding: 0.7rem 1rem; color: white; border: 0; border-radius: 4px; box-shadow: 0 0 4px #ccc;">Update Address</button></a>
+            </div>
 		"""
         text_template = f"""
             Hello {user.login}
