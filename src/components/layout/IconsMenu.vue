@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center h-full justify-between flex-col pt-5">
+  <div class="flex items-center h-full justify-between flex-col pt-5 relative">
     <div class="">
       <div class="flex justify-center flex-col">
         <div class="bg-black m-2 text-white text-center py-3 mb-10">icon</div>
@@ -21,7 +21,7 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'UserDashboard' }"
+          :to="{ name: 'MemberDashboard' }"
           class="block p-3 m-1 rounded-xl"
         >
           <svg
@@ -96,9 +96,10 @@
     </div>
     <div class="flex justify-between flex-col">
       <div class="flex flex-col">
-        <router-link
+        <button
           :to="{ name: 'Dashboard' }"
           class="block px-2 py-4 m-1 rounded-xl"
+          @click.prevent="out"
         >
           <svg
             width="23"
@@ -113,7 +114,7 @@
               fill="white"
             />
           </svg>
-        </router-link>
+        </button>
         <router-link
           :to="{ name: 'Dashboard' }"
           class="block px-2 py-4 m-1 rounded-xl"
@@ -133,23 +134,51 @@
           </svg>
         </router-link>
       </div>
-        <router-link
-          :to="{ name: 'Dashboard' }"
-          class="block p-3 m-1 rounded-xl"
-        >
-          <img src="/images/women.png" width="40" />
-        </router-link>
+      <button class="block p-3 m-1 rounded-xl" @click="showUserInfo">
+        <img src="/images/women.png" width="40" />
+      </button>
     </div>
+
+      <div class="absolute bg-gray-100 rounded px-5 py-2 w-fit user-info left-16 text-sm z-50" v-if="userInformation">
+        <ul>
+          <li class="mb-2"><a href="http://">profile</a></li>
+          <li class="mb-2"><a href="http://">profile</a></li>
+          <hr class="my-2"/>
+          <li><a href="http://" @click.prevent="out">logOut</a></li>
+        </ul>
+      </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      userInformation: false,
+    };
+  },
+  methods: {
+    ...mapActions(["logOut"]),
+    out() {
+      this.logOut();
+      this.$router.push({
+        name: 'Login'
+      })
+    },
+    showUserInfo() {
+      this.userInformation = !this.userInformation;
+    },
+  },
+};
 </script>
 
 <style>
 .router-link-exact-active {
   background-color: #45a4ff;
   border: none;
+}
+.user-info{
+  bottom: -1rem;
 }
 </style>

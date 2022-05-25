@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="content mt-5">
     <h1 class="text-3xl font-bold mb-5 p-5">Content</h1>
     <Section
       num="1"

@@ -19,15 +19,5 @@ export default {
 </script>
 
 <style>
-.border-r-1 {
-  border-right-width: 1px;
-}
-.border-1 {
-  border-width: 1px;
-}
-.form,
-.input,
-.form div div select {
-  background-color: #e5e5e5;
-}
+
 </style>

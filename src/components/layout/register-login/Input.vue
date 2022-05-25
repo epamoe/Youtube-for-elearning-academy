@@ -9,6 +9,8 @@
       :id="title"
       class="rounded-lg w-full form-input"
       :placeholder="placeholder"
+      v-model="inputFil"
+      @change="$emit('changeInput', inputFil)"
     />
     <button class="absolute top-11 right-4" v-if="type === 'password' && show" @click="dontShowPassword">
       <svg
@@ -55,7 +57,8 @@ export default {
   data() {
       return{
           show : false,
-          exactType : this.type
+          exactType : this.type,
+          inputFil:''
       }
   },
   methods: {

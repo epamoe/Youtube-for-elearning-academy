@@ -15,7 +15,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
     .flex.font-medium.text-lg a{
         background-color: transparent;
     }

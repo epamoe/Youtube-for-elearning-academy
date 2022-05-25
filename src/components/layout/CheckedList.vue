@@ -12,7 +12,24 @@
         checked:ring-0
         border-none
       "
-      :class="rounded ? 'rounded-full' : ''"
+      :class="rounded === 'true' ? 'rounded-full' : ''"
+      checked
+      v-if="check === '1'"
+    />
+    <input
+      type="checkbox"
+      class="
+        mr-5
+        p-2
+        bg-blue-600
+        default:right-0
+        ring-0
+        active:ring-0
+        checked:ring-0
+        border-none
+      "
+      :class="rounded === 'true' ? 'rounded-full' : ''"
+      v-if="check !== '1'"
     />
     <span class="text-sm">{{ item }}</span>
   </div>
@@ -22,7 +39,8 @@
 export default {
     props: {
         item: String,
-        rounded: Boolean
+        rounded: String,
+        check: String,
     }
 };
 </script>

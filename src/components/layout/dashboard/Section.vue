@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white mt-2">
     <div class="p-5 relative">
-      <h2 class="text-xl font-semibold">Section {{ num }}: {{ title }}</h2>
+      <h2 class="text-lg font-semibold">Section {{ num }}: {{ title }}</h2>
       <p class="text-sm font-semibold">5/5 |10min</p>
       <button class="absolute right-4 top-8" v-if="show" @click="show = !show">
         <svg

@@ -1,7 +1,16 @@
 <template>
   <div class="p-3 text-center bg-gray-300 text-9xl">logo</div>
   <h1 class="text-4xl font-bold my-14 text-center">
-    <a href="http://" class>{{ title }}</a>
+    <router-link
+      :to="{ name: 'Register'}"
+      v-if="title === 'Log In'"
+      >{{ title }}</router-link
+    >
+    <router-link
+      :to="{ name: 'Login' }"
+      v-if="title !== 'Log In'"
+      >{{ title }}</router-link
+    >
   </h1>
   <div class="flex justify-between relative">
     <div class="relative">
@@ -60,8 +69,13 @@ export default {
 };
 </script>
 
-<style>
+
+<style scoped>
 .left-net {
   left: calc(50% - 8.5px);
+}
+
+a {
+  background: transparent !important;
 }
 </style>
