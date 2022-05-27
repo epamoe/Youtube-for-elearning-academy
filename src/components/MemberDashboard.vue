@@ -11,7 +11,7 @@
           <div class="absolute top-24 left-10">
             <button class="hover:opacity-80" @click="editProfile" >
               <img
-                :src="getUser.profile.image_path_profile"
+                :src="getUser.profile.profile_image"
                 class="h-28 border-8 border-white rounded-full"
               />
             </button>
