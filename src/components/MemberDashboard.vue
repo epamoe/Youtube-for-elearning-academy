@@ -6,12 +6,12 @@
         <h2 class="text-xl font-bold mb-1">Member</h2>
         <div class="w-full relative">
           <button class="bg h-fit w-full" @click="editProfile">
-            <img src="/images/bg-member.png" class="w-full"/>
+            <img :src="getUser.profile.image_path" class="w-full"/>
           </button>
           <div class="absolute top-24 left-10">
             <button class="hover:opacity-80" @click="editProfile" >
               <img
-                src="/images/member.png"
+                :src="getUser.profile.image_path_profile"
                 class="h-28 border-8 border-white rounded-full"
               />
             </button>
@@ -28,9 +28,9 @@
           >
             <div class="w-1/4 mx-auto">
               <button class="font-semibold mb-2">
-                <a href="http://">ChrisAfrotech</a>
+                <a href="http://">{{getUser.profile.login}}</a>
               </button>
-              <p class="text-sm mb-2">tchiaguiachristophe25@gmail.com</p>
+              <p class="text-sm mb-2">{{getUser.profile.email}}</p>
               <button class="text-sm rounded-lg bg-amber-500 w-fit p-1 mb-5">
                 <a href="http://">Yaounde, CAMEROON</a>
               </button>
@@ -127,6 +127,7 @@ import RouterLink from './layout/RouterLink.vue'
 import Edit from './layout/member-dashboard/Edit.vue'
 import Statistics from './layout/member-dashboard/Statistics.vue'
 import AdditonalDetails from './layout/member-dashboard/AdditonalDetails.vue'
+import {mapGetters, mapActions} from 'vuex'
 
 
 const stats = [
@@ -152,7 +153,7 @@ const stats = [
   },
 ]
 
-const ListOfLinks = ['Overview', 'Posts', 'Syllabus', 'Events', 'More'];
+const ListOfLinks = ['Overview', 'FollowedSyllabus', 'Syllabus', 'NewSyllabus'];
 const col = ListOfLinks.length
 export default {
   components: {
@@ -171,10 +172,18 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getProfile']),
     editProfile(){
       console.log('profile edit ...')
     }
-  }
+  },
+  created(){
+    this.getProfile()
+  },
+  computed: {
+    ...mapGetters(['getUser']),
+  },
+
 };
 </script>
 

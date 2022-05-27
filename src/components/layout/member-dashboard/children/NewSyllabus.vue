@@ -1,5 +1,7 @@
 <template>
-   <Edit title="Add a new Syllabus" @button-click="addSyllabus" />
+   <div class="relative">
+     <Edit title="Add a new Syllabus" @button-click="addSyllabus" />
+   </div>
 </template>
 
 <script setup>

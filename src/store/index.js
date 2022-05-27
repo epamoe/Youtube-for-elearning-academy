@@ -4,43 +4,24 @@ import {
 } from "vuex"
 import axiosClient from "../axios/axios";
 import qs from 'qs'
+import { useRouter } from "vue-router";
 
+const router = useRouter()
 
 const store = createStore({
     state: {
-        stats: [
-          {
-            color: 'orange',
-            per: 2,
-            title: 'SYLLABUS FOLLOW '
-          },
-          {
-            color: 'green',
-            per: 1,
-            title: 'VIDEOS COMMENT'
-          },
-          {
-            color: 'blue',
-            per: 3,
-            title: 'VIDEOS SHARED'
-          },
-          {
-            color: 'red',
-            per: 4,
-            title: 'VIDEOS LIKED'
-          },
-        ],
         user: {
-            data: {
+            profile: {
                 login:'ChristAfroTech',
                 email: 'tchiaguiachristophe25@gmail.com',
                 image_path:'/images/bg-member.png',
-                image_path_profile:'/images/member.png',
-                description: 'orem ipsum dolor sit amet consectetur adipisicing elit. Dicta harum magni ducimus rerum dolorem, laborum nam amet, molestiae alias ullam quae iste? Dolore excepturi ullam deleniti sunt expedita, voluptas recusandae?',
-                listTrainingFollow: [],
-                trainingList: [],
+                profile_image:'/images/member.png',
+                experiences: []
+                //description: 'orem ipsum dolor sit amet consectetur adipisicing elit. Dicta harum magni ducimus rerum dolorem, laborum nam amet, molestiae alias ullam quae iste? Dolore excepturi ullam deleniti sunt expedita, voluptas recusandae?',
+                //listTrainingFollow: [],
+                //trainingList: [],
             },
-            token: '1'//sessionStorage.getItem('TOKEN'),
+            token: sessionStorage.getItem('TOKEN'),
         },
         training: {
             comments: [
@@ -502,7 +483,9 @@ const store = createStore({
                     ]
                 },
             ]
-        }
+        },
+        baseUrl: 'https://youtubedev-api.herokuapp.com/',
+        displayCheckEmail: false
     },
     getters: {
         getUser: (state) => state.user,
@@ -510,21 +493,18 @@ const store = createStore({
         getStats: (state) => state.stats
     },
     actions: {
-        async register({
-            commit
-        }, user) {
+        async register({commit}, user) {
             const response = await axiosClient.post('/register', user)
                 .then(function (response) {
                     console.log(response);
+                    router.push({name: "Login"})
                     return response;
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         },
-        async login({
-            commit
-        }, user) {
+        async login({commit}, user) {
             const response = await axios({
                     method: 'post',
                     url: 'https://youtubedev-api.herokuapp.com/login',
@@ -537,14 +517,26 @@ const store = createStore({
                 .then(function (response) {
                     console.log(response);
                     return response
+                    commit('setUserToken', response.data)
                 })
                 .catch(function (error) {
                     console.log(error);
+                    return error
                 });
-            commit('setUserToken', response.data)
         },
         logOut({commit}){
             commit('logout')
+        },
+        async getProfile({commit}){
+            const response = await axiosClient.get('/dashboard/profile')
+                    .then(function(res){
+                        commit('setUserProfile', res.data)
+                    })
+                    .catch(function(err){
+                        console.log(error);
+                        return error
+                    })
+            
         }
     },
     mutations: {
@@ -555,9 +547,19 @@ const store = createStore({
             console.log(state.user)
         },
         setUserToken: (state, userData) => {
-            state.user.token = userData.token
-            sessionStorage.setItem('TOKEN', userData.token)
+            state.user.token = userData.access_token
+            sessionStorage.setItem('TOKEN', userData.access_token)
+            console.log(userData.access_token)
         },
+        setUserProfile: (state, profile) => {
+            state.user.profile.login = profile.login
+            state.user.profile.email = profile.email
+            state.user.profile.profile_image = profile.profile_image
+            state.user.profile.experiences = profile.experiences
+        },
+        cDisplayCheckmail (state,playload) {
+            state.displayCheckEmail = playload
+        }
     },
     modules: {},
 })
