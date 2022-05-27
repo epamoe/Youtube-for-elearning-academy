@@ -1,6 +1,6 @@
 <template>
   <div class="flex font-medium border-b-1 text-lg text-center">
-    <router-link :class="'w-1/4'" v-for="link in ListOfLink" :to="{ name: link }"
+    <router-link :class="'w-1/4'" v-for="link in ListOfLinks" :to="{ name: link }"
       :key="link"><span>{{ link }}</span></router-link
     >
   </div>
@@ -9,7 +9,7 @@
 <script>
 export default {
     props: {
-        ListOfLink: Object,
+        ListOfLinks: Object,
         col: Number
     }
 };

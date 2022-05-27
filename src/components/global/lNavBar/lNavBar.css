@@ -1,0 +1,44 @@
+.lNavBar {
+  display: flex;
+  left: 0px;
+  top:0px;
+  width: 100%;
+  padding: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display: flex;
+  color: black;
+}
+.lNavLogo {
+  width: 50%;
+  text-align: center;
+}
+.lNavLogo div {
+  width: 100px;
+  padding: 5px;
+  background-color: silver;
+}
+
+.lNavLogo + div {
+  width: 50%;
+  display: flex;
+}
+.lNavMenu {
+  width: 50%;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.lNavMenu > div {
+  width: 33.33%;
+}
+
+.lNavMenu + div {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

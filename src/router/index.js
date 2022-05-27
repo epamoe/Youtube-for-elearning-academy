@@ -11,9 +11,8 @@ import FollowedSyllabus from "../components/layout/member-dashboard/children/Fol
 import Syllabus from "../components/layout/member-dashboard/children/Syllabus.vue"
 import NewSyllabus from "../components/layout/member-dashboard/children/NewSyllabus.vue"
 import Dashboard from "../components/Dashboard.vue"
-import Register from "../components/Register.vue"
-import Login from "../components/Login.vue"
-import Auth from "../components/Auth.vue"
+import Inscription from '../components/identification/Inscription.vue'
+import Login from '../components/identification/Login.vue'
 import MemberDashboard from "../components/MemberDashboard.vue"
 import NotFound from "../components/NotFound.vue"
 import Home from "../components/Home.vue"
@@ -80,29 +79,23 @@ const routes = [{
 		]
 	},
 	{
-		path: "/auth",
-		redirect: "/login",
-		name: "Auth",
-		component: Auth,
+		path: "/register",
+		name: "Register",
 		meta: {isGuest: true},
-		children: [
-			{
-				path: "/register",
-				name: "Register",
-				component: Register,
-			},
-			{
-				path: "/login",
-				name: "Login",
-				component: Login,
-			},
-		]
+		component: Inscription,
+	},
+	{
+		path: "/login",
+		name: "Login",
+		meta: {isGuest: true},
+		component: Login,
 	},
 	{
 		path: '/:catchAll(.*)',
 		name: 'NotFound',
 		component: NotFound
 	},
+	
 
 ]
 
