@@ -533,8 +533,8 @@ const store = createStore({
                         commit('setUserProfile', res.data)
                     })
                     .catch(function(err){
-                        console.log(error);
-                        return error
+                        console.log(err);
+                        return err
                     })
             
         }
