@@ -28,12 +28,7 @@ export default {
     register(user) {
       store
         .dispatch("register", user)
-        .then((res) => {
-          if(res){
-            this.router.push({name:'Login'})
-          }
-        });
-      console.log(user);
+        this.router.push({name:'Login'})
     },
   },
   setup() {
