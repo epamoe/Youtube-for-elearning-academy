@@ -38,7 +38,10 @@
                         Forgot password
                     </div>
                 </div>
-                <div @click='toNext' class="insButtonI0" >SIgn up</div>
+                <div @click='toNext' class="insButtonI0" >Sign up</div>
+                <div style="font-size:12px;text-align:center;margin-top:40px;font-weight:bold" class="loginDont" > Have you an account ? 
+                    <a style="color:#1C8EFB;" href="login">sign in</a>
+                </div>
             </form>
         </div>
     </div>
