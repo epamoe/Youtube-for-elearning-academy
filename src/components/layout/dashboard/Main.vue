@@ -2,11 +2,11 @@
   <div class="grid gap-5 grid-cols-12 my-5">
     <div class="col-span-9">
       <FormSearch />
-      <Video></Video>
+      <Video :videos="videos !== {} ? getTraining.chapiters[0].lessons[0].videos : videos"></Video>
     </div>
     <div class="col-span-3 w-full">
       <IconsProfil />
-      <Content></Content>
+      <Content @emit-video="setVideos" :chapiters="getTraining.chapiters"></Content>
     </div>
   </div>
 </template>
@@ -16,14 +16,29 @@ import Video from "./Video.vue";
 import Content from "./Content.vue";
 import IconsProfil from "../IconsProfil.vue";
 import FormSearch from "../FormSearch.vue";
+import {mapGetters} from 'vuex'
 
 export default {
+  data() {
+    return {
+      videos: {}
+    }
+  },
   components: {
     Video,
     Content,
     IconsProfil,
     FormSearch,
   },
+  computed: {
+    ...mapGetters(['getTraining']),
+  },
+  methods: {
+    setVideos(videos){
+      console.log(videos);
+      this.videos = videos
+    }
+  }
 };
 </script>
 

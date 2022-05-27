@@ -14,11 +14,12 @@
 <script>
 import Main from "./layout/dashboard/Main.vue";
 import Aside from "./layout/dashboard/Aside.vue";
+
 export default {
   components: {
     Main,
     Aside,
-  },
+  }
 };
 </script>
 

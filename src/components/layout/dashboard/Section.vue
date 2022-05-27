@@ -35,7 +35,7 @@
   </div>
   <transition name="show-section">
     <div class="p-5 mb-2" v-if="show">
-      <CheckedList :item="item" v-for="item in listOfTopics" :key="item" ></CheckedList>
+      <CheckedList @lesson-video="$emit('videoLesson', lesson)" :item="lesson.title" v-for="lesson in lessons" :key="lesson" ></CheckedList>
     </div>
   </transition>
 </template>
@@ -43,10 +43,11 @@
 <script>
 import CheckedList from '../CheckedList.vue'
 export default {
+  emits: ['videoLesson'],
   props: {
     title: String,
     num: String,
-    listOfTopics: Object,
+    lessons: Object,
   },
   components: {
     CheckedList
