@@ -31,7 +31,7 @@
       :class="rounded === 'true' ? 'rounded-full' : ''"
       v-if="check !== '1'"
     />
-    <span class="text-sm">{{ item }}</span>
+    <a href="htttp//:" @click.prevent="$emit('lessonVideo')" class="text-sm">{{ item }}</a>
   </div>
 </template>
 

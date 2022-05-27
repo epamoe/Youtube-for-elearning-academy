@@ -4,7 +4,7 @@
       class="w-full aspect-video"
       width="935"
       height="315"
-      src="https://www.youtube.com/embed/xCnrI6IdsrI"
+      :src="videos[0].link"
     ></iframe>
     <input type="range" name="" id="" class="w-full" />
     <div class="flex justify-between items-center">
@@ -187,23 +187,13 @@
     <div class="my-3">
       <h2 class="text-2xl font-semibold my-4">Related Videos</h2>
       <div class="grid grid-cols-4 gap-4">
-        <div>
-          <img src="/images/dev-javascript.png" alt="" class="w-full" />
-          <a href="http://"><p>lorem ipsum</p></a>
-          <span class="text-xs">5|10 min</span>
-        </div>
-        <div>
-          <img src="/images/mobile-dev.png" alt="" class="w-full" />
-          <a href="http://"><p>lorem ipsum</p></a>
-          <span class="text-xs">5|10 min</span>
-        </div>
-        <div>
-          <img src="/images/dev-angular.png" alt="" class="w-full" />
-          <a href="http://"><p>lorem ipsum</p></a>
-          <span class="text-xs">5|10 min</span>
-        </div>
-        <div>
-          <img src="/images/dev-javascript.png" alt="" class="w-full" />
+        <div v-for="video in videos.filter(video => video.id !== '1')" :key="video.id">
+          <iframe
+            class="w-full aspect-video"
+            width="935"
+            height="100"
+            :src="video.link"
+          ></iframe>
           <a href="http://"><p>lorem ipsum</p></a>
           <span class="text-xs">5|10 min</span>
         </div>
@@ -219,22 +209,27 @@
 </template>
 
 <script>
-import RouterLink from '../RouterLink.vue'
+import RouterLink from "../RouterLink.vue";
 
-const ListOfLinks = ['Presentation', 'Chat', 'Testimonies', 'Links'];
-const col = ListOfLinks.length
+const ListOfLinks = ["Presentation", "Chat", "Testimonies", "Links"];
+const col = ListOfLinks.length;
 export default {
+  props: {
+    videos: Object,
+  },
   data() {
     return {
       showBar: false,
       showBar1: false,
+      videosListTemp: [],
+      videosList: [],
     };
   },
   setup() {
     return {
       ListOfLinks,
-      col
-    }
+      col,
+    };
   },
   components: {
     RouterLink,
@@ -244,7 +239,7 @@ export default {
 </script>
 
 <style>
-.flex.font-medium.text-lg .router-link-exact-active{
+.flex.font-medium.text-lg .router-link-exact-active {
   position: relative;
 }
 .flex.font-medium.text-lg .router-link-exact-active::after {

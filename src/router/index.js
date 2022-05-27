@@ -7,15 +7,15 @@ import Links from "../components/layout/dashboard/children/Links.vue"
 import Testimonies from "../components/layout/dashboard/children/Testimonies.vue"
 import Presentation from "../components/layout/dashboard/children/Presentation.vue"
 import Overview from "../components/layout/member-dashboard/children/Overview.vue"
-import Posts from "../components/layout/member-dashboard/children/Posts.vue"
+import FollowedSyllabus from "../components/layout/member-dashboard/children/FollowedSyllabus.vue"
 import Syllabus from "../components/layout/member-dashboard/children/Syllabus.vue"
-import Events from "../components/layout/member-dashboard/children/Events.vue"
-import More from "../components/layout/member-dashboard/children/More.vue"
+import NewSyllabus from "../components/layout/member-dashboard/children/NewSyllabus.vue"
 import Dashboard from "../components/Dashboard.vue"
 import Register from "../components/Register.vue"
 import Login from "../components/Login.vue"
 import Auth from "../components/Auth.vue"
 import MemberDashboard from "../components/MemberDashboard.vue"
+import NotFound from "../components/NotFound.vue"
 import Home from "../components/Home.vue"
 import store from "../store/index"
 
@@ -61,9 +61,9 @@ const routes = [{
 						component: Overview,
 					},
 					{
-						path: "/member-dashboard/posts",
-						name: "Posts",
-						component: Posts,
+						path: "/member-dashboard/followed-syllabus",
+						name: "FollowedSyllabus",
+						component: FollowedSyllabus,
 					},
 					{
 						path: "/member-dashboard/syllabus",
@@ -71,14 +71,9 @@ const routes = [{
 						component: Syllabus,
 					},
 					{
-						path: "/member-dashboard/events",
-						name: "Events",
-						component: Events,
-					},
-					{
-						path: "/member-dashboard/more",
-						name: "More",
-						component: More,
+						path: "/member-dashboard/new-syllabus",
+						name: "NewSyllabus",
+						component: NewSyllabus,
 					},
 				]
 			},
@@ -102,6 +97,11 @@ const routes = [{
 				component: Login,
 			},
 		]
+	},
+	{
+		path: '/:catchAll(.*)',
+		name: 'NotFound',
+		component: NotFound
 	},
 
 ]

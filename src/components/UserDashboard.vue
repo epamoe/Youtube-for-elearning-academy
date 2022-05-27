@@ -6,12 +6,12 @@
         <h2 class="text-xl font-bold mb-1">Member</h2>
         <div class="w-full relative">
           <button class="bg h-fit w-full">
-            <img src="/images/bg-member.png" class="w-full"/>
+            <img :src="getUser.image_path" class="w-full"/>
           </button>
           <div class="absolute top-24 left-10">
             <button class="">
               <img
-                src="/images/member.png"
+                :src="getUser.image_path_profile"
                 class="h-28 border-8 border-white rounded-full"
               />
             </button>
@@ -28,9 +28,9 @@
           >
             <div class="w-1/4 mx-auto">
               <button class="font-semibold mb-2">
-                <a href="http://">ChrisAfrotech</a>
+                <a href="http://">{{getUser.login}}</a>
               </button>
-              <p class="text-sm mb-2">tchiaguiachristophe25@gmail.com</p>
+              <p class="text-sm mb-2">{{getUser.email}}</p>
               <button class="text-sm rounded-lg bg-amber-500 w-fit p-1 mb-5">
                 <a href="http://">Yaounde, CAMEROON</a>
               </button>
@@ -99,7 +99,7 @@
         </div>
       </div>
       <div class="mt-7 mb-0">
-        <RouterLink :ListOfLinks="ListOfLinks" :col="col"></RouterLink>
+        <RouterLink :ListOfLink="ListOfLink" :col="col"></RouterLink>
       </div>
       <div class="pl-10 py-10">
         <router-view></router-view>
@@ -109,7 +109,7 @@
       <IconsProfil></IconsProfil>
       <div class="flex flex-col gap-4 mt-10">
         <div class="rounded-xl border-2 p-4">
-          <Statistics :stats="stats"></Statistics>
+          <Statistics :stats="getStats"></Statistics>
         </div>
         <div class="rounded-xl border-2 p-4 mb-5 relative">
           <AdditonalDetails :user="user"></AdditonalDetails>
@@ -127,33 +127,14 @@ import RouterLink from './layout/RouterLink.vue'
 import Edit from './layout/user-dashboard/Edit.vue'
 import Statistics from './layout/user-dashboard/Statistics.vue'
 import AdditonalDetails from './layout/user-dashboard/AdditonalDetails.vue'
+import {mapGetters} from 'vuex'
 
 
-const stats = [
-  {
-    color: 'orange',
-    per: 2,
-    title: 'SYLLABUS FOLLOW '
-  },
-  {
-    color: 'green',
-    per: 1,
-    title: 'VIDEOS COMMENT'
-  },
-  {
-    color: 'blue',
-    per: 3,
-    title: 'VIDEOS SHARED'
-  },
-  {
-    color: 'red',
-    per: 4,
-    title: 'VIDEOS LIKED'
-  },
-]
 
-const ListOfLinks = ['Overview', 'Posts', 'Syllabus', 'Events', 'More'];
-const col = ListOfLinks.length
+const 
+
+const ListOfLink = ['Overview', 'FollowedSyllabus', 'Syllabus', 'NewSyllabus'];
+const col = ListOfLink.length
 export default {
   components: {
     IconsProfil,
@@ -165,11 +146,14 @@ export default {
   },
   setup() {
     return {
-      ListOfLinks,
+      ListOfLink,
       col,
       stats
     }
   },
+  computed: {
+    ...mapGetters(['getUser', 'getStats']),
+  }
 };
 </script>
 

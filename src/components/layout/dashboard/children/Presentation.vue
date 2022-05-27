@@ -3,23 +3,36 @@
     <h2 class="text-3xl font-bold">About this page</h2>
     <h3 class="text-2xl my-3 font-semibold">Description</h3>
     <p class="text-sm">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi autem
-      quos, adipisci exercitationem deserunt totam vitae tempore culpa. Beatae
-      quibusdam impedit maiores porro natus optio dolor sit placeat, qui vitae?
+      {{getTraining.description}}
     </p>
     <ul class="my-5 text-sm">
       <li>Level: Beginner</li>
       <li>Participants: 422</li>
       <li>language: English</li>
       <li>Sub-title: yes</li>
-      <li>leçon: 347</li>
+      <li>leçon: {{ lessonCount }}</li>
       <li>Vidéo: 1 hour in total</li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+import {mapGetters} from 'vuex'
+export default {
+  computed: {
+    ...mapGetters(['getTraining']),
+    lessonCount(){
+      let count = 0
+      for (let index = 0; index < this.getTraining.chapiters.length; index++) {
+        const chap = this.getTraining.chapiters[index];
+        for (let i = 0; i < chap.lessons.length; i++) {
+            count++
+        }
+      }
+      return count
+    }
+  },
+};
 </script>
 
 <style>
