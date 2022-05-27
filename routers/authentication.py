@@ -54,7 +54,15 @@ async def login(login_form: OAuth2PasswordRequestForm = Depends()):
             access_token = token_handler.create_access_token(
                 data={"sub": user.login}
             )
-            return {"access_token": access_token, "token_type": "bearer"}
+            user_type = None
+            if user.member:
+                user_type = "member"
+            elif user.admin:
+                user_type = "admin"
+            else:
+                user_type = "user"
+
+            return {"access_token": access_token, "token_type": "bearer", "user_type": user_type}
         else: 
             raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED, 
