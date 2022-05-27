@@ -32,7 +32,7 @@
                         Forgot password
                     </div>
                 </div>
-                <div @click='toNext' class="insButtonI0" >SIgn up</div>
+                <div @click='toNext' class="insButtonI0" >Sign in</div>
                 <div style="font-size:12px;text-align:center;margin-top:40px;font-weight:bold" class="loginDont" > Don't registered yet ? 
                     <a style="color:#1C8EFB;" href="register">sign up</a>
                 </div>

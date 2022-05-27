@@ -3,7 +3,6 @@ import {
     createStore
 } from "vuex"
 import axiosClient from "../axios/axios";
-import qs from 'qs'
 import { useRouter } from "vue-router";
 
 const router = useRouter()
