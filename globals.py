@@ -15,6 +15,8 @@ VIDEO_GDB_URI = os.getenv("VIDEO_GDB_URI")
 VIDEO_GDB_USERNAME = os.getenv("VIDEO_GDB_USERNAME")
 VIDEO_GDB_PASSWORD = os.getenv("VIDEO_GDB_PASSWORD")
 
+print(MAIN_GDB_URI)
+
 try:
     main_graph = Graph(uri=MAIN_GDB_URI,auth=(MAIN_GDB_USERNAME,MAIN_GDB_PASSWORD))
 except Exception:
