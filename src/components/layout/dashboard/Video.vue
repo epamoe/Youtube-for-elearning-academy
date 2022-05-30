@@ -186,7 +186,7 @@
     </div>
     <div class="my-3">
       <h2 class="text-2xl font-semibold my-4">Related Videos</h2>
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-x-4">
         <div v-for="video in videos.filter(video => video.id !== '1')" :key="video.id">
           <iframe
             class="w-full aspect-video"

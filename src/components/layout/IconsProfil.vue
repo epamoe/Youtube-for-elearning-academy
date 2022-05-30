@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="relative">
-      <button @click="showUserInfo"><img src="/images/women.png" style="height: 40px" /></button>
+      <button @click="showUserInfo"><img :src="getUser.profile.profile_image" style="height: 40px" /></button>
       <div class="absolute bottom-1 right-0">
         <svg
           width="10"
@@ -62,7 +62,7 @@
           <circle cx="20" cy="20" r="20" fill="#FDAA07" />
         </svg>
       </div>
-      <div class="absolute bg-gray-100 rounded px-5 py-2 w-fit top-12 right-2 text-sm z-50" v-if="userInformation">
+      <div class="absolute bg-gray-100 shadow-2xl rounded px-5 py-2 w-fit top-12 right-2 text-sm z-50" v-if="userInformation">
         <ul>
           <li class="mb-2"><a href="http://">profile</a></li>
           <li class="mb-2"><a href="http://">profile</a></li>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -95,6 +95,9 @@ export default {
       this.userInformation = !this.userInformation;
     },
   },
+  computed: {
+    ...mapGetters(['getUser']),
+  }
 };
 </script>
 

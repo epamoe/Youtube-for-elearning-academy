@@ -38,7 +38,7 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: '' }"
           class="block p-3 m-1 rounded-xl"
         >
           <svg
@@ -59,7 +59,7 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: '' }"
           class="block p-3 m-1 rounded-xl"
         >
           <svg
@@ -76,7 +76,7 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: '' }"
           class="block p-3 m-1 rounded-xl"
         >
           <svg
@@ -97,7 +97,7 @@
     <div class="flex justify-between flex-col">
       <div class="flex flex-col">
         <button
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: '' }"
           class="block px-2 py-4 m-1 rounded-xl"
           @click.prevent="out"
         >
@@ -116,7 +116,7 @@
           </svg>
         </button>
         <router-link
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: '' }"
           class="block px-2 py-4 m-1 rounded-xl"
         >
           <svg
@@ -135,11 +135,11 @@
         </router-link>
       </div>
       <button class="block p-3 m-1 rounded-xl" @click="showUserInfo">
-        <img src="/images/women.png" width="40" />
+        <img :src="getUser.profile.profile_image" width="40" />
       </button>
     </div>
 
-      <div class="absolute bg-gray-100 rounded px-5 py-2 w-fit user-info left-16 text-sm z-50" v-if="userInformation">
+      <div class="absolute bg-gray-100 shadow-2xl rounded px-5 py-2 w-fit user-info left-16 text-sm z-50" v-if="userInformation">
         <ul>
           <li class="mb-2"><a href="http://">profile</a></li>
           <li class="mb-2"><a href="http://">profile</a></li>
@@ -151,7 +151,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -170,6 +170,9 @@ export default {
       this.userInformation = !this.userInformation;
     },
   },
+  computed: {
+    ...mapGetters(['getUser']),
+  }
 };
 </script>
 

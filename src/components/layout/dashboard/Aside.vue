@@ -1,13 +1,13 @@
 <template>
-  <div class="flex relative h-full">
-    <div class="absolute top-12 left-1">
+  <div class="flex z-50 relative h-full">
+    <div class="absolute z-50 top-12 left-1">
       <button @click="show = !show">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
           :fill="show ? '#fff' : 'black'"
-          class="bi bi-chevron-left"
+          class="bi bi-chevron-left z-50"
           viewBox="0 0 16 16"
         >
           <path

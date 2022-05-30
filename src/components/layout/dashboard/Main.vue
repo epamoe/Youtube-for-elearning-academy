@@ -1,11 +1,9 @@
 <template>
-  <div class="grid gap-5 grid-cols-12 my-5">
-    <div class="col-span-9">
-      <FormSearch />
+  <div class="md:flex sm:flex-wrap w-full my-5">
+    <div class="mx-auto lg:w-3/4 sm:w-full">
       <Video :videos="videos !== {} ? getTraining.chapiters[0].lessons[0].videos : videos"></Video>
     </div>
-    <div class="col-span-3 w-full">
-      <IconsProfil />
+    <div class="lg:w-1/4 sm:w-full justify-self-end">
       <Content @emit-video="setVideos" :chapiters="getTraining.chapiters"></Content>
     </div>
   </div>

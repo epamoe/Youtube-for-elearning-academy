@@ -489,7 +489,6 @@ const store = createStore({
     getters: {
         getUser: (state) => state.user,
         getTraining: (state) => state.training,
-        getStats: (state) => state.stats
     },
     actions: {
         async register({commit}, user) {
