@@ -19,6 +19,10 @@ router = APIRouter(
 
 @router.post("/register", status_code=status.HTTP_200_OK)
 async def register(regist_form: UserRegister, request : Request):
+    print(main_graph)
+    print(main_graph)
+    print(main_graph)
+    print(main_graph)
     if regist_form.password != regist_form.confirm_password:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
