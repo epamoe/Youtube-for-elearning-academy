@@ -9,7 +9,7 @@
       padding: 5px;
       padding-left: 20px;
       padding-right: 20px;
-      font-size: 17px;
+      font-size: 15px;
       font-weight: bold;
       color:#000000;
       border-radius: 0.7em;

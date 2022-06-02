@@ -1,0 +1,58 @@
+.becomeMember {
+  max-width: 600px;
+}
+.bCAMTitle {
+  width: 100%;
+  position: relative;
+  font-size: 43px;
+  font-weight: bold;
+}
+.bCAMTitle img {
+  position:absolute;
+  top: 0px;
+  left: 0px;
+  width: 100px;
+  margin-top: 25px;
+}
+.bCAMTitle + div {
+  margin-top: 25px;
+  width: 68%;
+  font-size: 17px;
+  color: rgb(33, 33, 33);
+  padding-left: 15px;
+}
+.bCAMOptions {
+  width: 70%;
+  margin-top: 20px;
+  padding-left: 15px;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.bCAMOptions > div {
+  width: 50%;
+  display: flex;justify-content: flex-start;align-items: center;
+  margin-bottom: 10px;
+}
+.bCAMOptions > div img {
+  width: 22px;
+  margin-right: 15px;
+}
+.bCAMButton {
+  margin-top: 20px;
+  margin-left: 15px;
+  text-align: center;
+  padding: 8px;
+  box-sizing: border-box;
+  width: 120px;
+  font-size: 13px;
+  background-color:#1C8EFB;
+  font-weight: bold;
+  color:white;
+  border-radius: 0.7em;
+  opacity: 1;
+  cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import FormRequest from '@/components/global/formRequest/FormRequest'
+import FormRequest from '../formRequest/FormRequest.vue'
 export default {
   name: 'lFooter',
   components: {

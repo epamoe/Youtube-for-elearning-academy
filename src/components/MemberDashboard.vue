@@ -13,8 +13,8 @@
           </div>
         </div>
         <div>
-          <div class="md:flex sm:flex-wrap w-full my-5">
-            <div class="pl-10 py-10">
+          <div class="md:flex sm:flex w-full my-5 gap-4">
+            <div class="lg:w-3/4 pl-10 py-10">
               <h2 class="text-xl font-bold mb-1">Member</h2>
               <div class="w-full relative">
                 <button class="bg h-fit w-full" @click="editProfile">
@@ -117,9 +117,8 @@
             </div>
           </div>
           
-            </div>
-          <div>
-            <div class="lg:w-1/4 sm:w-full">
+          <div class="lg:w-1/4 sm:w-full">
+            <div>
               <div class="md:col-span-3">
                 <div class="flex flex-col gap-y-4 mt-10">
                   <div class="rounded-xl border-2 p-4">
@@ -131,6 +130,7 @@
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -197,6 +197,9 @@ export default {
     }
   },
   created(){
+    this.getProfile()
+  },
+  mounted(){
     this.getProfile()
   },
   computed: {

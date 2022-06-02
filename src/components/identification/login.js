@@ -25,9 +25,10 @@ export default {
         params.append('password', this.$refs.password.message)
         axios.post(this.$store.state.baseUrl + 'login', params)
           .then((response) => {
-            alert(response.data)
-            this.$store.commit('setUserToken', response.data)
-            this.$router.push('member-dashboard')
+            console.log(response.data)
+            this.$store.commit('setUser', response.data)
+            console.log(this.$store.state.login)
+            this.$router.push({name: 'MemberDashboard'})
           })
           .catch((error) => {
             this.$refs.yAlertD.display(error.response.data.detail)

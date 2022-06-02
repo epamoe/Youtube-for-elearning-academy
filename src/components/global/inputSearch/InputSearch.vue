@@ -2,7 +2,7 @@
   <form class="inputSearch">
     <div class="inputSearchText">
       <div class="inputSearhTextFirst">
-        <img src="./loupe.svg"/>
+        <div><img style="width:15px" src="./loupe.svg"/></div>
         <input type="text" placeholder="Find trainings">
       </div>
       <div>

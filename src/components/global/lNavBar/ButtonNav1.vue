@@ -9,7 +9,7 @@
       padding: 10px;
       padding-left: 20px;
       padding-right: 20px;
-      font-size: 15px;
+      font-size: 13px;
       background-color:#1C8EFB;
       font-weight: bold;
       color:white;

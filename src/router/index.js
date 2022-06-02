@@ -17,10 +17,12 @@ import MemberDashboard from "../components/MemberDashboard.vue"
 import NotFound from "../components/NotFound.vue"
 import Home from "../components/Home.vue"
 import store from "../store/index"
+import LandingPage from "../components/landingPage/LandingPage.vue"
 
 const routes = [{
 		path: "/",
 		name: 'Home',
+		redirect: {name: 'LandingPage'},
 		component: Home,
 		children: [{
 				path: "/dashboard",
@@ -93,7 +95,14 @@ const routes = [{
 	{
 		path: '/:catchAll(.*)',
 		name: 'NotFound',
+		meta: {isGuest: true},
 		component: NotFound
+	},
+	{
+		path: '/landingPage',
+		name: 'LandingPage',
+		meta: {isGuest: true},
+		component: LandingPage
 	},
 	
 

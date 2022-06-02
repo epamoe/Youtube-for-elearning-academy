@@ -30,7 +30,7 @@ export default {
         })
           .then(() => {
             this.$store.commit('cDisplayCheckmail', true)
-            this.$router.push({name: 'Login'})
+            this.$router.push('login')
           })
           .catch((error) => {
             this.$refs.yAlert.display(error.response.data.detail)

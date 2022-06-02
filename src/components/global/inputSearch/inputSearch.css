@@ -22,23 +22,24 @@
     display: flex; justify-content: flex-start; align-items: center;
     border-right: solid 1px silver;
 }
-.inputSearhTextFirst img {
-    width: 13px;
-    margin-right: 20px;
+.inputSearhTextFirst > div {
+    width: 50px;
+    margin-right: 0px;
 }
 .inputSearhTextFirst + div {
-    padding-left: 10px;
     display: flex;justify-content: center;align-items: center;
 }
 .inputSearhTextFirst + div input {
+    width: 100%;
     background-image: url('./arrow.svg');
     background-repeat: no-repeat;
-    background-position: 70px ;
+    background-position:105px;
     background-size: 11px;
 }
 .inputSearchText input {
     border: none;
     font-weight: bold;
+    font-size: 14px;
 }
 
 
@@ -49,7 +50,7 @@
     width: 120px;
     height:80px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: white;
     border:none;
     border-radius: 0.7em;
@@ -62,4 +63,7 @@
 }
 .inputSearch:focus {
     box-shadow: 0px 0px 0px 4px lightblue;
+}
+.inputSearch input:focus {
+    border: none!important;
 }
