@@ -14,11 +14,24 @@
       "
     >
       <div
-        v-for="stat in stats"
-        :key="stat.title"
-        :class="`w-1/4 relative h-${stat.per}/5 bg-${stat.color}-600`"
+          :class="`w-1/4 relative h-2/5 bg-orange-600`"
+        >
+          <div class="absolute text-xs t-2">{{ (2 / 4) * 100 }}%</div>
+      </div>
+      <div
+        :class="`w-1/4 relative h-1/5 bg-green-600`"
       >
-        <div class="absolute text-xs t-2">{{ (stat.per / 4) * 100 }}%</div>
+        <div class="absolute text-xs t-2">{{ (1 / 4) * 100 }}%</div>
+      </div>
+      <div
+          :class="`w-1/4 relative h-3/5 bg-blue-600`"
+        >
+          <div class="absolute text-xs t-2">{{ (3 / 4) * 100 }}%</div>
+      </div>
+      <div
+          :class="`w-1/4 relative h-4/5 bg-red-600`"
+        >
+          <div class="absolute text-xs t-2">{{ (4 / 4) * 100 }}%</div>
       </div>
     </div>
     <ul class="p-0 mt-10">

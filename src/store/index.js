@@ -530,13 +530,37 @@ const store = createStore({
             const response = await axiosClient.get('/dashboard/profile')
                     .then(function(res){
                         commit('setUserProfile', res.data)
+                        console.log(res.data)
                     })
                     .catch(function(err){
                         console.log(err);
                         return err
                     })
             
-        }
+        },
+        async getProfileUser({commit}, login){
+            const response = await axiosClient.get(`/dashboard/profile/${login}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async getUserTraining({commit}){
+            const response = await axiosClient.get('/dashboard/profile/training')
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        
     },
     mutations: {
         logout: (state) => {

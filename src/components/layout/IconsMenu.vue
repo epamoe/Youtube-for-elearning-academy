@@ -177,7 +177,7 @@ export default {
 </script>
 
 <style>
-.router-link-exact-active {
+.router-link-active {
   background-color: #45a4ff;
   border: none;
 }
