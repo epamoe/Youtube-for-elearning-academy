@@ -1,0 +1,146 @@
+.landingPage {
+    position: absolute; 
+    left: 0px;
+    top:0px;
+    width: 100%;
+}
+.lMain {
+    display: flex;
+    flex-direction: column;
+}
+.lMainF {
+    width: 100%;
+    background-image: linear-gradient(to bottom, #F6DDAD , white);
+    display: flex;
+}
+.lMainFLeft {
+    width: 35%;
+    margin-left: 100px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction:column;
+}
+.lMainTitleBig {
+    font-weight: bold;
+    font-size: 55px;
+}
+.lMainTitleBig + span {
+    margin-top: 30px;
+    font-size: 16px;
+    width: 70%; 
+    font-weight: bold;
+}
+.lMainTitleBig + span + div {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.lMainTitleBig + span + div img {
+    margin-left: 38px;
+    width: 38px;
+}
+.lMainFRight {
+    width: 65%; 
+    display: flex; justify-content: center;align-items: center;
+    font-size: 58px;
+    font-weight: bold;
+}
+
+
+/*--- second row of the fucking page --------------------*/
+.lMainSearch {
+    margin-top: 60px;
+    display: flex;justify-content: center;align-items: center;
+}
+
+/* third row wher suggestions are -------------------- */
+.lMainSuggest {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top:30px;
+    display: flex; justify-content: center;align-items: center;
+    margin-left: 5%;
+    margin-right:5%;
+}
+.lMainSButton {
+    min-width: 110px;
+    margin: 20px;
+    border: solid 1px rgb(50,50,50);
+    border-top: solid 1px black;
+    font-size: 16px;
+    padding: 15px;
+    text-align: center;
+    border-radius: 0.7em;
+    font-weight: bold;
+    color: rgb(40,40,40);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+/* fourth row where the trainings are displayed */
+.lMainTaining {
+    margin-top: 50px;
+}
+.lMainTTitle {
+    position: relative;
+    font-size: 42px;
+    font-weight: bold;
+}
+.lMainTTitle img {
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    width: 100px;
+    margin-top: 25px;
+}
+.lMainTRow {
+    width: 100%;
+    margin-top:65px;
+    display: flex; justify-content: center; align-items: center;
+}
+.lMainTRow > div {
+    width: 25%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* fifth row become member plus an image */
+.lMainBMember {
+    margin-top: 70px;
+    margin-bottom: 70px;
+    display: flex;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.lMainBMember > div {
+    width: 50%;
+}
+
+
+/* seventh row Our users says ---------- */
+.lMainUserSays {
+    background-color: #F3F9FF;
+}
+.lMainUTitle {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+/* fifth row become member plus an image */
+.lMainHereHelp {
+    margin-top: 70px;
+    margin-bottom: 70px;
+    display: flex;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.lMainHereHelp > div {
+    width: 50%;
+}
+
+/* before the footer */
+.lMainNewlet {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    display: flex;justify-content: center;align-items: center;
+}

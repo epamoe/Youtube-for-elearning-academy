@@ -25,11 +25,8 @@ export default {
   methods: {
     ...mapActions(["login"]),
     log(user) {
-      this.login({username:user.login, password:user.password}).then((res) => {
-        this.$router.push({
-          name: "Dashboard",
-        });
-      });
+      this.login({username:user.login, password:user.password})
+      this.router.push({name: "MemberDashboard"});
     },
   },
   components: {

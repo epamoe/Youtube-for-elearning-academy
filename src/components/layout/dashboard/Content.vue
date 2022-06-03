@@ -1,31 +1,14 @@
 <template>
   <div class="content mt-5">
     <h1 class="text-3xl font-bold mb-5 p-5">Content</h1>
-    <Section
-      num="1"
-      title="Introduction"
-      :listOfTopics="listOfTopics"
-    ></Section>
-    <Section
-      num="1"
-      title="Introduction"
-      :listOfTopics="listOfTopics"
-    ></Section>
-    <Section
-      num="1"
-      title="Introduction"
-      :listOfTopics="listOfTopics"
-    ></Section>
-    <Section
-      num="1"
-      title="Introduction"
-      :listOfTopics="listOfTopics"
-    ></Section>
-    <Section
-      num="1"
-      title="Introduction"
-      :listOfTopics="listOfTopics"
-    ></Section>
+    <div class="mb-2" v-for="chapiter in chapiters" :key="chapiter.title">
+      <Section
+        num="1"
+        :title="chapiter.title"
+        :lessons="chapiter.lessons"
+        @video-lesson="emitVideo"
+      ></Section>
+    </div>
   </div>
 </template>
 
@@ -41,6 +24,15 @@ const listOfTopics = [
   "Hello world",
 ];
 export default {
+  emits: ['emitVideo'],
+  props: {
+    chapiters: Object,
+  },
+  data() {
+    return {
+      videos: {}
+    }
+  },
   components: {
     Section,
   },
@@ -49,6 +41,12 @@ export default {
       listOfTopics,
     };
   },
+  methods: {
+    emitVideo(lesson){
+      this.videos = lesson.videos
+      this.$emit('emitVideo', this.videos)
+    }
+  }
 };
 </script>
 

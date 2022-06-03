@@ -2,7 +2,7 @@
   <div class="flex text-sm w-full gap-x-4 mb-5">
     <img src="/images/fai.png" class="rounded-full h-10" />
     <div class="content-comment">
-      <h6 class="max-w-xs">Fai</h6>
+      <h6 class="max-w-xs">{{comment.by}}</h6>
       <div class="stars flex my-1">
         <button>
           <svg
@@ -76,10 +76,7 @@
         </button>
       </div>
       <p class="answer w-fit">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta harum
-        magni ducimus rerum dolorem, laborum nam amet, molestiae alias ullam
-        quae iste? Dolore excepturi ullam deleniti sunt expedita, voluptas
-        recusandae?
+        {{comment.content}}
       </p>
       <div class="flex items-center mt-3 gap-x-2">
         <p class="question w-fit mr-14">Lorem ipsum dolor ?</p>
@@ -117,7 +114,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    comment: Object,
+  }
+};
 </script>
 
 <style>

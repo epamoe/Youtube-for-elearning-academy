@@ -3,7 +3,7 @@ import store from '../store/index'
 
 
 const axiosClient = axios.create({
-    baseURL: 'https://youtubedev-api.herokuapp.com',
+    baseURL: 'https://youtube-dev-production.herokuapp.com',
     headers: { 'content-type': 'application/json' },
 });
 

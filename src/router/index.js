@@ -7,21 +7,22 @@ import Links from "../components/layout/dashboard/children/Links.vue"
 import Testimonies from "../components/layout/dashboard/children/Testimonies.vue"
 import Presentation from "../components/layout/dashboard/children/Presentation.vue"
 import Overview from "../components/layout/member-dashboard/children/Overview.vue"
-import Posts from "../components/layout/member-dashboard/children/Posts.vue"
+import FollowedSyllabus from "../components/layout/member-dashboard/children/FollowedSyllabus.vue"
 import Syllabus from "../components/layout/member-dashboard/children/Syllabus.vue"
-import Events from "../components/layout/member-dashboard/children/Events.vue"
-import More from "../components/layout/member-dashboard/children/More.vue"
+import NewSyllabus from "../components/layout/member-dashboard/children/NewSyllabus.vue"
 import Dashboard from "../components/Dashboard.vue"
-import Register from "../components/Register.vue"
-import Login from "../components/Login.vue"
-import Auth from "../components/Auth.vue"
+import Inscription from '../components/identification/Inscription.vue'
+import Login from '../components/identification/Login.vue'
 import MemberDashboard from "../components/MemberDashboard.vue"
+import NotFound from "../components/NotFound.vue"
 import Home from "../components/Home.vue"
 import store from "../store/index"
+import LandingPage from "../components/landingPage/LandingPage.vue"
 
 const routes = [{
 		path: "/",
 		name: 'Home',
+		redirect: {name: 'LandingPage'},
 		component: Home,
 		children: [{
 				path: "/dashboard",
@@ -56,14 +57,14 @@ const routes = [{
 				meta: {requiresAuth: true},
 				name: "MemberDashboard",
 				children: [{
-						path: "/member-dashboard",
+						path: "/member-dashboard/overview",
 						name: "Overview",
 						component: Overview,
 					},
 					{
-						path: "/member-dashboard/posts",
-						name: "Posts",
-						component: Posts,
+						path: "/member-dashboard/followed-syllabus",
+						name: "FollowedSyllabus",
+						component: FollowedSyllabus,
 					},
 					{
 						path: "/member-dashboard/syllabus",
@@ -71,38 +72,39 @@ const routes = [{
 						component: Syllabus,
 					},
 					{
-						path: "/member-dashboard/events",
-						name: "Events",
-						component: Events,
-					},
-					{
-						path: "/member-dashboard/more",
-						name: "More",
-						component: More,
+						path: "/member-dashboard/new-syllabus",
+						name: "NewSyllabus",
+						component: NewSyllabus,
 					},
 				]
 			},
 		]
 	},
 	{
-		path: "/auth",
-		redirect: "/login",
-		name: "Auth",
-		component: Auth,
+		path: "/register",
+		name: "Register",
 		meta: {isGuest: true},
-		children: [
-			{
-				path: "/register",
-				name: "Register",
-				component: Register,
-			},
-			{
-				path: "/login",
-				name: "Login",
-				component: Login,
-			},
-		]
+		component: Inscription,
 	},
+	{
+		path: "/login",
+		name: "Login",
+		meta: {isGuest: true},
+		component: Login,
+	},
+	{
+		path: '/:catchAll(.*)',
+		name: 'NotFound',
+		meta: {isGuest: true},
+		component: NotFound
+	},
+	{
+		path: '/landingPage',
+		name: 'LandingPage',
+		meta: {isGuest: true},
+		component: LandingPage
+	},
+	
 
 ]
 

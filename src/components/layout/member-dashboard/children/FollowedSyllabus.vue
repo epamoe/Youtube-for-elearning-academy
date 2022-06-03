@@ -1,5 +1,5 @@
 <template>
-  Posts
+  FollowedSyllabus
 </template>
 
 <script>
