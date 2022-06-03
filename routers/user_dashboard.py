@@ -20,13 +20,13 @@ router = APIRouter(
 @router.get("/profile", response_model = schemas.ProfileResponse)
 def get_profile(user_login = Depends(get_current_user)):
     user = User.match(main_graph, user_login).first()
-    response = {
-        "login": user.login,
-        "email": user.email,
-        "profile_img" : user.profile_img,
-        "experiences" : list(user.experiences)
-    }
-    return schemas.ProfileResponse(**response)
+    
+    return schemas.ProfileResponse(
+        login = user.login,
+        email = user.email,
+        profile_img=user.profile_img,
+        experiences=list(user.experiences)
+    )
 
 @router.get("/profile/{login}", response_model = schemas.ProfileResponse)
 def get_profile_login(login: str):
@@ -36,14 +36,12 @@ def get_profile_login(login: str):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="This user doesn't exist"
         )
-        
-    response = {
-        "login": user.login,
-        "email": user.email,
-        "profile_img" : user.profile_img,
-        "experiences" : list(user.experiences)
-    }
-    return schemas.ProfileResponse(**response)
+    return schemas.ProfileResponse(
+        login = user.login,
+        email = user.email,
+        profile_img=user.profile_img,
+        experiences=list(user.experiences)
+    )
     
 @router.put("/profile/login")
 def update_login(new_login: schemas.UserUpdateLogin, user_login = Depends(get_current_user)):
