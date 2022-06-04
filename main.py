@@ -21,7 +21,7 @@ app.include_router(landing_page_search.router)
 
 @app.get("/")
 def root():
-    return {"message": "Test prod "}
+    return {"message": "Test prod - CD implementation "}
 
 
 
