@@ -1,6 +1,8 @@
 <template>
-  <div class="flex gap-x-10 justify-between items-center">
-    <div class="font-normal" v-if="!connect">become a member</div>
+  <div class="flex gap-x-2 justify-between items-center">
+    <div class="font-normal" v-if="getUser.userType == 'user'">
+      <a href="">become a member</a>
+    </div>
     <div class="">
       <a href="http://"
         ><img src="/images/drapeaux-francais-anglais-1.png" class="inline"
@@ -64,8 +66,8 @@
       </div>
       <div class="absolute bg-gray-100 shadow-2xl rounded px-5 py-2 w-fit top-12 right-2 text-sm z-50" v-if="userInformation">
         <ul>
-          <li class="mb-2"><a href="http://">profile</a></li>
-          <li class="mb-2"><a href="http://">profile</a></li>
+          <li class="mb-2"><a href="localhost:3000/member-dashboard">profile</a></li>
+          <li class="mb-2"><a href="localhost:3000/member-dashboard">profile</a></li>
           <hr class="my-2"/>
           <li><a href="http://" @click.prevent="out">logOut</a></li>
         </ul>

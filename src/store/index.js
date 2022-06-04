@@ -516,7 +516,7 @@ const store = createStore({
                 .then(function (response) {
                     console.log(response);
                     return response
-                    commit('setUserToken', response.data)
+                    commit('setUser', response.data)
                 })
                 .catch(function (error) {
                     console.log(error);
