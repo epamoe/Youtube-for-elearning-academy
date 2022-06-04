@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
 #-------------------------------------    AUTHENTICATION     -------------------------------
@@ -10,7 +10,7 @@ class UserLoginResponse(BaseModel):
 
 class UserRegister(BaseModel):
     login: str
-    email: str
+    email: EmailStr
     password: str
     confirm_password: str
 
@@ -57,7 +57,7 @@ class Experience(BaseModel):
 
 class ProfileResponse(BaseModel):
     login: str
-    email: str
+    email: EmailStr
     profile_img: str #image value
     experiences: List[Experience]
     class Config:
@@ -66,7 +66,7 @@ class UserUpdateLogin(BaseModel):
     login: str
     
 class UserUpdateEmail(BaseModel):
-    email: str
+    email: EmailStr
 
 class UserUpdatePassword(BaseModel):
     current_password: str
