@@ -95,13 +95,11 @@ const routes = [{
 	{
 		path: '/:catchAll(.*)',
 		name: 'NotFound',
-		meta: {isGuest: true},
 		component: NotFound
 	},
 	{
 		path: '/landingPage',
 		name: 'LandingPage',
-		meta: {isGuest: true},
 		component: LandingPage
 	},
 	
