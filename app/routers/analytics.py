@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
-from oauth2 import get_current_user
+from app.oauth2 import get_current_user
 from py2neo_schemas.nodes import SearchInput, User
-from globals import main_graph
+from app.globals import main_graph
 router = APIRouter(
     prefix = "/analytics",
     tags = ["Analytics"]

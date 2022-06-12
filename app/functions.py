@@ -1,6 +1,6 @@
 from py2neo_schemas.nodes import User
 from fastapi import HTTPException, status
-from globals import main_graph
+from .globals import main_graph
 from PIL import Image
 from os import getcwd
 

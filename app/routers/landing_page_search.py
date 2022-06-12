@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
-from functions import find_member
-from oauth2 import get_current_user
-import schemas
+from app.functions import find_member
+from app.oauth2 import get_current_user
+from app import schemas
 from py2neo_schemas.nodes import Domain, User
 from typing import List
-from globals import main_graph
+from app.globals import main_graph
 from py2neo_schemas.nodes import Training
 
 router = APIRouter(

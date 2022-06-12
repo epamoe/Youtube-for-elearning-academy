@@ -1,10 +1,10 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException,status
 from py2neo_schemas.nodes import Notification, User, Application
-from schemas import ApplicationResponse
+from app.schemas import ApplicationResponse
 
-from oauth2 import get_current_user
-from globals import main_graph
+from app.oauth2 import get_current_user
+from app.globals import main_graph
 
 router = APIRouter(
     prefix = "/dashboard/admin",

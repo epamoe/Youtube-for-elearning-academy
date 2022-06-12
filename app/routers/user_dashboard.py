@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException,status, Request, UploadFile, File, BackgroundTasks
 # from PIL import Image
 # from os import getcwd
-from functions import resize_image, PATH_FILES
+from app.functions import resize_image, PATH_FILES
 
-from oauth2 import get_current_user
-from routers.authentication import send_update_address_mail
-import schemas
+from app.oauth2 import get_current_user
+from .authentication import send_update_address_mail
+from app import schemas
 from py2neo_schemas.nodes import EmailUpdateAttempt, Training, User
-from globals import main_graph, encodeing
-from functions import encode_password
+from app.globals import main_graph, encodeing
+from app.functions import encode_password
 from email_validator import validate_email, EmailNotValidError
 from typing import List
 

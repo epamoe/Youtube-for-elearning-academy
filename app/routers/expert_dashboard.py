@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from functions import find_member
-from oauth2 import get_current_user
-from globals import main_graph 
+from app.functions import find_member
+from app.oauth2 import get_current_user
+from app.globals import main_graph 
 from py2neo_schemas.nodes import User, Training, Chapter, Lesson
-import schemas
+from app import schemas
 from typing import List
 
 router = APIRouter(

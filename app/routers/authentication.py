@@ -1,12 +1,12 @@
 from fastapi import APIRouter, status
 from fastapi import status,HTTPException, Depends, Request
-from schemas import UserRegister
+from app.schemas import UserRegister
 from fastapi.security import OAuth2PasswordRequestForm
-import token_handler 
-from account_activation_handler import AccountActivationHandler
+from app.token_handler import create_access_token
+from app.account_activation_handler import AccountActivationHandler
 from py2neo_schemas.nodes import User
-from globals import main_graph ,encodeing
-from functions import encode_password
+from app.globals import main_graph ,encodeing
+from app.functions import encode_password
 from email_validator import validate_email, EmailNotValidError
 from passlib.context import CryptContext
 
@@ -51,7 +51,7 @@ async def login(login_form: OAuth2PasswordRequestForm = Depends()):
     user = find_user(username, login_form.password)
     if user:
         if user.activated: 
-            access_token = token_handler.create_access_token(
+            access_token = create_access_token(
                 data={"sub": user.login}
             )
             user_type = None
