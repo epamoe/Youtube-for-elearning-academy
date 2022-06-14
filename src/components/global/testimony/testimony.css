@@ -1,0 +1,43 @@
+.testimony {
+  position: relative;
+  display: flex;
+  padding-left: 10px;
+  padding-right: 35px;
+  flex-direction: column;
+  width: 600px;
+  background-color: #ffffff;
+}
+.testimony > img {
+  position: absolute;
+  right: 0px;
+  top:0px;
+  width: 60px;
+  margin-right: 20px;
+  margin-top: -30px;
+}
+.tTMHeader {
+  display: flex; justify-content: flex-start; align-items: center;
+}
+.tTMImage {
+  width: 65px;
+  height: 65px;
+  border-radius: 10em;
+  display: flex;justify-content: center;align-items: center;
+  overflow: hidden;
+  margin-right: 30px;
+}
+.tTMImage img {
+  width: 100%;
+  height: 100%;
+}
+.tTMName {
+  font-weight: bold;
+  font-size: 19px;
+}
+.tTMName + div {
+  font-size: 18px;
+}
+.tTMText {
+  margin-top: 35px;
+  font-size: 15px;
+}

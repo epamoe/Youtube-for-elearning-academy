@@ -51,7 +51,7 @@ input:focus, textarea:focus, select:focus{
     padding-top: 6px;
     padding-bottom: 6px;
     font-weight: bold;
-    width: 160px;
+    width: 180px;
 }
 .insOrangeBut img {
     width: 20px;

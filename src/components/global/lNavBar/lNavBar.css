@@ -16,7 +16,6 @@
 .lNavLogo div {
   width: 100px;
   padding: 5px;
-  background-color: silver;
 }
 
 .lNavLogo + div {
@@ -24,8 +23,8 @@
   display: flex;
 }
 .lNavMenu {
-  width: 50%;
-  font-size: 13px;
+  width: 55%;
+  font-size: 12px;
   font-weight: bold;
   text-align: left;
   display: flex;
@@ -33,11 +32,11 @@
   align-items: center;
 }
 .lNavMenu > div {
-  width: 33.33%;
+  margin-right: 8%;
 }
 
 .lNavMenu + div {
-  width: 50%;
+  width: 45%;
   display: flex;
   justify-content: flex-end;
   align-items: center;

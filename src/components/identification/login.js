@@ -4,6 +4,7 @@ import ButtonI1 from './subComponents/ButtonI1.vue'
 import FooterI from './subComponents/FooterI.vue'
 import YAlert from '../global/yAlert/YAlert.vue'
 import axios from 'axios'
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: 'inscription',
   components: {
@@ -14,6 +15,7 @@ export default {
     YAlert
   },
   methods: {
+    ...mapActions(['getProfile']),
     submiting (e) {
       e.preventDefault()
       return false
@@ -25,9 +27,11 @@ export default {
         params.append('password', this.$refs.password.message)
         axios.post(this.$store.state.baseUrl + 'login', params)
           .then((response) => {
-            alert(response.data)
-            this.$store.commit('setUserToken', response.data)
-            this.$router.push('member-dashboard')
+            console.log(response.data)
+            this.$store.commit('setUser', response.data)
+            console.log(this.$store.state.login)
+            this.$router.push({name: 'MemberDashboard'})
+            this.getProfile()
           })
           .catch((error) => {
             this.$refs.yAlertD.display(error.response.data.detail)

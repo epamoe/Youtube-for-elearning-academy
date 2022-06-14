@@ -1,0 +1,48 @@
+.Myprofile {
+    position: relative;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.profileMain {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.profileContent {
+    position: relative;
+    width: 300%;
+    display: flex;
+    transition: left 2s;
+}
+.profileCont {
+    width: 33.33%;
+    display: flex;
+}
+.profileCont > div {
+    width: 50%;
+    padding-top: 30px;
+}
+
+
+.myPUpground {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-left: 1%;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.myPUpground > span {
+    padding: 14px;
+    border-radius: 0.4em;
+    background-color: #1C8EFB;
+    margin-left: 25px;
+    display: flex;justify-content: center;align-items: center;
+    cursor: pointer;
+}
+.myPUpground > span img {
+    width: 25px;
+}

@@ -21,6 +21,7 @@ const store = createStore({
                 //trainingList: [],
             },
             token: sessionStorage.getItem('TOKEN'),
+            userType: sessionStorage.getItem('USERTYPE'),
         },
         training: {
             comments: [
@@ -483,13 +484,12 @@ const store = createStore({
                 },
             ]
         },
-        baseUrl: 'https://youtubedev-api.herokuapp.com/',
+        baseUrl: 'https://youtube-dev-production.herokuapp.com/',
         displayCheckEmail: false
     },
     getters: {
         getUser: (state) => state.user,
         getTraining: (state) => state.training,
-        getStats: (state) => state.stats
     },
     actions: {
         async register({commit}, user) {
@@ -516,7 +516,7 @@ const store = createStore({
                 .then(function (response) {
                     console.log(response);
                     return response
-                    commit('setUserToken', response.data)
+                    commit('setUser', response.data)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -530,25 +530,52 @@ const store = createStore({
             const response = await axiosClient.get('/dashboard/profile')
                     .then(function(res){
                         commit('setUserProfile', res.data)
+                        console.log(res.data)
                     })
                     .catch(function(err){
                         console.log(err);
                         return err
                     })
             
-        }
+        },
+        async getProfileUser({commit}, login){
+            const response = await axiosClient.get(`/dashboard/profile/${login}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async getUserTraining({commit}){
+            const response = await axiosClient.get('/dashboard/profile/training')
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        
     },
     mutations: {
         logout: (state) => {
             state.user.data = {}
             state.user.token = null
+            state.user.userType = null
             sessionStorage.clear()
             console.log(state.user)
         },
-        setUserToken: (state, userData) => {
+        setUser: (state, userData) => {
             state.user.token = userData.access_token
+            state.user.userType = userData.user_type
             sessionStorage.setItem('TOKEN', userData.access_token)
-            console.log(userData.access_token)
+            sessionStorage.setItem('USERTYPE', userData.user_type)
+            console.log(userData.access_token, userData.user_type)
         },
         setUserProfile: (state, profile) => {
             state.user.profile.login = profile.login

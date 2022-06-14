@@ -1,7 +1,7 @@
 <template>
   <div class="content mt-5">
     <h1 class="text-3xl font-bold mb-5 p-5">Content</h1>
-    <div class="mbb-2" v-for="chapiter in chapiters" :key="chapiter.title">
+    <div class="mb-2" v-for="chapiter in chapiters" :key="chapiter.title">
       <Section
         num="1"
         :title="chapiter.title"

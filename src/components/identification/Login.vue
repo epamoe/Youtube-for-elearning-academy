@@ -3,7 +3,7 @@
     <div class="inscriptionLeft">
         <header>
             <div class="inscriptionLogo">Logo </div>
-            <div>Sign in </div>
+            <div>Sign up </div>
         </header>
         <div class="insMain">
             <form class = "insMainSection" @submit="submiting" action="#">

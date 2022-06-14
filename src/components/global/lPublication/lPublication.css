@@ -1,0 +1,94 @@
+.lPublication {
+  width: 100%;
+  height: 365px;
+  background-color: white;
+  font-size: 13px;
+  position: relative;
+  border-radius: 0.7em;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.24) 1px 4px 4px;
+}
+.lPType {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 10px;
+  font-weight: bold;
+  margin: 5px;
+  background-color: #1C8EFB;
+  color:white;
+  padding: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border-radius: 2em;
+}
+.lPImg {
+  height: 185px;
+  overflow: hidden;
+  display: flex;justify-content: center;align-items: center;
+}
+.lPImg img {
+  width: 100%;
+}
+.lPDate {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 15px;
+  text-align: left;
+  margin-top: 10px;
+}
+.lPDate span {
+  font-weight: bold;
+}
+.lPStars {  
+  display: flex;
+  margin-bottom: 5px;
+}
+.lPStars > div {
+  margin-right: 3px;
+}
+.lPText {
+  margin-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left;
+  font-size: 13px;
+  transition: max-height 0.5s;
+  overflow-y: hidden;
+  white-space: pre-wrap;
+  color: rgb(35, 35, 35);
+}
+.lPStart {
+  margin-top: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.lPStart > div {
+  background-color: #FDAA07;
+  border-radius: 0.8em;
+  text-align: center;
+  padding: 5px;
+  width: 105px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/*----- responsive managment zone... ------------------ */
+@media screen and (max-width: 700px) {
+  .lPType {
+    padding: 2px;
+  }
+  .lPDate {
+    font-size: 10px;
+  }
+  .lPText {
+    width: 100%;
+    font-size: 16px;
+  }
+  .lPOption  {
+    font-size: 12px;
+  }
+}
