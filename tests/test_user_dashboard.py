@@ -7,19 +7,19 @@ from app import schemas
 def client():
     return TestClient(app)
 
-def test_get_profile_with_login(client):
-    response = client.get("/profile/{login}")
-    profile = schemas.ProfileResponse(**response.json())
-    print(response.status_code)
-    print(profile)
+#def test_get_profile_with_login(client):
+#    response = client.get("/profile/{login}")
+#    profile = schemas.ProfileResponse(**response.json())
+#    print(response.status_code)
+#    print(profile)
     
-def test_get_profile(client):
-    response = client.get("/profile")
-    profile = schemas.ProfileResponse(**response.json())
-    print(response.status_code)
-    print(profile)
+#def test_get_profile(client):
+#    response = client.get("/profile")
+#    profile = schemas.ProfileResponse(**response.json())
+#    print(response.status_code)
+#    print(profile)
     
-def test_modify_login(client):
-    response = client.put("/profile/login")
-    print(response.status_code)
+#def test_modify_login(client):
+#    response = client.put("/profile/login")
+#    print(response.status_code)
 
