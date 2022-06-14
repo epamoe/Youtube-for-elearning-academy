@@ -17,11 +17,11 @@ router = APIRouter(
 
 
 
-@router.post("/register", status_code=status.HTTP_200_OK)
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register(regist_form: UserRegister, request : Request):
     if regist_form.password != regist_form.confirm_password:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_417_EXPECTATION_FAILED, 
             detail="The password and the confirmation password don't match"
         )
 
@@ -70,7 +70,7 @@ async def login(login_form: OAuth2PasswordRequestForm = Depends()):
             )
     else: 
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, 
+            status_code=status.HTTP_404_NOT_FOUND, 
             detail="The user doesn't exists"
         )
 
@@ -91,6 +91,7 @@ async def activate(registration_code:str):
     if user :
         user.activated = True
         main_graph.push(user)
+        raise HTTPException(status_code=status.HTTP_200_OK, detail="Activation succeeded")
     else: 
         raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED, 
