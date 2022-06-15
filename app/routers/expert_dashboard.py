@@ -135,7 +135,7 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    lesson_node = Lesson.match(main_graph).where("_.uuid = '"+lesson.uuid+"'").first()
+    lesson_node = Lesson.match(main_graph,lesson.lesson_uuid).first()
     if not lesson_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -150,6 +150,7 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
             detail="Only the trainings author can modify it"
         )
     lesson_node.title = lesson.title
+    lesson_node.uuid = lesson_node.__node__.identity
     # lesson_node.rank_nb = lesson.rank_nb
     main_graph.push(lesson_node)
 
@@ -169,8 +170,13 @@ def delete_trainings(uuid: int, user_login = Depends(get_current_user)):
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="Only the training's author can delete it"
         )
-
-    main_graph.run("MATCH (t:Training{uuid:'"+uuid+"'})-[r1:CONTAIN]->(c:Chapter)-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available, t:Available")
+    query="""
+        MATCH (t:Training{uuid:$uuid})-[r1:CONTAIN]->(c:Chapter)-[r2:SUBDIVIDE]->(l:Lesson) REMOVE c:Available, l:Available, t:Available
+    """
+    params = {
+        "uuid": uuid
+    }
+    main_graph.run(query, params)
 
 @router.delete("/training/chapter/{uuid}")
 def delete_chapter(uuid: int, user_login = Depends(get_current_user)):
@@ -200,11 +206,11 @@ def delete_chapter(uuid: int, user_login = Depends(get_current_user)):
 
 
 @router.delete("/training/chapter/lesson/{uuid}")
-def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
+def delete_lesson(uuid: int, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    lesson_node = Lesson.match(main_graph).where("_.uuid = '"+uuid+"'").first()
+    lesson_node = Lesson.match(main_graph,uuid).first()
     if not lesson_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -219,4 +225,11 @@ def delete_lesson(uuid: str, user_login = Depends(get_current_user)):
             detail="Only the trainings author can modify it"
         )
     
-    main_graph.run("MATCH (l:Lesson{uuid:'"+uuid+"'}) REMOVE l:Available")
+    query = """
+        MATCH (l:Lesson{uuid:$uuid}) REMOVE l:Available
+    """
+    params={
+        "uuid":uuid
+    }
+    main_graph.run(query, params)
+    # main_graph.run("MATCH (l:Lesson{uuid:'"+uuid+"'}) REMOVE l:Available")
