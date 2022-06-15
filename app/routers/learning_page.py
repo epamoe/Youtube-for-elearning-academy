@@ -10,12 +10,11 @@ router = APIRouter(
 )
 
 @router.get("/lesson/get/{lesson_uuid}", response_model = List[schemas.Video])
-def get_lesson(lesson_uuid: str, user_login = Depends(get_current_user)):
+def get_lesson(lesson_uuid: int, user_login = Depends(get_current_user)):
 
-    lesson = Lesson.match(main_graph).where("_.uuid='"+lesson_uuid+"'").first()
+    lesson = Lesson.match(main_graph,lesson_uuid).first()
     # print(lesson.__node__)98bd82df-ce19-472c-bf00-c38c5205ebd8
     query = """
-        MATCH (l:Lesson)
         CALL db.index.fulltext.queryNodes("video_matching", $title) YIELD node 
         WITH node limit 100
         RETURN node

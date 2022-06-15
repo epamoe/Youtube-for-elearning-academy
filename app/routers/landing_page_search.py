@@ -95,7 +95,7 @@ def get_training(uuid: int):
             schemas.Chapter(
                 title = chapter.title,
                 rank_nb = chapter.rank_nb,
-                uuid = chapter.uuid, 
+                uuid = chapter.__node__.identity, 
                 lessons = list(chapter.subdivide)
             ) for chapter in list(training_node.chapters)
         ]

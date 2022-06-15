@@ -28,7 +28,7 @@ class Training(BaseModel):
         orm_mode = True
         
 class Lesson(BaseModel):
-    uuid: Optional[str]
+    uuid: Optional[int]
     rank_nb: int
     title: str
     
@@ -36,7 +36,7 @@ class Lesson(BaseModel):
         orm_mode = True
 
 class Chapter(BaseModel):
-    uuid: Optional[str]
+    uuid: Optional[int]
     title: str
     rank_nb: int
     lessons: List[Lesson]
