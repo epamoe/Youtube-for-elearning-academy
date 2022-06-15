@@ -27,7 +27,6 @@ const routes = [{
 		children: [{
 				path: "/dashboard",
 				component: Dashboard,
-				meta: {requiresAuth: true},
 				name: "Dashboard",
 				children: [{
 						path: "/dashboard/presentation",
@@ -98,7 +97,7 @@ const routes = [{
 		component: NotFound
 	},
 	{
-		path: '/landingPage',
+		path: '/',
 		name: 'LandingPage',
 		component: LandingPage
 	},

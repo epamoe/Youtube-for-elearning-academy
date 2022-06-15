@@ -20,8 +20,8 @@ const store = createStore({
                 //listTrainingFollow: [],
                 //trainingList: [],
             },
-            token: sessionStorage.getItem('TOKEN'),
-            userType: sessionStorage.getItem('USERTYPE'),
+            token: 'dd',//sessionStorage.getItem('TOKEN'),
+            userType: 'user' //sessionStorage.getItem('USERTYPE'),
         },
         training: {
             comments: [
@@ -550,7 +550,7 @@ const store = createStore({
                     })
         },
         async getUserTraining({commit}){
-            const response = await axiosClient.get('/dashboard/profile/training')
+            const response = await axiosClient.get('/dashboard/profile/trainings')
                     .then((res) => {
                         console.log(res.data)
                         return res.data
@@ -560,7 +560,221 @@ const store = createStore({
                         return err
                     })
         },
+        async updateProfileLogin({commit}, login){
+            const response = await axiosClient.put('/dashboard/profile/login')
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateProfileLogin({commit}, login){
+            const response = await axiosClient.put('/dashboard/profile/login', login)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateProfileEmail({commit}, email){
+            const response = await axiosClient.put('/dashboard/profile/email', email)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateProfilePassword({commit}, NewPass){
+            const response = await axiosClient.put('/dashboard/profile/password', NewPass)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateProfilePassword({commit}, image_path){
+            const response = await axiosClient.put('/dashboard/profile/profile_image', image_path)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async getNotifications({commit}){
+            const response = await axiosClient.get('/dashboard/notifications')
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async getFollowedTraining({commit}, uuid){
+            const response = await axiosClient.get(`/dashboard/user/training/follow/${uuid}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async becomeMember({commit}){
+            const response = await axiosClient.get('/dashboard/expert/apply')
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        //  Expert Actions
+        async getExpertTraining({commit}, login){
+            const response = await axiosClient.get(`/dashboard/expert/trainings/${login}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async createTraining({commit}, training){
+            const response = await axiosClient.post('/dashboard/expert/training/create', training)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async createChapiter({commit}, chapiter){
+            const response = await axiosClient.post('/dashboard/expert/training/chapter/create/', chapiter)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async createLesson({commit}, lesson){
+            const response = await axiosClient.post('/dashboard/expert/training/chapter/lesson/create/', lesson)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateTraining({commit}, training){
+            const response = await axiosClient.put('/dashboard/expert/training', training)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateChapiter({commit}, chapiter){
+            const response = await axiosClient.put('/dashboard/expert/training/chapter', chapiter)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateLesson({commit}, lesson){
+            const response = await axiosClient.put('/dashboard/expert/training/chapter/lesson', lesson)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateTraining({commit}, idTraining){
+            const response = await axiosClient.delete(`/dashboard/expert/training/${idTraining}`, training)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async deleteChapiter({commit}, idChapiter){
+            const response = await axiosClient.delete(`/dashboard/expert/training/chapter/${idChapiter}`)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+        async updateLesson({commit}, idLesson){
+            const response = await axiosClient.delete(`/dashboard/expert/training/chapter/lesson/${idLesson}`, lesson)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+
+        //Admin Actions
         
+        async updateLesson({commit}, idLesson){
+            const response = await axiosClient.delete(`/dashboard/expert/training/chapter/lesson/${idLesson}`, lesson)
+                    .then((res) => {
+                        console.log(res.data)
+                        return res.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        return err
+                    })
+        },
+
+
     },
     mutations: {
         logout: (state) => {

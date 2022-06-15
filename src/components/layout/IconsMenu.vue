@@ -2,9 +2,23 @@
   <div class="flex items-center h-full justify-between flex-col pt-5 relative">
     <div class="">
       <div class="flex justify-center flex-col">
-        <div class="bg-black m-2 text-white text-center py-3 mb-10">icon</div>
+        <div class="m-2 py-3 mb-5">
+          <svg
+            width="44"
+            height="42"
+            viewBox="0 0 44 42"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M42 13.0229V2H2V21.4351H19.3913M11.2754 11.5725H28.087V31.0076H2M34.7536 21.4351H42V40H2"
+              stroke="white"
+              stroke-width="3"
+            />
+          </svg>
+        </div>
         <router-link
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: 'LandingPage' }"
           class="block p-3 m-1 rounded-xl"
         >
           <svg
@@ -38,7 +52,7 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: '' }"
+          :to="{ name: 'Dashboard' }"
           class="block p-3 m-1 rounded-xl"
         >
           <svg
@@ -58,10 +72,7 @@
             />
           </svg>
         </router-link>
-        <router-link
-          :to="{ name: '' }"
-          class="block p-3 m-1 rounded-xl"
-        >
+        <router-link :to="{ name: '' }" class="block p-3 m-1 rounded-xl">
           <svg
             width="23"
             height="20"
@@ -75,10 +86,7 @@
             />
           </svg>
         </router-link>
-        <router-link
-          :to="{ name: '' }"
-          class="block p-3 m-1 rounded-xl"
-        >
+        <router-link :to="{ name: '' }" class="block p-3 m-1 rounded-xl">
           <svg
             width="23"
             height="20"
@@ -94,7 +102,7 @@
         </router-link>
       </div>
     </div>
-    <div class="flex justify-between flex-col">
+    <div class="flex justify-between mt-24 flex-col">
       <div class="flex flex-col">
         <button
           :to="{ name: '' }"
@@ -115,10 +123,7 @@
             />
           </svg>
         </button>
-        <router-link
-          :to="{ name: '' }"
-          class="block px-2 py-4 m-1 rounded-xl"
-        >
+        <router-link :to="{ name: '' }" class="block px-2 py-4 m-1 rounded-xl">
           <svg
             width="23"
             height="20"
@@ -139,14 +144,29 @@
       </button>
     </div>
 
-      <div class="absolute bg-gray-100 shadow-2xl rounded px-5 py-2 w-fit user-info left-16 text-sm z-50" v-if="userInformation">
-        <ul>
-          <li class="mb-2"><a href="http://">profile</a></li>
-          <li class="mb-2"><a href="http://">profile</a></li>
-          <hr class="my-2"/>
-          <li><a href="http://" @click.prevent="out">logOut</a></li>
-        </ul>
-      </div>
+    <div
+      class="
+        absolute
+        bg-gray-100
+        shadow-2xl
+        rounded
+        px-5
+        py-2
+        w-fit
+        user-info
+        left-16
+        text-sm
+        z-50
+      "
+      v-if="userInformation"
+    >
+      <ul>
+        <li class="mb-2"><a href="http://">profile</a></li>
+        <li class="mb-2"><a href="http://">profile</a></li>
+        <hr class="my-2" />
+        <li><a href="http://" @click.prevent="out">logOut</a></li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -163,16 +183,16 @@ export default {
     out() {
       this.logOut();
       this.$router.push({
-        name: 'Login'
-      })
+        name: "Login",
+      });
     },
     showUserInfo() {
       this.userInformation = !this.userInformation;
     },
   },
   computed: {
-    ...mapGetters(['getUser']),
-  }
+    ...mapGetters(["getUser"]),
+  },
 };
 </script>
 
@@ -181,7 +201,7 @@ export default {
   background-color: #45a4ff;
   border: none;
 }
-.user-info{
+.user-info {
   bottom: -1rem;
 }
 </style>
