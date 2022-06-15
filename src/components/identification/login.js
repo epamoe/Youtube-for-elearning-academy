@@ -29,7 +29,7 @@ export default {
           .then((response) => {
             console.log(response.data)
             this.$store.commit('setUser', response.data)
-            this.$router.push({name: 'MemberDashboard', params: {token: response.data.token}})
+            this.$router.push({name: 'MemberDashboard'})
             this.getProfile()
           })
           .catch((error) => {

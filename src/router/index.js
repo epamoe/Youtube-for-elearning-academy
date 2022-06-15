@@ -2,14 +2,6 @@ import {
 	createRouter,
 	createWebHistory
 } from "vue-router"
-import Chat from "../components/layout/dashboard/children/Chat.vue"
-import Links from "../components/layout/dashboard/children/Links.vue"
-import Testimonies from "../components/layout/dashboard/children/Testimonies.vue"
-import Presentation from "../components/layout/dashboard/children/Presentation.vue"
-import Overview from "../components/layout/member-dashboard/children/Overview.vue"
-import FollowedSyllabus from "../components/layout/member-dashboard/children/FollowedSyllabus.vue"
-import Syllabus from "../components/layout/member-dashboard/children/Syllabus.vue"
-import NewSyllabus from "../components/layout/member-dashboard/children/NewSyllabus.vue"
 import Dashboard from "../components/Dashboard.vue"
 import Setting from "../components/Setting.vue"
 import EditProfile from "../components/EditProfile.vue"
@@ -30,18 +22,35 @@ const routes = [{
 		},
 		component: Home,
 		children: [{
-				path: "/dashboard/:token/:id",
+				path: "/dashboard",
 				component: Dashboard,
 				name: 'Dashboard'
 			},
 			{
-				path: "/member-dashboard/:token",
+				path: "/member-dashboard",
 				component: MemberDashboard,
 				meta: {
 					requiresAuth: true
 				},
 				name: "MemberDashboard",
 			},
+			{
+				path: "/edit-profile",
+				component: EditProfile,
+				meta: {
+					requiresAuth: true
+				},
+				name: "EditProfile",
+				props: true
+			},
+			{
+				path: "/setting",
+				component: Setting,
+				meta: {
+					requiresAuth: true
+				},
+				name: "Setting",
+			}
 		]
 	},
 	{
@@ -75,22 +84,7 @@ const routes = [{
 		name: 'trainings',
 		component: Trainings
 	},
-		path: "/edit-profile/:token",
-		component: EditProfile,
-		meta: {
-			requiresAuth: true
-		},
-		name: "EditProfile",
-		props: true
-	},
-	{
-		path: "/setting",
-		component: Setting,
-		meta: {
-			requiresAuth: true
-		},
-		name: "Setting",
-	}
+
 ]
 
 
@@ -106,7 +100,10 @@ router.beforeEach((to, from, next) => {
 		})
 	} else if (store.state.user.token && to.meta.isGuest) {
 		next({
-			name: 'Dashboard'
+			name: 'MemberDashboard',
+			params: {
+				token: 'store.state.user.token'
+			}
 		})
 	} else {
 		next()

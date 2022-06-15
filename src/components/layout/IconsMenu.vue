@@ -41,7 +41,7 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'MemberDashboard', params: {token: getUser.token} }"
+          :to="{ name: 'MemberDashboard'}"
           class="block p-3 m-1 rounded-xl"
           title="user Profile"
           v-if="getUser"
@@ -60,7 +60,7 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'EditProfile', params: {token : getUser.token} }"
+          :to="{ name: 'EditProfile'}"
           class="block p-3 m-1 rounded-xl"
           title="edit profile"
           v-if="getUser"
