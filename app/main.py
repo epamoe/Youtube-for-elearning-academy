@@ -24,7 +24,7 @@ app.include_router(landing_page_search.router)
 
 @app.get("/")
 def root():
-    return {"message": "Refactoring ongoing"}
+    return {"message": "Refactoring ongoing "}
 
 
 
