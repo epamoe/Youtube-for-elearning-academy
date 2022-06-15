@@ -10,7 +10,7 @@ class RootGraphObject(GraphObject):
 
 class Application(RootGraphObject):
 
-    __primarykey__ = "uuid"
+    # __primarykey__ = "uuid"
 
     PENDING = "pending"
     REFUSED = "refused"

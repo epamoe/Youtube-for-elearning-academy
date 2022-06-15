@@ -78,7 +78,7 @@ class UserUpdateProfileImage(BaseModel):
     image: str # """ SHOULD BE AN IMAGE OBJECT """
 
 class Notification(BaseModel):
-    uuid: str
+    uuid: int
     content: str
     class Config:
         orm_mode = True
@@ -139,7 +139,7 @@ class AnalyticsPresence(BaseModel):
     page: str
 
 class ApplicationResponse(BaseModel):
-    uuid: str
+    uuid: int
     status: str 
     user_login: str
 
