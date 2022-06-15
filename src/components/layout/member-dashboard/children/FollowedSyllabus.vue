@@ -10,10 +10,10 @@
       <table class="w-full h-48 table-auto m-2 text-sm" >
         <tbody>
           <tr v-for="i in 20" :key="i">
-            <td class="w-2/5"><a href="">Javascript advance course</a></td>
-            <td class="w-1/5 text-center"><a href="">102</a></td>
-            <td class="w-1/5 text-center"><a href="">5</a></td>
-            <td class="w-1/5 text-center"><a href="">3</a></td>
+            <td class="w-2/5"><a href="/dashboard">Javascript advance course</a></td>
+            <td class="w-1/5 text-center"><a href="/dashboard">102</a></td>
+            <td class="w-1/5 text-center"><a href="/dashboard">5</a></td>
+            <td class="w-1/5 text-center"><a href="/dashboard">3</a></td>
           </tr>
         </tbody>
       </table>

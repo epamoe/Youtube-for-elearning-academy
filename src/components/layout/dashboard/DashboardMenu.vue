@@ -4,13 +4,13 @@
         <a href="http://"><h2 class="text-xl mb-14 mt-3">Dashboard</h2></a>
         <ul>
           <li class="mb-3">
-            <a href="http://" class="text-white">profile</a>
+            <a href="/member-dashboard" class="text-white">profile</a>
           </li>
           <li class="mb-3">
-            <a href="http://" class="text-white">update profile</a>
+            <a href="/member-dashboard" class="text-white">update profile</a>
           </li>
           <li class="mb-3">
-            <a href="http://" class="text-white">delete profile</a>
+            <a href="/member-dashboard" class="text-white">delete profile</a>
           </li>
         </ul>
       </div>

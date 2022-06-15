@@ -11,6 +11,8 @@ import FollowedSyllabus from "../components/layout/member-dashboard/children/Fol
 import Syllabus from "../components/layout/member-dashboard/children/Syllabus.vue"
 import NewSyllabus from "../components/layout/member-dashboard/children/NewSyllabus.vue"
 import Dashboard from "../components/Dashboard.vue"
+import Setting from "../components/Setting.vue"
+import EditProfile from "../components/EditProfile.vue"
 import Inscription from '../components/identification/Inscription.vue'
 import Login from '../components/identification/Login.vue'
 import MemberDashboard from "../components/MemberDashboard.vue"
@@ -22,7 +24,9 @@ import LandingPage from "../components/landingPage/LandingPage.vue"
 const routes = [{
 		path: "/",
 		name: 'Home',
-		redirect: {name: 'LandingPage'},
+		redirect: {
+			name: 'LandingPage'
+		},
 		component: Home,
 		children: [{
 				path: "/dashboard",
@@ -53,7 +57,9 @@ const routes = [{
 			{
 				path: "/member-dashboard",
 				component: MemberDashboard,
-				meta: {requiresAuth: true},
+				meta: {
+					requiresAuth: true
+				},
 				name: "MemberDashboard",
 				children: [{
 						path: "/member-dashboard/overview",
@@ -82,13 +88,17 @@ const routes = [{
 	{
 		path: "/register",
 		name: "Register",
-		meta: {isGuest: true},
+		meta: {
+			isGuest: true
+		},
 		component: Inscription,
 	},
 	{
 		path: "/login",
 		name: "Login",
-		meta: {isGuest: true},
+		meta: {
+			isGuest: true
+		},
 		component: Login,
 	},
 	{
@@ -101,7 +111,24 @@ const routes = [{
 		name: 'LandingPage',
 		component: LandingPage
 	},
-	
+	{
+		path: "/edit-profile/:token",
+		component: EditProfile,
+		meta: {
+			requiresAuth: true
+		},
+		name: "EditProfile",
+		props: true
+	},
+	{
+		path: "/setting",
+		component: Setting,
+		meta: {
+			requiresAuth: true
+		},
+		name: "Setting",
+	}
+
 
 ]
 
@@ -112,11 +139,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	if(to.meta.requiresAuth && !store.state.user.token){
-		next({name: 'Login'})
-	} else if(store.state.user.token && to.meta.isGuest){
-		next({name: 'Dashboard'})
-	} else{
+	if (to.meta.requiresAuth && !store.state.user.token) {
+		next({
+			name: 'Login'
+		})
+	} else if (store.state.user.token && to.meta.isGuest) {
+		next({
+			name: 'Dashboard'
+		})
+	} else {
 		next()
 	}
 })

@@ -2,7 +2,7 @@
   <h3 class="font-bold text-xl my-2">Followed Syllabus</h3>
   <ul>
     <li v-for="i in 5" :key="i" class="my-2">
-      <a href="http://" class="flex items-center justify-between"
+      <router-link :to="{name: 'Dashboard'}" class="flex items-center justify-between"
         ><div class="w-fit">
           <input
             type="checkbox"
@@ -25,7 +25,7 @@
             <div :style="{width: '50%'}" class="bar"></div>
           </div> <div class="text-sm">50%</div>
         </div>
-      </a>
+      </router-link>
     </li>
   </ul>
 </template>

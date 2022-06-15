@@ -1,25 +1,31 @@
 <template>
   <div class="flex items-center h-full justify-between flex-col pt-5 relative">
     <div class="">
-      <div class="flex justify-center flex-col">
+      <div class="flex items-center justify-center flex-col">
         <div class="m-2 py-3 mb-5">
-          <svg
-            width="44"
-            height="42"
-            viewBox="0 0 44 42"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          <router-link
+            :to="{ name: 'LandingPage' }"
+            title="Landing page"
           >
-            <path
-              d="M42 13.0229V2H2V21.4351H19.3913M11.2754 11.5725H28.087V31.0076H2M34.7536 21.4351H42V40H2"
-              stroke="white"
-              stroke-width="3"
-            />
-          </svg>
+            <svg
+              width="44"
+              height="42"
+              viewBox="0 0 44 42"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M42 13.0229V2H2V21.4351H19.3913M11.2754 11.5725H28.087V31.0076H2M34.7536 21.4351H42V40H2"
+                stroke="white"
+                stroke-width="3"
+              />
+            </svg>
+          </router-link>
         </div>
         <router-link
           :to="{ name: 'LandingPage' }"
           class="block p-3 m-1 rounded-xl"
+          title="Home page"
         >
           <svg
             width="23"
@@ -37,6 +43,7 @@
         <router-link
           :to="{ name: 'MemberDashboard' }"
           class="block p-3 m-1 rounded-xl"
+          title="user Profile"
         >
           <svg
             width="23"
@@ -52,8 +59,9 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'Dashboard' }"
+          :to="{ name: 'EditProfile', params: {token : 'sg5sd1-s4hgf_57fd4d'} }"
           class="block p-3 m-1 rounded-xl"
+          title="edit profile"
         >
           <svg
             width="23"
@@ -108,6 +116,7 @@
           :to="{ name: '' }"
           class="block px-2 py-4 m-1 rounded-xl"
           @click.prevent="out"
+          title="logOut"
         >
           <svg
             width="23"
@@ -123,7 +132,7 @@
             />
           </svg>
         </button>
-        <router-link :to="{ name: '' }" class="block px-2 py-4 m-1 rounded-xl">
+        <router-link title="setting" :to="{ name: 'Setting' }" class="block py-3 m-1 rounded-xl">
           <svg
             width="23"
             height="20"
@@ -139,7 +148,7 @@
           </svg>
         </router-link>
       </div>
-      <button class="block p-3 m-1 rounded-xl" @click="showUserInfo">
+      <button title="Profile Image" class="block p-3 m-1 rounded-xl" @click="showUserInfo">
         <img :src="getUser.profile.profile_image" width="40" />
       </button>
     </div>

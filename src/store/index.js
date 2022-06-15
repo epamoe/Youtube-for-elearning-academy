@@ -21,7 +21,7 @@ const store = createStore({
                 //trainingList: [],
             },
             token: 'dd',//sessionStorage.getItem('TOKEN'),
-            userType: 'user' //sessionStorage.getItem('USERTYPE'),
+            userType: 'member' //sessionStorage.getItem('USERTYPE'),
         },
         training: {
             comments: [
