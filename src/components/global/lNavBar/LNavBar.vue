@@ -5,7 +5,7 @@
         </div>
         <div>
             <div class="lNavMenu">
-                <div>Home</div>
+                <div><a href="http://localhost:3000/">Home</a></div>
                 <div>About</div>
                 <div><a href="http://localhost:3000/trainings">Trainings</a></div>
                 <div>Become menber</div>

@@ -1,7 +1,9 @@
 <template>
-    <div class ="buttonLand1" >
-        {{ message }}
-    </div>
+    <a href="http://localhost:3000/trainings">
+      <div class ="buttonLand1" >
+          {{ message }}
+      </div>
+    </a>
 </template>
 <style>
     .buttonLand1 {

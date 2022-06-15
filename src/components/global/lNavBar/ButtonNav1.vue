@@ -1,7 +1,9 @@
 <template>
+  <a href="http://localhost:3000/register">
     <div class ="buttonNav1" >
         {{ message }}
     </div>
+  </a>
 </template>
 <style>
     .buttonNav1 {

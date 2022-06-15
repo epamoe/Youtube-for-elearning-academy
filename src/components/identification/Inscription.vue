@@ -43,6 +43,7 @@
         </div>
     </div>
     <div class="inscriptionRight">
+        <img src="./image/youtdev2.png" alt="imgLogin">
     </div>
     <YAlert type="danger" ref="yAlert"/>
 </section>
