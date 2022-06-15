@@ -71,26 +71,23 @@ def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_curr
 def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current_user)):
     
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
-    member = find_member(user_login)
+    find_member(user_login)
 
-    # Getting the chapter attached to the lesson and identified by chapter_id
-    chapter = Chapter.match(main_graph,lesson.chapter_uuid).first()
-    chapter.uuid = chapter.__node__.identity
-    training = list(chapter.contained_by)[0]
-    if not list(training.publisher)[0].login == member.login:
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="Only the training's author can modify it"
-        )
+    query = """
+        MATCH (t:Chapter{uuid:$chapter_uuid})
+        MERGE (t)-[:CONTAIN]-(c:Available:Lesson{title:$title, rank_nb: $rank_nb})
+        SET c.uuid = ID(c)
+        RETURN ID(c) as uuid
+    """
+    params = {
+        "chapter_uuid": lesson.chapter_uuid,
+        "title": lesson.title,
+        "rank_nb": lesson.rank_nb
+    }
     
-    # Creating the new lesson and adding it to the graph
-    new_lesson = Lesson(
-        title=lesson.title,
-        rank_nb=lesson.rank_nb
-    )
-    chapter.subdivide.add(new_lesson)
-    main_graph.push(chapter)
-    ...
+    response = main_graph.run(query, params)
+    return schemas.CreationResponse(uuid=response.data()[0]["uuid"])
+  
 
 @router.put("/training/")
 def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_current_user)):
