@@ -29,8 +29,7 @@ export default {
           .then((response) => {
             console.log(response.data)
             this.$store.commit('setUser', response.data)
-            console.log(this.$store.state.login)
-            this.$router.push({name: 'MemberDashboard'})
+            this.$router.push({name: 'MemberDashboard', params: {token: response.data.token}})
             this.getProfile()
           })
           .catch((error) => {
@@ -58,6 +57,6 @@ export default {
       this.$refs.yAlert.display('check your mail account to activate your account')
       this.$store.commit('cDisplayCheckmail', false)
     }
-  }
+  },
 }
 

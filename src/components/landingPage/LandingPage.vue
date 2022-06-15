@@ -4,14 +4,14 @@
     <div class="lMain">
       <div class="lMainF">
         <div class="lMainFLeft">
-          <span class="lMainTitleBig">A New Way Of Digital Learn</span>
+          <span class="absolute top-28 left-20"><img src="./img/3bands.svg"/></span><span class="lMainTitleBig">A New Way Of Digital Learn</span>
           <span>Loren ipsum dolor sit amet,consectetur adipiscing elit.</span>
           <div>
             <ButtonLand1 message="Get started"/>
             <img src="./img/play.svg"/>
           </div>
         </div>
-        <div class="lMainFRight"><span>IMG</span></div>
+        <div class="lMainFRight"><span><img src="./img/girls2 1.svg"/></span></div>
       </div>
       <div class="lMainSearch">
         <InputSearch/>
@@ -42,7 +42,8 @@
         <div><MyProfile/></div>
       </div>
       <div class="lMainHereHelp">
-        <div><HereHelp/></div><div><img/></div>
+        <div><HereHelp/></div>
+        <div class="absolute right-0 pl-40"><img src='./img/teamHelp.svg'/></div>
       </div>
       <div class="lMainNewlet">
         <NewsLetter/>

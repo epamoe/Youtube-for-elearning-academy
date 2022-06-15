@@ -20,8 +20,12 @@
 
     /* on hover */
     .buttonLand1:hover {
-      opacity: 0.6;
+      box-shadow: 15px;
+      background-color: #FDAA07;
+      transition-duration: 500ms;
+     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* hover:bg-[#FDAA07] hover:shadow-lg shadow-yellow-3 hover:border-transparent focus:outline-none transition easy-out duration-300*/
     /*----- responsive managment zone... ------------------ */
     @media screen and (max-width: 440px) {
     }

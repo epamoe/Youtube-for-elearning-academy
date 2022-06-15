@@ -19,8 +19,11 @@
     }
 
     /* on hover */
-    .buttonNav1:hover {
-      opacity: 0.6;
+    .buttonNav1:hover { 
+      box-shadow: 15px;
+      background-color: #FDAA07;
+      transition-duration: 500ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
     /*----- responsive managment zone... ------------------ */
     @media screen and (max-width: 440px) {

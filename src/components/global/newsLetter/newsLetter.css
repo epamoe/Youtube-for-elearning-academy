@@ -6,7 +6,7 @@
   position: relative;
   font-size: 43px;
   font-weight: bold;
-  white-space:pre
+  padding-left: 35px;
 }
 .nLTTitle img {
   z-index: -1;

@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <div class="flex flex-col gap-y-5">
+    <div class="">
       <div class="">
         <h5 class="text-sm p-0 ml-16 mb-1">Fai</h5>
         <div class="flex items-center gap-x-2">
@@ -24,26 +24,28 @@
           </div>
         </div>
       </div>
-      <div
-        class="
-          relative
-          message-user
-          rounded-t-3xl rounded-bl-3xl
-          w-fit
-          max-w-md
-          self-end
-          p-3
-        "
-      >
-        <p class="text-sm mb-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-          quos libero vero sapiente voluptatibus, iure laboriosam sint facere
-          fugit qui. Cupiditate corporis, dolor dolores unde magnam rerum magni
-          quaerat temporibus.
-          <span class="block absolute right-1 bottom-1 text-gray-500"
-            >10:38 am</span
+      <div class="my-5" v-for="message in messages" :key="message">
+        <h5 class="text-sm p-0 ml-16 mb-1">{{ getUser.profile.login }}</h5>
+        <div class="flex items-center gap-x-2">
+          <img :src="getUser.profile.profile_image" class="rounded-full h-10" />
+          <div
+            class="
+              relative
+              message-user
+              rounded-t-3xl rounded-br-3xl
+              w-fit
+              max-w-md
+              p-3
+              mt-0
+              text-sm
+            "
           >
-        </p>
+            <p class="text-sm mb-4">{{message}}.</p>
+            <span class="block absolute right-3 bottom-1 text-gray-500"
+              >10:38 am</span
+            >
+          </div>
+        </div>
       </div>
     </div>
     <form action="" class="flex gap-x-5 mt-24">
@@ -52,11 +54,12 @@
           style="resize: none"
           class="form-textarea rounded-3xl w-full h-24"
           placeholder="enter your message"
+          v-model="message"
         ></textarea>
       </div>
       <div class="button flex flex-col justify-around">
         <div>
-          <button type="submit">
+          <button @click.prevent="sendMessage">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -72,7 +75,7 @@
           </button>
         </div>
         <div>
-          <button type="submit">
+          <button @click.prevent>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -96,7 +99,24 @@
 </template>
 
 <script>
-export default {};
+import {mapGetters} from 'vuex'
+export default {
+  data() {
+    return {
+      message: '',
+      messages: [],
+    }
+  },
+  methods: {
+    sendMessage(){
+      this.messages = [...this.messages, this.message]
+      this.message = ''
+    }
+  },
+  computed: {
+    ...mapGetters(['getUser']),
+  }
+};
 </script>
 
 <style scoped>

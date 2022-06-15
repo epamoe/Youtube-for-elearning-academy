@@ -17,6 +17,7 @@
             <div class="lFooterMenu">
                 <h2 class="lFooterTitle">Programs <img src="./img/curve.svg"></h2>
                 <span>Learning Modules</span>
+                <span>Best Trainnings</span>
                 <span>Partnership</span>
                 <span>Event</span>
                 <span>Carrier</span>
@@ -26,8 +27,9 @@
             <div class="lFooterMenu">
                 <h2 class="lFooterTitle">Quick acces <img src="./img/curve.svg"></h2>
                 <span>Home</span>
-                <span>Become member</span>
+                <span>Trainnings</span>
                 <span>About</span>
+                <span>Become member</span>
                 <span>NewsLetter</span>
                 <span>support</span>
                 <span>Contact</span>
@@ -37,7 +39,7 @@
                 <FormRequest/>
             </div>
         </div>
-        <div class="lFooterFooter">copyright 2022. Youtube dev All right reserved</div>
+        <div class="lFooterFooter">copyright 2022. Learn For All right reserved.</div>
     </footer>
 </template>
 <style src="./lFooter.css">

@@ -18,12 +18,12 @@
     color: white;
     font-weight: bold;  
     margin-right:35px;
-
     display: flex;
     justify-content: left;
     align-items: center;
 }
-.formRequest input {    
+.formRequest input {  
+    color: rgb(40,40,40); ;  
     border: none;
     border-radius: 0.7em;
     font-weight: bold;  
@@ -32,6 +32,7 @@
     margin-top: 3px;    
 }
 .formRequest textarea {
+    color: rgb(40,40,40); ;  
     margin-top: 3px;
         height: 64px;   
         border: none;

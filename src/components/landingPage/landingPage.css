@@ -85,6 +85,7 @@
     position: relative;
     font-size: 42px;
     font-weight: bold;
+    padding-right: 50px;
 }
 .lMainTTitle img {
     position:absolute;
@@ -128,11 +129,11 @@
 
 /* fifth row become member plus an image */
 .lMainHereHelp {
+    position: relative;
     margin-top: 70px;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
     display: flex;
     padding-left: 5%;
-    padding-right: 5%;
 }
 .lMainHereHelp > div {
     width: 50%;

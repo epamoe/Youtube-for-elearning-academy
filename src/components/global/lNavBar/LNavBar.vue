@@ -1,12 +1,13 @@
 <template>
     <header class="lNavBar">
         <div class="lNavLogo">
-            <div>Logo</div>
+            <div><img src="./images/logo.svg"/></div>
         </div>
         <div>
             <div class="lNavMenu">
                 <div>Home</div>
                 <div>About</div>
+                <div>Trainings</div>
                 <div>Become menber</div>
             </div>
             <div>

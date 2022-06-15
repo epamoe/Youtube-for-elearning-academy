@@ -16,7 +16,6 @@
 .lNavLogo div {
   width: 100px;
   padding: 5px;
-  background-color: silver;
 }
 
 .lNavLogo + div {
@@ -33,7 +32,7 @@
   align-items: center;
 }
 .lNavMenu > div {
-  margin-right: 15%;
+  margin-right: 8%;
 }
 
 .lNavMenu + div {

@@ -9,7 +9,7 @@ input:focus, textarea:focus, select:focus{
     display: flex;
 }
 .inscriptionLeft {
-    padding-bottom: 150px;
+    padding-bottom: 50px;
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -19,7 +19,7 @@ input:focus, textarea:focus, select:focus{
 .inscriptionLogo {
     margin-top: 40px;
     text-align: center;
-    font-size: 40px;
+    font-size: 20px;
     font-weight: bold;
 }
 .inscriptionLogo + div {
@@ -48,8 +48,8 @@ input:focus, textarea:focus, select:focus{
     font-size: 12px;
     display: flex; justify-content: center; align-items: center;
     align-items: center;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     font-weight: bold;
     width: 180px;
 }
@@ -81,7 +81,9 @@ input:focus, textarea:focus, select:focus{
 
 .inscriptionRight {
     width: 50%;
-    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-items: center;
 }
 .insSetting {
     margin-top: 20px;
