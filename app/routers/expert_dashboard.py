@@ -26,10 +26,17 @@ def get_trainings(login:str):
     return trainings
     ...
 
-@router.post("/training/create")
+@router.post("/training/create", response_model=schemas.CreationResponse)
 def create_trainings(training: schemas.TrainingCreate, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
+
+    db_training = Training.match(main_graph).where("_.title = '" + training.title + "'").first()
+    if db_training: 
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Une formation possédant le même titre existe déjà"
+        )
 
     new_training = Training(
         title=training.title,
@@ -40,6 +47,8 @@ def create_trainings(training: schemas.TrainingCreate, user_login = Depends(get_
     )
     member.published_trainings.add(new_training)
     main_graph.push(member)
+    db_training = Training.match(main_graph).where("_.title = '" + training.title + "'").first()
+    return schemas.CreationResponse(uuid=db_training.__node__.identity)
 
 @router.post("/training/chapter/create/")
 def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_current_user)):

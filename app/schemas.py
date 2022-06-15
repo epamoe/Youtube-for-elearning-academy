@@ -121,6 +121,9 @@ class LessonUpdate(BaseModel):
     title: str
     rank_nb: int
 
+class CreationResponse(BaseModel):
+    uuid: int
+
 #--------------------------------------    LEARNING PAGE   --------------------------------
 class Video(BaseModel):
     video_id: str
