@@ -29,59 +29,17 @@ const routes = [{
 		},
 		component: Home,
 		children: [{
-				path: "/dashboard",
+				path: "/dashboard/:token/:id",
 				component: Dashboard,
-				name: "Dashboard",
-				children: [{
-						path: "/dashboard/presentation",
-						name: "Presentation",
-						component: Presentation,
-					},
-					{
-						path: "/dashboard/testimonies",
-						name: "Testimonies",
-						component: Testimonies,
-					},
-					{
-						path: "/dashboard/links",
-						name: "Links",
-						component: Links,
-					},
-					{
-						path: "/dashboard/chat",
-						name: "Chat",
-						component: Chat,
-					},
-				]
+				name: 'Dashboard'
 			},
 			{
-				path: "/member-dashboard",
+				path: "/member-dashboard/:token",
 				component: MemberDashboard,
 				meta: {
 					requiresAuth: true
 				},
 				name: "MemberDashboard",
-				children: [{
-						path: "/member-dashboard/overview",
-						name: "Overview",
-						component: Overview,
-					},
-					{
-						path: "/member-dashboard/followed-syllabus",
-						name: "FollowedSyllabus",
-						component: FollowedSyllabus,
-					},
-					{
-						path: "/member-dashboard/syllabus",
-						name: "Syllabus",
-						component: Syllabus,
-					},
-					{
-						path: "/member-dashboard/new-syllabus",
-						name: "NewSyllabus",
-						component: NewSyllabus,
-					},
-				]
 			},
 		]
 	},

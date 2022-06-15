@@ -10,10 +10,10 @@
       <table class="w-full h-48 table-auto m-2 text-sm" >
         <tbody>
           <tr v-for="i in 20" :key="i">
-            <td class="w-2/5"><a href="/dashboard">Javascript advance course</a></td>
-            <td class="w-1/5 text-center"><a href="/dashboard">102</a></td>
-            <td class="w-1/5 text-center"><a href="/dashboard">5</a></td>
-            <td class="w-1/5 text-center"><a href="/dashboard">3</a></td>
+            <td class="w-2/5"><router-link :to="{name: 'Dashboard', params: {token: 'hqsj_54dfs8f5fh-@gdg15g4', id:'2'} }" href="/dashboard">Javascript advance course</router-link></td>
+            <td class="w-1/5 text-center"><router-link :to="{name: 'Dashboard', params: {token: 'hqsj_54dfs8f5fh-@gdg15g4', id:'2'} }" href="/dashboard">102</router-link></td>
+            <td class="w-1/5 text-center"><router-link :to="{name: 'Dashboard', params: {token: 'hqsj_54dfs8f5fh-@gdg15g4', id:'2'} }" href="/dashboard">5</router-link></td>
+            <td class="w-1/5 text-center"><router-link :to="{name: 'Dashboard', params: {token: 'hqsj_54dfs8f5fh-@gdg15g4', id:'2'} }" href="/dashboard">3</router-link></td>
           </tr>
         </tbody>
       </table>

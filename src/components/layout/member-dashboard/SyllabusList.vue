@@ -2,7 +2,7 @@
   <h3 class="font-bold text-xl my-2">Followed Syllabus</h3>
   <ul>
     <li v-for="i in 5" :key="i" class="my-2">
-      <router-link :to="{name: 'Dashboard'}" class="flex items-center justify-between"
+      <router-link :to="{name: 'Dashboard', params:{token: getUser.token, id:'5' } }" class="flex items-center justify-between"
         ><div class="w-fit">
           <input
             type="checkbox"

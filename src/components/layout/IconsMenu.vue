@@ -41,9 +41,10 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'MemberDashboard' }"
+          :to="{ name: 'MemberDashboard', params: {token: getUser.token} }"
           class="block p-3 m-1 rounded-xl"
           title="user Profile"
+          v-if="getUser"
         >
           <svg
             width="23"
@@ -59,9 +60,10 @@
           </svg>
         </router-link>
         <router-link
-          :to="{ name: 'EditProfile', params: {token : 'sg5sd1-s4hgf_57fd4d'} }"
+          :to="{ name: 'EditProfile', params: {token : getUser.token} }"
           class="block p-3 m-1 rounded-xl"
           title="edit profile"
+          v-if="getUser"
         >
           <svg
             width="23"
@@ -80,7 +82,7 @@
             />
           </svg>
         </router-link>
-        <router-link :to="{ name: '' }" class="block p-3 m-1 rounded-xl">
+        <!-- <router-link :to="{ name: '' }" class="block p-3 m-1 rounded-xl">
           <svg
             width="23"
             height="20"
@@ -107,10 +109,10 @@
               fill="white"
             />
           </svg>
-        </router-link>
+        </router-link> -->
       </div>
     </div>
-    <div class="flex justify-between mt-24 flex-col">
+    <div class="flex justify-between mt-24 flex-col" v-if="getUser">
       <div class="flex flex-col">
         <button
           :to="{ name: '' }"
@@ -165,7 +167,7 @@
         user-info
         left-16
         text-sm
-        z-50
+        z-100
       "
       v-if="userInformation"
     >
@@ -212,5 +214,8 @@ export default {
 }
 .user-info {
   bottom: -1rem;
+}
+.z-100{
+  z-index: 100;
 }
 </style>

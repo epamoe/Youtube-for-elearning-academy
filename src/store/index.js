@@ -20,7 +20,7 @@ const store = createStore({
                 //listTrainingFollow: [],
                 //trainingList: [],
             },
-            token: 'dd',//sessionStorage.getItem('TOKEN'),
+            token: 'sg5sd1-s4hgf_57fd4d',//sessionStorage.getItem('TOKEN'),
             userType: 'member' //sessionStorage.getItem('USERTYPE'),
         },
         training: {
