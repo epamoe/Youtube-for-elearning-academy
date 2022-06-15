@@ -1,6 +1,6 @@
 <template>
   <div class="border-2 border-slate-800 p-10 rounded-lg syllabus overflow-auto ">
-    <div v-for="i in 10" class="mb-5 text-sm border-2 p-4 border-slate-300 p-5 pt-2 rounded-lg relative">
+    <div v-for="i in 10" :key="i" class="mb-5 text-sm border-2 p-4 border-slate-300 p-5 pt-2 rounded-lg relative">
       <div class="flex items-center m-5 gap-x-24">
         <div class="w-1/3 note">
           <div class="m-0 p-0 rounded-t-xl overflow-hidden">

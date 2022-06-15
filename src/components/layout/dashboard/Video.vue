@@ -200,16 +200,27 @@
       </div>
     </div>
     <div class="mt-5 mb-0">
-      <RouterLink :ListOfLinks="ListOfLinks" :col="col"></RouterLink>
+      <div class="flex font-medium border-b-1 text-lg text-center">
+        <button @click="viewChild = link" class="w-1/4" :class="viewChild == link ? 'link-active' : ''" v-for="link in ListOfLinks"
+          :key="link"><span>{{ link }}</span></button
+        >
+      </div>
     </div>
   </div>
   <div class="px-5 pb-1">
-    <router-view></router-view>
+    <Presentation v-if="viewChild === 'Presentation'"/>
+    <Chat v-if="viewChild === 'Chat'"/>
+    <Testimonies v-if="viewChild === 'Testimonies'"/>
+    <Links v-if="viewChild === 'Links'"/>
   </div>
 </template>
 
 <script>
 import RouterLink from "../RouterLink.vue";
+import Presentation from "./children/Presentation.vue";
+import Links from "./children/Links.vue";
+import Testimonies from "./children/Testimonies.vue";
+import Chat from "./children/Chat.vue";
 
 const ListOfLinks = ["Presentation", "Chat", "Testimonies", "Links"];
 const col = ListOfLinks.length;
@@ -223,6 +234,7 @@ export default {
       showBar1: false,
       videosListTemp: [],
       videosList: [],
+      viewChild: "Presentation",
     };
   },
   setup() {
@@ -233,16 +245,20 @@ export default {
   },
   components: {
     RouterLink,
+    Presentation,
+    Chat,
+    Testimonies,
+    Links,
   },
   methods: {},
 };
 </script>
 
 <style>
-.flex.font-medium.text-lg .router-link-exact-active {
+.flex.font-medium.text-lg .link-active {
   position: relative;
 }
-.flex.font-medium.text-lg .router-link-exact-active::after {
+.flex.font-medium.text-lg .link-active::after {
   content: "";
   display: block;
   width: 100%;

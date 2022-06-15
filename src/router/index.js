@@ -11,6 +11,8 @@ import FollowedSyllabus from "../components/layout/member-dashboard/children/Fol
 import Syllabus from "../components/layout/member-dashboard/children/Syllabus.vue"
 import NewSyllabus from "../components/layout/member-dashboard/children/NewSyllabus.vue"
 import Dashboard from "../components/Dashboard.vue"
+import Setting from "../components/Setting.vue"
+import EditProfile from "../components/EditProfile.vue"
 import Inscription from '../components/identification/Inscription.vue'
 import Login from '../components/identification/Login.vue'
 import MemberDashboard from "../components/MemberDashboard.vue"
@@ -22,74 +24,39 @@ import LandingPage from "../components/landingPage/LandingPage.vue"
 const routes = [{
 		path: "/",
 		name: 'Home',
-		redirect: {name: 'LandingPage'},
+		redirect: {
+			name: 'LandingPage'
+		},
 		component: Home,
 		children: [{
-				path: "/dashboard",
+				path: "/dashboard/:token/:id",
 				component: Dashboard,
-				meta: {requiresAuth: true},
-				name: "Dashboard",
-				children: [{
-						path: "/dashboard/presentation",
-						name: "Presentation",
-						component: Presentation,
-					},
-					{
-						path: "/dashboard/testimonies",
-						name: "Testimonies",
-						component: Testimonies,
-					},
-					{
-						path: "/dashboard/links",
-						name: "Links",
-						component: Links,
-					},
-					{
-						path: "/dashboard/chat",
-						name: "Chat",
-						component: Chat,
-					},
-				]
+				name: 'Dashboard'
 			},
 			{
-				path: "/member-dashboard",
+				path: "/member-dashboard/:token",
 				component: MemberDashboard,
-				meta: {requiresAuth: true},
+				meta: {
+					requiresAuth: true
+				},
 				name: "MemberDashboard",
-				children: [{
-						path: "/member-dashboard/overview",
-						name: "Overview",
-						component: Overview,
-					},
-					{
-						path: "/member-dashboard/followed-syllabus",
-						name: "FollowedSyllabus",
-						component: FollowedSyllabus,
-					},
-					{
-						path: "/member-dashboard/syllabus",
-						name: "Syllabus",
-						component: Syllabus,
-					},
-					{
-						path: "/member-dashboard/new-syllabus",
-						name: "NewSyllabus",
-						component: NewSyllabus,
-					},
-				]
 			},
 		]
 	},
 	{
 		path: "/register",
 		name: "Register",
-		meta: {isGuest: true},
+		meta: {
+			isGuest: true
+		},
 		component: Inscription,
 	},
 	{
 		path: "/login",
 		name: "Login",
-		meta: {isGuest: true},
+		meta: {
+			isGuest: true
+		},
 		component: Login,
 	},
 	{
@@ -98,11 +65,28 @@ const routes = [{
 		component: NotFound
 	},
 	{
-		path: '/landingPage',
+		path: '/',
 		name: 'LandingPage',
 		component: LandingPage
 	},
-	
+	{
+		path: "/edit-profile/:token",
+		component: EditProfile,
+		meta: {
+			requiresAuth: true
+		},
+		name: "EditProfile",
+		props: true
+	},
+	{
+		path: "/setting",
+		component: Setting,
+		meta: {
+			requiresAuth: true
+		},
+		name: "Setting",
+	}
+
 
 ]
 
@@ -113,11 +97,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	if(to.meta.requiresAuth && !store.state.user.token){
-		next({name: 'Login'})
-	} else if(store.state.user.token && to.meta.isGuest){
-		next({name: 'Dashboard'})
-	} else{
+	if (to.meta.requiresAuth && !store.state.user.token) {
+		next({
+			name: 'Login'
+		})
+	} else if (store.state.user.token && to.meta.isGuest) {
+		next({
+			name: 'Dashboard'
+		})
+	} else {
 		next()
 	}
 })
