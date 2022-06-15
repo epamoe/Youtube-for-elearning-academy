@@ -148,7 +148,8 @@ async def update_profile_image(background_tasks: BackgroundTasks, file: UploadFi
 @router.get("/notifications/", response_model = List[schemas.Notification])
 def get_notifications(user_login = Depends(get_current_user)):
     user = User.match(main_graph, user_login).first()
-    return list(user.notifications)
+    notifications = [schemas.Notification(uuid= notif.__node__.identity, content=notif.content) for notif in list(user.notifications)]
+    return notifications
 
 @router.get("/profile/trainings/", response_model = List[schemas.UserTrainingResponse])
 def get_trainings(user_login = Depends(get_current_user)):
