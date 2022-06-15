@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 @router.get("/validate/{application_uuid}", status_code=status.HTTP_200_OK)
-def validate(application_uuid: str, user_login = Depends(get_current_user)):
+def validate(application_uuid: int, user_login = Depends(get_current_user)):
     user = User.match(main_graph,user_login).first()
     if not user.admin:
         raise HTTPException(
@@ -26,6 +26,7 @@ def validate(application_uuid: str, user_login = Depends(get_current_user)):
             status_code= status.HTTP_401_UNAUTHORIZED,
             detail="This application doesn't exist"
         )
+    application.uuid = application.__node__.identity
 
     if application.status == Application.PENDING:
         application.status = Application.ACCEPTED
@@ -52,6 +53,6 @@ def get_applications(user_login = Depends(get_current_user)):
         )
 
     applications =  list(Application.match(main_graph).where("_.status = '" + Application.PENDING + "'"))
-    apps_users = [ApplicationResponse(status = app.status, user_login = list(app.candidates)[0].login, uuid = app.uuid) for app in applications]
+    apps_users = [ApplicationResponse(status = app.status, user_login = list(app.candidates)[0].login, uuid = app.__node__.identity) for app in applications]
     return apps_users
     ...
