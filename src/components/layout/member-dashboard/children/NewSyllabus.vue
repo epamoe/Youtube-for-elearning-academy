@@ -119,6 +119,7 @@ export default {
         chapiters: this.syllabus.chapiters,
         description: this.syllabus.description,
         image: this.syllabus.image,
+        thumbnail: 'this.syllabus.image',
         title: this.syllabus.title,
 
       })
