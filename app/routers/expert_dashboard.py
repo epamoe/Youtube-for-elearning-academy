@@ -29,26 +29,22 @@ def get_trainings(login:str):
 @router.post("/training/create", response_model=schemas.CreationResponse)
 def create_trainings(training: schemas.TrainingCreate, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
-    member = find_member(user_login)
+    find_member(user_login)
+    query = """
+        MATCH (m:Member{login:$login})
+        MERGE (m)-[:PUBLISH]-(t:Available:Training{title:$title, description: $description, thumbnail: $thumbnail, students_number: 0, mark: 0})
+        SET t.uuid = ID(t)
+        RETURN ID(t) as uuid
+    """
+    params = {
+        "login": user_login,
+        "title": training.title,
+        "description": training.description,
+        "thumbnail": training.thumbnail
+    }
 
-    db_training = Training.match(main_graph).where("_.title = '" + training.title + "'").first()
-    if db_training: 
-        raise HTTPException(
-            status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="Une formation possédant le même titre existe déjà"
-        )
-
-    new_training = Training(
-        title=training.title,
-        description=training.description,
-        thumbnail=training.thumbnail,
-        students_number = 0,
-        mark = 0
-    )
-    member.published_trainings.add(new_training)
-    main_graph.push(member)
-    db_training = Training.match(main_graph).where("_.title = '" + training.title + "'").first()
-    return schemas.CreationResponse(uuid=db_training.__node__.identity)
+    response = main_graph.run(query, params)
+    return schemas.CreationResponse(uuid=response.data()[0]["uuid"])
 
 @router.post("/training/chapter/create/")
 def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_current_user)):
