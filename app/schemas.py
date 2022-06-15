@@ -16,7 +16,7 @@ class UserRegister(BaseModel):
 
 #-------------------------------------    LANDING PAGE SEARCH     -------------------------------
 class Training(BaseModel):
-    uuid: str
+    uuid: int
     title: str
     description: str
     students_number: int
