@@ -1,7 +1,9 @@
 <template>
-    <div class ="buttonNav2" >
+    <a href="http://localhost:3000/login">
+      <div class ="buttonNav2" >
         {{ message }}
     </div>
+    </a>
 </template>
 <style>
     .buttonNav2 {

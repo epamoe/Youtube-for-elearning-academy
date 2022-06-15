@@ -2,8 +2,8 @@
 <section class="inscription">
     <div class="inscriptionLeft">
         <header>
-            <div class="inscriptionLogo">Logo </div>
-            <div>Sign up </div>
+            <div class="inscriptionLogo"><img src="./image/logo.svg"></div>
+            <div>Sign In </div>
         </header>
         <div class="insMain">
             <form class = "insMainSection" @submit="submiting" action="#">

@@ -6,7 +6,7 @@
       height="315"
       :src="videos[0].link"
     ></iframe>
-    <input type="range" name="" id="" class="w-full" />
+    <!-- <input type="range" name="" id="" class="w-full" />
     <div class="flex justify-between items-center">
       <div class="col-span-2">
         <div class="flex gap-2">
@@ -183,7 +183,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="my-3">
       <h2 class="text-2xl font-semibold my-4">Related Videos</h2>
       <div class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-x-4">
