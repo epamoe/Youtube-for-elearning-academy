@@ -157,7 +157,7 @@ def get_trainings(user_login = Depends(get_current_user)):
     trainings = list(user.follow_training)
     response = [{
         "training" : schemas.Training(
-            uuid = train.uuid,
+            uuid = train.__node__.identity,
             title = train.title,
             description = train.description,
             students_number = train.students_number,
@@ -173,9 +173,9 @@ def get_trainings(user_login = Depends(get_current_user)):
 
     
 @router.get("/user/training/follow/{uuid}")
-def follow_training(uuid: str, user_login = Depends(get_current_user)):
+def follow_training(uuid: int, user_login = Depends(get_current_user)):
     user = User.match(main_graph, user_login).first()
-    training = Training.match(main_graph).where("_.uuid='"+uuid+"'").first()
+    training = Training.match(main_graph,uuid).first()
     user.follow_training.add(training, properties={
         "progression": 0
     })

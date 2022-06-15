@@ -15,7 +15,7 @@ router = APIRouter(
 def get_trainings(login:str):
     member = find_member(login)
     trainings = [schemas.Training(
-        uuid = t.uuid,
+        uuid = t.__node__.identity,
         title = t.title,
         description = t.description,
         students_number = t.students_number,
@@ -47,7 +47,8 @@ def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_curr
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    training = Training.match(main_graph).where("_.uuid='"+chapter.training_uuid+"'").first()
+    training = Training.match(main_graph,chapter.training_uuid).first()
+    training.uuid = training.__node__.identity
     if not list(training.publisher)[0].login == member.login:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
@@ -89,7 +90,7 @@ def update_trainings(training: schemas.TrainingUpdate, user_login = Depends(get_
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    training_node = Training.match(main_graph).where("_.uuid = '"+training.uuid+"'").first()
+    training_node = Training.match(main_graph,training.training_uuid).first()
     if not training_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,
@@ -151,11 +152,11 @@ def update_lesson(lesson: schemas.LessonUpdate, user_login = Depends(get_current
     main_graph.push(lesson_node)
 
 @router.delete("/training/{uuid}")
-def delete_trainings(uuid: str, user_login = Depends(get_current_user)):
+def delete_trainings(uuid: int, user_login = Depends(get_current_user)):
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
     member = find_member(user_login)
 
-    training_node = Training.match(main_graph).where("_.uuid = '"+uuid+"'").first()
+    training_node = Training.match(main_graph,uuid).first()
     if not training_node:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND,

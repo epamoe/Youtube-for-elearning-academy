@@ -16,7 +16,7 @@ def search(query: str):
     request = """
         CALL db.index.fulltext.queryNodes("training", $query) YIELD node
         MATCH (user)-[:PUBLISH]->(node)
-        RETURN node, user.login as author_login
+        RETURN node, ID(node) as id, user.login as author_login
     """
     params = {
         "query" : query
@@ -29,7 +29,7 @@ def search(query: str):
         mark = t["node"]["mark"],
         students_number=t["node"]["students_number"],
         thumbnail=t["node"]["thumbnail"],
-        uuid = t["node"]["uuid"],
+        uuid = t["id"],
         author_login=t["author_login"]
     ) for t in response.data()]
 
@@ -55,17 +55,21 @@ def get_domains():
     return domains
 
 @router.get("/dashboard/search/{uuid}", response_model = List[schemas.Training])
-def search_on_dashboard(uuid: str):
-    training = Training.match(main_graph).where("_.uuid='"+uuid+"'").first()
+def search_on_dashboard(uuid: int):
+    training = Training.match(main_graph,uuid).first()
+    if not list(training.domain):
+        return {
+            "detail": "no domain inserted yet"
+        }
     domain = list(training.domain)[0]
     trainings = list(domain.trainings)
     
     response = [ ]
     for t in trainings:
-        if t.uuid != uuid:
+        if t.__node__.identity != uuid:
             response.append(
                 schemas.Training(
-                    uuid = t.uuid,
+                    uuid = t.__node__.identity,
                     title = t.title,
                     description = t.description,
                     students_number = t.students_number,
@@ -77,10 +81,10 @@ def search_on_dashboard(uuid: str):
     return response
 
 @router.get("/dashboard/training/get/{uuid}", response_model = schemas.DashboardTraining)
-def get_training(uuid: str):
-    training_node = Training.match(main_graph).where("_.uuid = '"+uuid+"'").first()
+def get_training(uuid: int):
+    training_node = Training.match(main_graph,uuid).first()
     return schemas.DashboardTraining(
-        uuid = training_node.uuid,
+        uuid = training_node.__node__.identity,
         title = training_node.title,
         description = training_node.description,
         students_number = training_node.students_number,
@@ -100,17 +104,17 @@ def get_training(uuid: str):
     ...
 
 @router.get("/dashboard/training/like/{uuid}")
-def training_like(uuid: str, user_login = Depends(get_current_user)):
+def training_like(uuid: int, user_login = Depends(get_current_user)):
     member = find_member(user_login)
-    training = Training.match(main_graph).where("_.uuid = '"+uuid+"'").first()
+    training = Training.match(main_graph,uuid).first()
     member.like_training.add(training)
     main_graph.push(member)
     ...
 
 @router.get("/dashboard/training/review/star/{uuid}")
-def training_star(uuid: str, mark: int, user_login = Depends(get_current_user)):
+def training_star(uuid: int, mark: int, user_login = Depends(get_current_user)):
     user = User.match(main_graph, user_login).first()
-    training = Training.match(main_graph).where("_.uuid='" + uuid + "'").first()
+    training = Training.match(main_graph, uuid ).first()
 
     training.compute_mark(mark)
     user.review_star_training.add(training, mark=mark)
@@ -119,7 +123,7 @@ def training_star(uuid: str, mark: int, user_login = Depends(get_current_user)):
     
 
 @router.get("/dashboard/training/review/text/{uuid}")
-def training_text(uuid: str, content: str, user_login = Depends(get_current_user)):
+def training_text(uuid: int, content: str, user_login = Depends(get_current_user)):
     query = """
         MATCH (u:User{login:$user_login}),(t:Training{uuid:$uuid}) 
         MERGE (u)-[r:REVIEW_TEXT{content:$content}]->(t) 
