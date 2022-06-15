@@ -1,20 +1,24 @@
 <template>
-  <form class="inputSearch">
+  <div class="inputSearch">
     <div class="inputSearchText">
       <div class="inputSearhTextFirst">
         <div><img style="width:15px" src="./loupe.svg"/></div>
-        <input type="text" placeholder="Find trainings">
+        <input v-model="toSearch" type="text" placeholder="Find trainings">  
       </div>
       <div>
-        <input type="text" placeholder="Categories">
+        <select placeholder="Categories"> 
+          <option style="display:none">trainings</option>
+          <option>Something1</option>
+        </select>
+        <img src="./arrow.svg"/>
       </div>
     </div>
     <div class="inputSearchButton">
-      <button>
+      <button @click="search">
         Search
       </button>
     </div>
-  </form>
+  </div>
 </template>
 <style src="./inputSearch.css">
 </style>

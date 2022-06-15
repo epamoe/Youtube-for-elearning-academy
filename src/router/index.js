@@ -18,6 +18,7 @@ import NotFound from "../components/NotFound.vue"
 import Home from "../components/Home.vue"
 import store from "../store/index"
 import LandingPage from "../components/landingPage/LandingPage.vue"
+import Trainings from "../components/trainings/Trainings.vue"
 
 const routes = [{
 		path: "/",
@@ -102,8 +103,11 @@ const routes = [{
 		name: 'LandingPage',
 		component: LandingPage
 	},
-	
-
+	{
+		path: '/trainings',
+		name: 'trainings',
+		component: Trainings
+	},
 ]
 
 

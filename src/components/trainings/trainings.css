@@ -1,0 +1,42 @@
+.trainings {
+  
+}
+.trgsMenu {
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+}
+.trgsMenuFirst {
+    width: 50%;
+    font-size: 23px;
+    font-weight:bold ;
+    display: flex;
+    display: flex; justify-content: flex-start; align-items: center;
+}
+.trgsMenuFirst + div {
+    width: 50%;
+    display: flex; justify-content: flex-end;
+}
+
+/* fourth row where the trainings are displayed */
+.trgsTaining {
+    margin-top: 30px;
+}
+.trgsTRow {
+    width: 100%;
+    margin-bottom:65px;
+    display: flex; justify-content: center; align-items: center;
+}
+.trgsTRow > div {
+    width: 25%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* ---------- pagination ----------------*/
+.tgrsPagination {
+    margin-top: 0px;
+    margin-bottom: 45px;
+    display: flex; justify-content: center; align-items: center;
+}
