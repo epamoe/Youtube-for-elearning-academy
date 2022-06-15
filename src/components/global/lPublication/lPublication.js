@@ -3,7 +3,8 @@ export default {
   name: 'lPublication',
   props: {
     reference: String,
-    id: Number
+    id: Number,
+    datas: {}
   },
   components: {
     LPStar
@@ -56,19 +57,8 @@ export default {
       this.$store.commit('updateProfilePage', this.auth_id)
       this.$router.push('profilePage')
     },
-    exist (a) {
-      if (typeof a === 'undefined') {
-        return false
-      } else { return true }
-    },
-    reset () {
-      this.publication_img = ''
-      this.publication_date = ''
-      this.publication_author = ''
-      this.publication_title = ''
-      this.publication_text = ''
-      this.publi_numb_com = 0
-      this.publication_point = 0
+    numberStart (a) {
+      return a%5
     }
   }, 
 }

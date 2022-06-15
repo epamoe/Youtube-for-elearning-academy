@@ -14,7 +14,7 @@
         <div class="lMainFRight"><span><img src="./img/girls2 1.svg"/></span></div>
       </div>
       <div class="lMainSearch">
-        <InputSearch/>
+        <InputSearch @trainings='getTrainings'/>
       </div>
       <div class="lMainSuggest">
         <div v-for="(sug, index) in sugession" :key="index" class="lMainSButton">
@@ -26,10 +26,10 @@
             <span class="lMainTTitle">Best trainings <img src='./img/curve.svg'/></span>
         </div>
         <div class="lMainTRow">
-          <div v-for="(train, index) in trainings.slice(0,4)" :key="index" ><LPublication :data='train'/></div>
+          <div v-for="(train, index) in trainings.slice(0,4)" :key="index" ><LPublication :datas='train'/></div>
         </div>
         <div class="lMainTRow">
-          <div v-for="(train, index) in trainings.slice(4,8)" :key="index" ><LPublication :data='train'/></div>
+          <div v-for="(train, index) in trainings.slice(4,8)" :key="index" ><LPublication :datas='train'/></div>
         </div>
       </div>
       <div class="lMainBMember">

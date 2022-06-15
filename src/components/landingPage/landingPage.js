@@ -28,5 +28,10 @@ export default {
       
       trainings: [{name:1},{name:1},{name:1},{name:1},{name:1},{name:1},{name:1},{name:1}]
     }
+  },
+  methods: {
+    getTrainings(trainings) {
+      this.trainings = trainings
+    }
   }
 }
