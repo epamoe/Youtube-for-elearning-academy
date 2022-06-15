@@ -36,4 +36,4 @@ def get_lesson(lesson_uuid: int, user_login = Depends(get_current_user)):
         )
         for res in response.data()
     ]
-    return videos
+    return videos 
