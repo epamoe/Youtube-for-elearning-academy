@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-x-2 justify-between items-center">
-    <div class="font-normal" v-if="getUser.userType == 'user'">
+    <div class="font-normal mr-1" v-if="getUser.userType == 'user'">
       <a href="">become a member</a>
     </div>
     <div class="">
@@ -52,8 +52,8 @@
       </div>
     </div>
     <div class="relative">
-      <button @click="showUserInfo"><img :src="getUser.profile.profile_image" style="height: 40px" /></button>
-      <div class="absolute bottom-1 right-0">
+      <button class="mr-8 ml-2" @click="showUserInfo"><img :src="getUser.profile.profile_image" style="height: 40px" /></button>
+      <div class="absolute bottom-1 right-8">
         <svg
           width="10"
           height="10"
@@ -64,12 +64,24 @@
           <circle cx="20" cy="20" r="20" fill="#FDAA07" />
         </svg>
       </div>
-      <div class="absolute bg-gray-100 shadow-2xl rounded px-5 py-2 w-fit top-12 right-2 text-sm z-50" v-if="userInformation">
-        <ul>
-          <li class="mb-2"><a href="localhost:3000/member-dashboard">profile</a></li>
-          <li class="mb-2"><a href="localhost:3000/member-dashboard">profile</a></li>
+      <div class="absolute bg-gray-100 shadow-2xl rounded-lg px-8 py-4 w-[300px] top-12 right-2 text-sm z-50" v-if="userInformation">
+        <ul class="ml-6">
+          <li >
+           <div class="userName flex">
+                <div class="w-32 mr-4 mb-8"><img src="./img/user profile.svg"/></div>
+                <div >
+                  <ul>
+                    <li class="text-sm"><b>christopher</b></li>
+                    <li class="text-sm">christ25@gmail.com</li>
+                  </ul>
+                </div>
+           </div>
+          </li>
+          <li class="mb-4 w-32 "><a href="#" class="flex"><span class="w-[25px] h-[25px] mr-8 flex"><img src="./img/profil.svg"/></span><span class="text-md">Profile</span></a></li>
+          <li class="mb-4  w-32"><a href="#" class="flex"><span class="w-[25px] h-[25px] mr-8 flex"><img src="./img/Dashboard.svg"/></span>Dashboard</a></li>
+          <li class="mb-4  w-32"><a href="#" class="flex"><span class="w-[25px] h-[25px] mr-8 flex"><img src="./img/training.svg"/></span>Trainings</a></li>
           <hr class="my-2"/>
-          <li><a href="http://" @click.prevent="out">logOut</a></li>
+          <li><a class="flex mb-2" href="http://" @click.prevent="out"><span class="mr-8"><img src="./img/logOut.svg"/></span>Log Out</a></li>
         </ul>
       </div>
     </div>
