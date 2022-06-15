@@ -92,6 +92,7 @@
 
 <script>
 import AddChapiter from "../AddChapiter.vue";
+import {mapActions} from "vuex"
 export default {
   data() {
     return {
@@ -108,11 +109,19 @@ export default {
     AddChapiter,
   },
   methods: {
+    ...mapActions(["getProfile", "createTraining", "createChapiter", "createLesson"]),
     addChapiter(chapiters) {
       this.syllabus.chapiters = chapiters;
     },
     postSyllabus() {
       console.log(this.syllabus);
+      this.createTraining({
+        chapiters: this.syllabus.chapiters,
+        description: this.syllabus.description,
+        image: this.syllabus.image,
+        title: this.syllabus.title,
+
+      })
     },
     imageUpload(event) {
       console.log(event)

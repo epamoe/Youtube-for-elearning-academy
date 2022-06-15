@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-x-2 justify-between items-center">
     <div class="font-normal mr-1" v-if="getUser.userType == 'user'">
-      <a href="">become a member</a>
+      <a href="" @click.prevent="becomeM">become a member</a>
     </div>
     <div class="">
       <a href="http://"
@@ -98,7 +98,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["logOut"]),
+    ...mapActions(["logOut", "becomeMember"]),
     out() {
       this.logOut();
       this.$router.push({
@@ -108,6 +108,9 @@ export default {
     showUserInfo() {
       this.userInformation = !this.userInformation;
     },
+    becomeM(){
+      this.becomeMember()
+    }
   },
   computed: {
     ...mapGetters(['getUser']),
