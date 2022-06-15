@@ -28,7 +28,7 @@ def get_profile(user_login = Depends(get_current_user)):
         experiences=list(user.experiences)
     )
 
-@router.get("/profile/{login}", response_model = schemas.ProfileResponse)
+@router.get("/profile/{login}", status_code=status.HTTP_200_OK ,response_model = schemas.ProfileResponse)
 def get_profile_login(login: str):
     user = User.match(main_graph, login).first()
     if not user :

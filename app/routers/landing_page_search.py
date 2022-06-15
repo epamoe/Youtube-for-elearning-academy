@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter,HTTPException, Depends, status
 from app.functions import find_member
 from app.oauth2 import get_current_user
 from app import schemas
@@ -57,29 +57,38 @@ def get_domains():
 @router.get("/dashboard/search/{uuid}", response_model = List[schemas.Training])
 def search_on_dashboard(uuid: str):
     training = Training.match(main_graph).where("_.uuid='"+uuid+"'").first()
-    domain = list(training.domain)[0]
-    trainings = list(domain.trainings)
     
-    response = [ ]
-    for t in trainings:
-        if t.uuid != uuid:
-            response.append(
-                schemas.Training(
-                    uuid = t.uuid,
-                    title = t.title,
-                    description = t.description,
-                    students_number = t.students_number,
-                    mark = t.mark,
-                    thumbnail = t.thumbnail,
-                    author_login = list(t.publisher)[0].login
+    if training == None:
+        raise HTTPException(detail="Unexisting training",status_code= status.HTTP_404_NOT_FOUND)
+    else:
+        domain = list(training.domain)[0]
+        trainings = list(domain.trainings)
+    
+        response = [ ]
+        for t in trainings:
+            if t.uuid != uuid:
+                response.append(
+                    schemas.Training(
+                        uuid = t.uuid,
+                        title = t.title,
+                        description = t.description,
+                        students_number = t.students_number,
+                        mark = t.mark,
+                        thumbnail = t.thumbnail,
+                        author_login = list(t.publisher)[0].login
                 )
             )
-    return response
+        return response
 
 @router.get("/dashboard/training/get/{uuid}", response_model = schemas.DashboardTraining)
 def get_training(uuid: str):
+    
     training_node = Training.match(main_graph).where("_.uuid = '"+uuid+"'").first()
-    return schemas.DashboardTraining(
+    
+    if training_node == None:
+        raise HTTPException(detail="Unexisting training",status_code= status.HTTP_404_NOT_FOUND)
+    else:
+        return schemas.DashboardTraining(
         uuid = training_node.uuid,
         title = training_node.title,
         description = training_node.description,
