@@ -46,7 +46,7 @@ def create_trainings(training: schemas.TrainingCreate, user_login = Depends(get_
     response = main_graph.run(query, params)
     return schemas.CreationResponse(uuid=response.data()[0]["uuid"])
 
-@router.post("/training/chapter/create/")
+@router.post("/training/chapter/create/", response_model=schemas.CreationResponse)
 def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_current_user)):
     
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
@@ -67,7 +67,7 @@ def create_chapter(chapter: schemas.ChapterCreate, user_login = Depends(get_curr
     response = main_graph.run(query, params)
     return schemas.CreationResponse(uuid=response.data()[0]["uuid"])
 
-@router.post("/training/chapter/lesson/create/")
+@router.post("/training/chapter/lesson/create/", response_model=schemas.CreationResponse)
 def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current_user)):
     
     #Search for the user in the database. Returns the user if found, raise and exception otherwise
