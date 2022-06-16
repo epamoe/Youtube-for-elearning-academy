@@ -83,7 +83,7 @@ def create_lesson(lesson: schemas.LessonCreate, user_login = Depends(get_current
         "chapter_uuid": lesson.chapter_uuid,
         "title": lesson.title,
         "rank_nb": lesson.rank_nb
-    }
+    } 
     
     response = main_graph.run(query, params)
     return schemas.CreationResponse(uuid=response.data()[0]["uuid"])
