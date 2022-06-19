@@ -25,7 +25,7 @@ def get_profile(user_login = Depends(get_current_user)):
         login = user.login,
         email = user.email,
         profile_img=user.profile_img,
-        experiences=list(user.experiences)
+        experiences=list(user.experiences) 
     )
 
 @router.get("/profile/{login}", status_code=status.HTTP_200_OK ,response_model = schemas.ProfileResponse)
