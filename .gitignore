@@ -1,2 +1,5 @@
 __pycache__
 .vs
+env
+.env
+.pytest_cache

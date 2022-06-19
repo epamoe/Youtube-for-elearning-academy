@@ -1,5 +1,5 @@
 from py2neo import Graph
-from globals import main_graph
+from .globals import main_graph
 
 graph1 = Graph("neo4j+s://90de437f.databases.neo4j.io",auth=("neo4j","UJtiMLWQXyF-7PthUPwLq4vR5Ibj80gOcmdX68jqy6c"))
 

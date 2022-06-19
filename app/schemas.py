@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
 #-------------------------------------    AUTHENTICATION     -------------------------------
@@ -10,13 +10,13 @@ class UserLoginResponse(BaseModel):
 
 class UserRegister(BaseModel):
     login: str
-    email: str
+    email: EmailStr
     password: str
     confirm_password: str
 
 #-------------------------------------    LANDING PAGE SEARCH     -------------------------------
 class Training(BaseModel):
-    uuid: str
+    uuid: int
     title: str
     description: str
     students_number: int
@@ -28,7 +28,7 @@ class Training(BaseModel):
         orm_mode = True
         
 class Lesson(BaseModel):
-    uuid: Optional[str]
+    uuid: Optional[int]
     rank_nb: int
     title: str
     
@@ -36,7 +36,7 @@ class Lesson(BaseModel):
         orm_mode = True
 
 class Chapter(BaseModel):
-    uuid: Optional[str]
+    uuid: Optional[int]
     title: str
     rank_nb: int
     lessons: List[Lesson]
@@ -57,7 +57,7 @@ class Experience(BaseModel):
 
 class ProfileResponse(BaseModel):
     login: str
-    email: str
+    email: EmailStr
     profile_img: str #image value
     experiences: List[Experience]
     class Config:
@@ -66,7 +66,7 @@ class UserUpdateLogin(BaseModel):
     login: str
     
 class UserUpdateEmail(BaseModel):
-    email: str
+    email: EmailStr
 
 class UserUpdatePassword(BaseModel):
     current_password: str
@@ -78,7 +78,7 @@ class UserUpdateProfileImage(BaseModel):
     image: str # """ SHOULD BE AN IMAGE OBJECT """
 
 class Notification(BaseModel):
-    uuid: str
+    uuid: int
     content: str
     class Config:
         orm_mode = True
@@ -121,6 +121,9 @@ class LessonUpdate(BaseModel):
     title: str
     rank_nb: int
 
+class CreationResponse(BaseModel):
+    uuid: int
+
 #--------------------------------------    LEARNING PAGE   --------------------------------
 class Video(BaseModel):
     video_id: str
@@ -139,7 +142,7 @@ class AnalyticsPresence(BaseModel):
     page: str
 
 class ApplicationResponse(BaseModel):
-    uuid: str
+    uuid: int
     status: str 
     user_login: str
 

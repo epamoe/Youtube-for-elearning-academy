@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import authentication, admin_dashboard, analytics, learning_page, user_dashboard, expert_dashboard, landing_page_search
+
+from .routers import (admin_dashboard, analytics, authentication,
+                    expert_dashboard, landing_page_search, learning_page,
+                    user_dashboard)
 
 app = FastAPI()
 app.add_middleware(
@@ -21,7 +24,7 @@ app.include_router(landing_page_search.router)
 
 @app.get("/")
 def root():
-    return {"message": "Test prod "}
+    return {"message": "Refactoring ongoing "}
 
 
 

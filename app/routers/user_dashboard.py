@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException,status, Request, UploadFile, File, BackgroundTasks
 # from PIL import Image
 # from os import getcwd
-from functions import resize_image, PATH_FILES
+from app.functions import resize_image, PATH_FILES
 
-from oauth2 import get_current_user
-from routers.authentication import send_update_address_mail
-import schemas
+from app.oauth2 import get_current_user
+from .authentication import send_update_address_mail
+from app import schemas
 from py2neo_schemas.nodes import EmailUpdateAttempt, Training, User
-from globals import main_graph, encodeing
-from functions import encode_password
+from app.globals import main_graph, encodeing
+from app.functions import encode_password
 from email_validator import validate_email, EmailNotValidError
 from typing import List
 
@@ -25,10 +25,10 @@ def get_profile(user_login = Depends(get_current_user)):
         login = user.login,
         email = user.email,
         profile_img=user.profile_img,
-        experiences=list(user.experiences)
+        experiences=list(user.experiences) 
     )
 
-@router.get("/profile/{login}", response_model = schemas.ProfileResponse)
+@router.get("/profile/{login}", status_code=status.HTTP_200_OK ,response_model = schemas.ProfileResponse)
 def get_profile_login(login: str):
     user = User.match(main_graph, login).first()
     if not user :
@@ -148,7 +148,8 @@ async def update_profile_image(background_tasks: BackgroundTasks, file: UploadFi
 @router.get("/notifications/", response_model = List[schemas.Notification])
 def get_notifications(user_login = Depends(get_current_user)):
     user = User.match(main_graph, user_login).first()
-    return list(user.notifications)
+    notifications = [schemas.Notification(uuid= notif.__node__.identity, content=notif.content) for notif in list(user.notifications)]
+    return notifications
 
 @router.get("/profile/trainings/", response_model = List[schemas.UserTrainingResponse])
 def get_trainings(user_login = Depends(get_current_user)):
@@ -156,7 +157,7 @@ def get_trainings(user_login = Depends(get_current_user)):
     trainings = list(user.follow_training)
     response = [{
         "training" : schemas.Training(
-            uuid = train.uuid,
+            uuid = train.__node__.identity,
             title = train.title,
             description = train.description,
             students_number = train.students_number,
@@ -172,9 +173,9 @@ def get_trainings(user_login = Depends(get_current_user)):
 
     
 @router.get("/user/training/follow/{uuid}")
-def follow_training(uuid: str, user_login = Depends(get_current_user)):
+def follow_training(uuid: int, user_login = Depends(get_current_user)):
     user = User.match(main_graph, user_login).first()
-    training = Training.match(main_graph).where("_.uuid='"+uuid+"'").first()
+    training = Training.match(main_graph,uuid).first()
     user.follow_training.add(training, properties={
         "progression": 0
     })
